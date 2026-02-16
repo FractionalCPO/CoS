@@ -1,4 +1,4 @@
-# Tasks — Your Active Task List
+# Tasks — Active Task List
 #
 # Claude checks this file at the start of every session.
 # Tasks approaching their due date will be flagged.
@@ -7,27 +7,73 @@
 # Status: pending | in_progress | blocked | complete
 # Priority: 1 (urgent) | 2 (high) | 3 (normal) | 4 (low)
 
-tasks: []
+tasks:
+  - id: "task-001"
+    title: "Tampa Bay Times follow-up"
+    description: "Follow up with Nikhil at Tampa Bay Times ($45-50M news org). They need product leadership. High priority prospect."
+    status: "pending"
+    priority: 1
+    due_date: "2026-02-18"
+    goal_alignment: "build-pipeline"
+    created: "2026-02-15"
+    notes: ""
 
-# Example task format:
-#
-# tasks:
-#   - id: "task-001"
-#     title: "Draft Q1 board update"
-#     description: "Prepare quarterly board update deck with metrics and narrative"
-#     status: "pending"
-#     priority: 2
-#     due_date: "2026-03-15"
-#     goal_alignment: "board-communication"
-#     created: "2026-01-15"
-#     notes: ""
-#
-#   - id: "task-002"
-#     title: "Review hiring pipeline"
-#     description: "Review all open roles and candidate pipeline with recruiting"
-#     status: "in_progress"
-#     priority: 3
-#     due_date: "2026-02-01"
-#     goal_alignment: "build-team"
-#     created: "2026-01-20"
-#     notes: "Sarah shared updated spreadsheet on Jan 25"
+  - id: "task-002"
+    title: "Mori partnership agreement finalization"
+    description: "Finalize partnership agreement with Mori. Legal/commercial terms need closure."
+    status: "in_progress"
+    priority: 2
+    due_date: "2026-02-21"
+    goal_alignment: "build-pipeline"
+    created: "2026-02-15"
+    notes: ""
+
+  - id: "task-003"
+    title: "CTCT competitor outreach strategy"
+    description: "Build target list of PE-owned email/marketing platforms (ActiveCampaign, Mailchimp, etc). Package CTCT case study. Design outreach sequences."
+    status: "pending"
+    priority: 2
+    due_date: "2026-02-28"
+    goal_alignment: "ctct-competitor-targeting"
+    created: "2026-02-15"
+    notes: "MSA is non-exclusive. Case study fresh this quarter only."
+
+  - id: "task-004"
+    title: "Dominican Republic trip prep"
+    description: "Prepare for DR trip departing March 4. Logistics, coverage plan, out-of-office setup."
+    status: "pending"
+    priority: 3
+    due_date: "2026-03-02"
+    goal_alignment: "personal"
+    created: "2026-02-15"
+    notes: ""
+
+  - id: "task-005"
+    title: "Sales automation completion"
+    description: "Finish configuring sales stack: HeyReach (LinkedIn), Instant.ly (email sequences), Apollo (enrichment), Vector (~60 leads). Get sequences running."
+    status: "in_progress"
+    priority: 2
+    due_date: "2026-03-15"
+    goal_alignment: "sales-infra"
+    created: "2026-02-15"
+    notes: "Tools acquired. Configuration remaining."
+
+  - id: "task-006"
+    title: "GCP app recreation"
+    description: "Recreate GCP app for Google Calendar + Gmail API access. Current app has verification issues."
+    status: "blocked"
+    priority: 4
+    due_date: "2026-03-31"
+    goal_alignment: "sales-infra"
+    created: "2026-02-15"
+    notes: "Deferred. Needed for Donna's calendar/email integration."
+
+  - id: "task-007"
+    title: "CTCT payment resolution"
+    description: "Resolve outstanding payment from Constant Contact engagement."
+    status: "pending"
+    priority: 3
+    due_date: "2026-02-28"
+    goal_alignment: "revenue"
+    created: "2026-02-15"
+    notes: "Engagement ended Jan 2026. Payment still pending."
