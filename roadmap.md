@@ -119,7 +119,7 @@ The CoS `CLAUDE.md` is 17KB of template with `{{PLACEHOLDERS}}`. This is the hig
 
 1. **Start manual** — Use `/cos:gm` and `/cos:triage` manually for 1-2 weeks to calibrate
 2. **Set up cron jobs** (once calibrated):
-   - 7:00 AM: `/cos:gm` morning briefing
+   - 8:00 AM: `/cos:gm` morning briefing
    - 12:00 PM: `/cos:triage` midday scan
    - 5:00 PM: `/cos:triage` evening scan
    - Weekly Monday 9 AM: `/cos:enrich stale`
