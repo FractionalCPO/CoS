@@ -61,12 +61,12 @@ tasks:
   - id: "task-006"
     title: "GCP app recreation"
     description: "Recreate GCP app for Google Calendar + Gmail API access. Current app has verification issues."
-    status: "blocked"
+    status: "complete"
     priority: 4
     due_date: "2026-03-31"
     goal_alignment: "sales-infra"
     created: "2026-02-15"
-    notes: "Deferred. Needed for Donna's calendar/email integration."
+    notes: "Done 2026-02-16. donna-cos GCP app published, both accounts have refresh tokens. Donna has live Gmail + Calendar access."
 
   - id: "task-007"
     title: "CTCT payment resolution"
@@ -77,3 +77,33 @@ tasks:
     goal_alignment: "revenue"
     created: "2026-02-15"
     notes: "Engagement ended Jan 2026. Payment still pending."
+
+  - id: "task-008"
+    title: "Create family passion project folder"
+    description: "Create a /code/fam* folder structure for a passion project. Details from Vahid's Telegram message — needs clarification on full project scope."
+    status: "pending"
+    priority: 4
+    due_date: ""
+    goal_alignment: "personal"
+    created: "2026-02-16"
+    notes: "From Telegram. Full message was truncated. Needs Vahid to clarify scope."
+
+  - id: "task-009"
+    title: "Organize WhatsApp"
+    description: "Help Vahid organize WhatsApp conversations and contacts. Donna has WhatsApp MCP access."
+    status: "pending"
+    priority: 3
+    due_date: ""
+    goal_alignment: "personal"
+    created: "2026-02-16"
+    notes: "From Telegram. Vahid asked Donna how she'd help organize WhatsApp."
+
+  - id: "task-010"
+    title: "Create passion project (radial?)"
+    description: "Vahid wants to create a passion project involving 'rad...' — possibly radial design, radical something. Full message truncated in logs."
+    status: "pending"
+    priority: 4
+    due_date: ""
+    goal_alignment: "personal"
+    created: "2026-02-16"
+    notes: "From Telegram. Message repeated 6 times (Donna kept crashing before responding). Needs Vahid to resend or clarify."
