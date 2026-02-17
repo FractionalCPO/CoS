@@ -92,3 +92,15 @@ Based on your calendar and priorities, here's what I'd focus on today:
 - The focus recommendation should reflect goal alignment.
 - If today's calendar is misaligned with goals, say so explicitly.
 - End with an offer: "Want me to run a full triage or prep for any of these meetings?"
+
+### Step 6: Meeting Prep (Auto)
+
+After presenting the briefing, automatically run `/meeting-prep` for all meetings
+that need it today. This means:
+1. Read each meeting's Fellow note to check existing content
+2. Research participants
+3. Write context brief into Fellow Private Notes
+4. Write talking points into Fellow Talking Points section
+5. Report which meetings were prepped
+
+Do this automatically — don't wait for Vahid to ask.

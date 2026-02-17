@@ -10,7 +10,7 @@ update interaction history, and surface relationships that need attention.
 - `<contact-name>` — Enrich a specific contact's file with latest information
 
 ## Contact Files
-Location: `~/.claude/contacts/`
+Location: `/Users/vahid/code/CoS/contacts/`
 Index: `~/.claude/contact-index.yaml` (optional, for quick lookups)
 
 ## Instructions
@@ -26,7 +26,7 @@ Scan connected channels for recent interactions and update contact files.
    - Calendar: Meetings that occurred with known contacts
 
 2. **For each interaction found:**
-   - Look up the contact file in `~/.claude/contacts/`
+   - Look up the contact file in `/Users/vahid/code/CoS/contacts/`
    - If the file exists: Update "Last Interaction" and add to "Interaction History"
    - If no file exists and the person seems important: Suggest creating one
    - Add any new context learned (mentioned a project, changed roles, etc.)
@@ -51,7 +51,7 @@ Scan connected channels for recent interactions and update contact files.
 
 Check which contacts are overdue for engagement based on their tier.
 
-1. **Read all contact files** in `~/.claude/contacts/`
+1. **Read all contact files** in `/Users/vahid/code/CoS/contacts/`
 2. **Compare last interaction date** against tier cadence:
    - Tier 1: Flag if no contact in 14+ days
    - Tier 2: Flag if no contact in 30+ days
@@ -82,7 +82,7 @@ Check which contacts are overdue for engagement based on their tier.
 
 Deep enrichment of a specific contact.
 
-1. **Find the contact file** in `~/.claude/contacts/`
+1. **Find the contact file** in `/Users/vahid/code/CoS/contacts/`
 2. **Scan all channels** for recent mentions/interactions with this person
 3. **Update the file** with:
    - Latest interaction details

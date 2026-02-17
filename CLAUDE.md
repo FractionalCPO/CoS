@@ -87,7 +87,7 @@ Build this properly using Clay.earth data. For now:
 | Gmail (fcpo@) | `gmail-fcpo` | Working — needs token refresh each session |
 | Calendar (hi@) | `calendar-hi` | Working |
 | Calendar (fcpo@) | `calendar-fcpo` | Working |
-| Slack | Direct API | Bot token: use curl. No MCP. |
+| Slack (Anthropic) | `claude_ai_Slack` | Working — native connector, use `mcp__claude_ai_Slack__*` tools |
 | Telegram | Direct API | Bot @vahidcosbot. BOT ONLY. NEVER read personal messages. |
 
 ### Gmail Token Refresh Protocol
@@ -104,7 +104,7 @@ Before saying "I don't know," check where the info would live:
 | Work email | Gmail (fcpo) |
 | Personal email | Gmail (hi) |
 | Schedule, meetings | Calendar (hi + fcpo) |
-| Team messages | Slack (direct API) |
+| Team messages | Slack (native MCP connector) |
 | Personal messages | WhatsApp |
 | Meeting notes/transcripts | Fellow, Granola |
 | CRM, pipeline, projects | Notion |

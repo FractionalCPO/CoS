@@ -1,0 +1,18 @@
+{
+  "name": "cos",
+  "version": "1.0.0",
+  "description": "I'm [Mike Murchison](https://linkedin.com/in/mikemurchison), CEO of [Ada](https://ada.cx) — the agentic customer experience platform. Over the past few months, I've been building something on Claude Code that has fundamentally changed how I work: an AI chief of staff that connects to every tool I use, knows my priorities and relationships, and operates 24/7 in the background.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "playwright": "^1.58.2"
+  }
+}
