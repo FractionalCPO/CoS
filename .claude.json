@@ -1,0 +1,66 @@
+{
+  "mcpServers": {
+    "notion": {
+      "command": "npx",
+      "args": ["-y", "@notionhq/notion-mcp-server"],
+      "env": {
+        "OPENAPI_MCP_HEADERS": "{\"Authorization\": \"Bearer ${NOTION_API_KEY}\", \"Notion-Version\": \"2022-06-28\"}"
+      }
+    },
+    "gmail-hi": {
+      "command": "npx",
+      "args": ["-y", "@anthropic-ai/gmail-mcp-server"],
+      "env": {
+        "GMAIL_OAUTH_CLIENT_ID": "${GOOGLE_CLIENT_ID}",
+        "GMAIL_OAUTH_CLIENT_SECRET": "${GOOGLE_CLIENT_SECRET}",
+        "GMAIL_OAUTH_REFRESH_TOKEN": "${GOOGLE_REFRESH_TOKEN_HI}",
+        "GMAIL_ACCOUNT_LABEL": "hi"
+      }
+    },
+    "gmail-fcpo": {
+      "command": "npx",
+      "args": ["-y", "@anthropic-ai/gmail-mcp-server"],
+      "env": {
+        "GMAIL_OAUTH_CLIENT_ID": "${GOOGLE_CLIENT_ID}",
+        "GMAIL_OAUTH_CLIENT_SECRET": "${GOOGLE_CLIENT_SECRET}",
+        "GMAIL_OAUTH_REFRESH_TOKEN": "${GOOGLE_REFRESH_TOKEN_FCPO}",
+        "GMAIL_ACCOUNT_LABEL": "fcpo"
+      }
+    },
+    "calendar-hi": {
+      "command": "npx",
+      "args": ["-y", "@anthropic-ai/google-calendar-mcp-server"],
+      "env": {
+        "GOOGLE_OAUTH_CLIENT_ID": "${GOOGLE_CLIENT_ID}",
+        "GOOGLE_OAUTH_CLIENT_SECRET": "${GOOGLE_CLIENT_SECRET}",
+        "GOOGLE_OAUTH_REFRESH_TOKEN": "${GOOGLE_REFRESH_TOKEN_HI}",
+        "CALENDAR_ACCOUNT_LABEL": "hi"
+      }
+    },
+    "calendar-fcpo": {
+      "command": "npx",
+      "args": ["-y", "@anthropic-ai/google-calendar-mcp-server"],
+      "env": {
+        "GOOGLE_OAUTH_CLIENT_ID": "${GOOGLE_CLIENT_ID}",
+        "GOOGLE_OAUTH_CLIENT_SECRET": "${GOOGLE_CLIENT_SECRET}",
+        "GOOGLE_OAUTH_REFRESH_TOKEN": "${GOOGLE_REFRESH_TOKEN_FCPO}",
+        "CALENDAR_ACCOUNT_LABEL": "fcpo"
+      }
+    },
+    "dfs-mcp": {
+      "command": "npx",
+      "args": ["-y", "@anthropic-ai/dataforseo-mcp-server"],
+      "env": {
+        "DATAFORSEO_LOGIN": "${DATAFORSEO_LOGIN}",
+        "DATAFORSEO_PASSWORD": "${DATAFORSEO_PASSWORD}"
+      }
+    },
+    "firecrawl": {
+      "command": "npx",
+      "args": ["-y", "firecrawl-mcp"],
+      "env": {
+        "FIRECRAWL_API_KEY": "${FIRECRAWL_API_KEY}"
+      }
+    }
+  }
+}
