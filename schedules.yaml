@@ -1,97 +1,165 @@
 # Schedules — Automation Configuration
 #
-# Declarative manifest of all automated Claude sessions.
-# Each entry maps to a cron script in ~/.claude/cron/
-# Install cron: crontab ~/.claude/cron/crontab.txt
+# All jobs run on Railway (donna-server scheduler.ts) — always on.
+# Local crontab is backup only (requires laptop awake).
+# Source of truth: this file + donna-server/src/scheduler.ts
 #
-# Status: active = cron installed, ready = script exists but cron not installed
+# Timezone: America/Toronto (ET)
 
 schedules:
-  # === Daily (Mon-Fri) ===
+
+  # ===================================================================
+  # DAILY OPS
+  # ===================================================================
 
   - name: "Morning Briefing"
     skill: "/gm"
-    cron: "0 7 * * 1-5"
-    script: "~/.claude/cron/morning-briefing.sh"
-    model: "claude-sonnet-4-5-20250929"
+    cron: "0 8 * * 1-5"
     delivery: "telegram"
-    status: "ready"
     notes: "Full briefing: calendar, tasks, goals, urgent inbox. Auto-preps meetings."
 
   - name: "Midday Triage"
     skill: "/triage"
     cron: "0 12 * * 1-5"
-    script: "~/.claude/cron/triage.sh"
-    model: "claude-sonnet-4-5-20250929"
     delivery: "telegram (only if urgent)"
-    status: "ready"
     notes: "Scans email + Slack. Only alerts if something needs attention."
 
   - name: "Evening Triage"
-    skill: "/triage"
+    skill: "/triage + debrief summary"
     cron: "0 17 * * 1-5"
-    script: "~/.claude/cron/triage.sh"
-    model: "claude-sonnet-4-5-20250929"
-    delivery: "telegram (only if urgent)"
-    status: "ready"
-    notes: "End-of-day inbox sweep. Same script as midday."
+    delivery: "telegram"
+    notes: "End-of-day wrap-up. Includes: urgent emails, tasks completed today, debrief summaries from all meetings, tasks due tomorrow."
+
+  # ===================================================================
+  # TASK EXECUTION
+  # ===================================================================
 
   - name: "Task Check"
     skill: "/my-tasks overdue"
-    cron: "0 8,10,12,14,16,18,20 * * 1-5"
-    script: "~/.claude/cron/task-check.sh"
-    model: "claude-haiku-4-5-20251001"
+    cron: "0 8,10,14,16,18,20 * * 1-5"
     delivery: "telegram (only if overdue)"
-    status: "ready"
-    notes: "Every 2 hours. Uses Haiku for speed/cost. Only alerts on overdue or due-today."
+    notes: "Every 2 hours. Only alerts on overdue or due-today."
 
-  # === Weekly ===
+  - name: "Review Queue"
+    skill: "/review-queue"
+    cron: "30 11 * * 1-5"
+    delivery: "telegram (only if items pending)"
+    notes: "Items needing Vahid's review: drafts, pipeline decisions, approvals."
 
-  - name: "Relationship Check"
-    skill: "/enrich stale"
-    cron: "0 9 * * 1"
-    script: "~/.claude/cron/enrich-stale.sh"
-    model: "claude-sonnet-4-5-20250929"
-    delivery: "telegram"
-    status: "ready"
-    notes: "Monday 9am. Checks contact tiers: T1=14d, T2=30d, T3=60d."
+  # ===================================================================
+  # MEETING PREP
+  # ===================================================================
+
+  - name: "Weekly Meeting Prep"
+    skill: "/meeting-prep (full week)"
+    cron: "15 8 * * 1"
+    delivery: "telegram summary"
+    notes: "Monday 8:15am. Deep research for all meetings Mon-Fri. Research participants, write strategic briefs, push talking points to Fellow."
+
+  - name: "Daily Meeting Prep"
+    skill: "/meeting-prep (today refresh)"
+    cron: "15 8 * * 2-5"
+    delivery: "telegram summary"
+    notes: "Tue-Fri 8:15am. Refresh today's meetings with new context since Monday prep."
+
+  - name: "Pre-Meeting Refresh"
+    trigger: "calendar-aware (every 5 min poll)"
+    cron: null
+    delivery: "telegram (only if new context)"
+    notes: "15 min before each meeting. Checks for new emails/messages since morning prep. Only pings if there's something new to know."
+
+  # ===================================================================
+  # MEETING TASKS (DEBRIEF)
+  # ===================================================================
+
+  - name: "Post-Meeting Debrief"
+    trigger: "calendar-aware (every 5 min poll)"
+    cron: null
+    delivery: "silent — batched into evening triage"
+    notes: "15 min after each meeting ends. Extracts action items, creates Notion tasks, drafts follow-ups. Does NOT message Telegram — results surface in evening triage at 5pm."
+
+  # ===================================================================
+  # PERFORMANCE REVIEW
+  # ===================================================================
 
   - name: "Weekly Retro"
     skill: "/retro"
     cron: "0 16 * * 5"
-    script: "~/.claude/cron/retro.sh"
-    model: "claude-sonnet-4-5-20250929"
     delivery: "telegram"
-    status: "ready"
     notes: "Friday 4pm. Scores goals, tasks, pipeline, relationships. Saves full report locally."
+
+  # ===================================================================
+  # SELF-IMPROVEMENT
+  # ===================================================================
 
   - name: "The Mirror"
     skill: "/the-mirror"
     cron: "0 12 * * 0"
-    script: "~/.claude/cron/the-mirror.sh"
-    model: "claude-sonnet-4-5-20250929"
     delivery: "telegram"
-    status: "ready"
-    notes: "Sunday noon. Growth feedback from meeting transcripts. Includes 'one thing to focus on this week.'"
+    notes: "Sunday noon. Growth feedback from meeting transcripts. One thing to focus on this week."
+
+  # ===================================================================
+  # RELATIONSHIPS
+  # ===================================================================
+
+  - name: "Relationship Check"
+    skill: "/enrich stale"
+    cron: "0 9 * * 1"
+    delivery: "telegram"
+    notes: "Monday 9am. Checks contact tiers: T1=14d, T2=30d, T3=60d."
+
+  # ===================================================================
+  # RESEARCH & PIPELINE
+  # ===================================================================
 
   - name: "Research Freshness"
     skill: "/research:freshness-report"
     cron: "0 20 * * 0"
-    script: "~/.claude/cron/research-freshness.sh"
-    model: "claude-sonnet-4-5-20250929"
-    delivery: "telegram"
-    status: "ready"
+    delivery: "telegram (only if stale)"
     notes: "Sunday 8pm. Flags stale company research (>30 days)."
+
+  - name: "Pipeline Trigger Scan"
+    skill: "/research:trigger-scan"
+    cron: "0 10 * * 1"
+    delivery: "telegram (only if triggers found)"
+    notes: "Monday 10am. Scans all tracked companies for outreach trigger signals."
+
+  # ===================================================================
+  # SYSTEM HEALTH
+  # ===================================================================
+
+  - name: "Daily QA"
+    skill: null
+    cron: "0 22 * * 1-5"
+    delivery: "telegram (only if issues)"
+    notes: "10pm weekdays. Checks: Notion sync health (YAML<>Notion drift, fix inline), stale Fellow items, unsent drafts, MCP server status."
 
   - name: "Session Cleanup"
     skill: null
     cron: "0 0 * * 0"
-    script: "~/.claude/cron/session-cleanup.sh"
-    model: null
     delivery: null
-    status: "ready"
-    notes: "Sunday midnight. Deletes .jsonl files >7 days. No Claude session needed."
+    location: "local only (crontab)"
+    notes: "Sunday midnight. Deletes local .jsonl files >7 days. No Railway equivalent needed."
 
-# Estimated daily sessions (Mon-Fri): ~12 (1 gm + 2 triage + 7 task checks + ~2 alerts)
-# Estimated weekly total: ~62 sessions
-# Cost optimization: Task checks use Haiku. Triage/briefing use Sonnet.
+# ===================================================================
+# Summary
+# ===================================================================
+#
+# Daily (Mon-Fri):
+#   8:00 AM  Morning Briefing
+#   8:15 AM  Meeting Prep (weekly Mon / daily Tue-Fri)
+#   every 5m Pre-Meeting Refresh (8am-7pm, only if meeting in 15 min)
+#   every 5m Post-Meeting Debrief (8am-7pm, silent)
+#   every 2h Task Check (8am-8pm)
+#   11:30 AM Review Queue
+#   12:00 PM Midday Triage
+#   5:00 PM  Evening Triage (includes debrief summary)
+#   10:00 PM Daily QA + Notion Health
+#
+# Weekly:
+#   Mon 9:00 AM  Relationship Check
+#   Mon 10:00 AM Pipeline Trigger Scan
+#   Fri 4:00 PM  Weekly Retro
+#   Sun 12:00 PM The Mirror
+#   Sun 8:00 PM  Research Freshness
+#   Sun midnight  Session Cleanup (local only)
