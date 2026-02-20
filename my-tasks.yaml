@@ -107,3 +107,13 @@ tasks:
     goal_alignment: "personal"
     created: "2026-02-16"
     notes: "From Telegram. Message repeated 6 times (Donna kept crashing before responding). Needs Vahid to resend or clarify."
+
+  - id: "task-011"
+    title: "Micro-SaaS Factory — scoping session with Vahid"
+    description: "Follow up with Vahid to scope the micro-SaaS factory project. 10 open questions in /Users/vahid/code/micro-saas-factory/README.md need answers: budget per idea, tech stack, portfolio size, pricing floor, domain budget, build involvement, revenue target, timeline, narrowing criteria, competitive moat. Once answered, run first batch of keyword research + domain availability checks."
+    status: "pending"
+    priority: 3
+    due_date: "2026-02-25"
+    goal_alignment: "revenue"
+    created: "2026-02-19"
+    notes: "Project folder: /Users/vahid/code/micro-saas-factory/. Playbook: high-volume keyword → available domain → micro-SaaS MVP → low price → volume play. Markets mapped from Vahid's experience across 3 tiers."

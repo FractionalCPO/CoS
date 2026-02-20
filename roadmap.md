@@ -307,6 +307,19 @@ Twitter API v2 provides DM endpoints, but has limitations:
 
 ---
 
+## Deferred Skills (from /extract-skills sessions)
+
+### `/research/icp-whitespace` — ICP & Market White Space Analyzer
+- **Status:** Deferred (2026-02-19)
+- **What:** Dedicated skill to research a company's ideal customer profile and market white spaces. Produces structured ICP (primary, secondary, buy triggers) and numbered white space opportunities with evidence. Outputs to `data/{company}/icp-whitespace.md` + `.json`, optionally pushes to Notion.
+- **Why deferred:** Not ready to formalize yet — want to run the analysis manually a few more times to stabilize the pattern.
+- **Dependency:** Once built, should also be added to `/research/collect` as bucket 11.
+
+### Add ICP/whitespace as bucket 11 in `/research/collect`
+- **Status:** Deferred (2026-02-19) — blocked by `/research/icp-whitespace` skill above.
+
+---
+
 ## What I Need From You to Start
 
 1. **Decision on single vs. multi-client CLAUDE.md** (Phase 1 decision point)

@@ -1,52 +1,97 @@
 # Schedules — Automation Configuration
 #
-# Define recurring automations that Claude runs on schedule.
-# These require a cron-like scheduler to trigger Claude Code sessions.
+# Declarative manifest of all automated Claude sessions.
+# Each entry maps to a cron script in ~/.claude/cron/
+# Install cron: crontab ~/.claude/cron/crontab.txt
 #
-# See docs/setup-guide.md for how to set up automated scheduling.
-#
-# Each schedule entry defines:
-#   - skill: The /command to run
-#   - frequency: Cron-like schedule description
-#   - enabled: Whether this automation is active
-#   - notes: What this automation does
+# Status: active = cron installed, ready = script exists but cron not installed
 
 schedules:
+  # === Daily (Mon-Fri) ===
+
   - name: "Morning Briefing"
     skill: "/gm"
-    frequency: "Daily at 7:00am"
-    enabled: true
-    notes: "Full briefing with calendar, tasks, and urgent items"
+    cron: "0 7 * * 1-5"
+    script: "~/.claude/cron/morning-briefing.sh"
+    model: "claude-sonnet-4-5-20250929"
+    delivery: "telegram"
+    status: "ready"
+    notes: "Full briefing: calendar, tasks, goals, urgent inbox. Auto-preps meetings."
 
   - name: "Midday Triage"
     skill: "/triage"
-    frequency: "Daily at 12:00pm"
-    enabled: true
-    notes: "Scan all channels for items needing attention"
+    cron: "0 12 * * 1-5"
+    script: "~/.claude/cron/triage.sh"
+    model: "claude-sonnet-4-5-20250929"
+    delivery: "telegram (only if urgent)"
+    status: "ready"
+    notes: "Scans email + Slack. Only alerts if something needs attention."
 
   - name: "Evening Triage"
     skill: "/triage"
-    frequency: "Daily at 5:00pm"
-    enabled: true
-    notes: "End of day inbox check"
+    cron: "0 17 * * 1-5"
+    script: "~/.claude/cron/triage.sh"
+    model: "claude-sonnet-4-5-20250929"
+    delivery: "telegram (only if urgent)"
+    status: "ready"
+    notes: "End-of-day inbox sweep. Same script as midday."
 
   - name: "Task Check"
     skill: "/my-tasks overdue"
-    frequency: "Every 2 hours, 8am-8pm"
-    enabled: true
-    notes: "Warn about overdue or at-risk tasks"
+    cron: "0 8,10,12,14,16,18,20 * * 1-5"
+    script: "~/.claude/cron/task-check.sh"
+    model: "claude-haiku-4-5-20251001"
+    delivery: "telegram (only if overdue)"
+    status: "ready"
+    notes: "Every 2 hours. Uses Haiku for speed/cost. Only alerts on overdue or due-today."
+
+  # === Weekly ===
 
   - name: "Relationship Check"
     skill: "/enrich stale"
-    frequency: "Weekly, Monday at 9am"
-    enabled: false
-    notes: "Surface contacts that need attention"
+    cron: "0 9 * * 1"
+    script: "~/.claude/cron/enrich-stale.sh"
+    model: "claude-sonnet-4-5-20250929"
+    delivery: "telegram"
+    status: "ready"
+    notes: "Monday 9am. Checks contact tiers: T1=14d, T2=30d, T3=60d."
 
-# To set up automated scheduling, you need a way to trigger
-# Claude Code sessions on a schedule. Options:
-#
-# 1. macOS: Use cron or launchd to run `claude --command "/gm"`
-# 2. Linux: Use cron to run `claude --command "/gm"`
-# 3. Manual: Just type /gm when you start your day
-#
-# Most users start with manual invocation and add automation later.
+  - name: "Weekly Retro"
+    skill: "/retro"
+    cron: "0 16 * * 5"
+    script: "~/.claude/cron/retro.sh"
+    model: "claude-sonnet-4-5-20250929"
+    delivery: "telegram"
+    status: "ready"
+    notes: "Friday 4pm. Scores goals, tasks, pipeline, relationships. Saves full report locally."
+
+  - name: "The Mirror"
+    skill: "/the-mirror"
+    cron: "0 12 * * 0"
+    script: "~/.claude/cron/the-mirror.sh"
+    model: "claude-sonnet-4-5-20250929"
+    delivery: "telegram"
+    status: "ready"
+    notes: "Sunday noon. Growth feedback from meeting transcripts. Includes 'one thing to focus on this week.'"
+
+  - name: "Research Freshness"
+    skill: "/research:freshness-report"
+    cron: "0 20 * * 0"
+    script: "~/.claude/cron/research-freshness.sh"
+    model: "claude-sonnet-4-5-20250929"
+    delivery: "telegram"
+    status: "ready"
+    notes: "Sunday 8pm. Flags stale company research (>30 days)."
+
+  - name: "Session Cleanup"
+    skill: null
+    cron: "0 0 * * 0"
+    script: "~/.claude/cron/session-cleanup.sh"
+    model: null
+    delivery: null
+    status: "ready"
+    notes: "Sunday midnight. Deletes .jsonl files >7 days. No Claude session needed."
+
+# Estimated daily sessions (Mon-Fri): ~12 (1 gm + 2 triage + 7 task checks + ~2 alerts)
+# Estimated weekly total: ~62 sessions
+# Cost optimization: Task checks use Haiku. Triage/briefing use Sonnet.
