@@ -79,7 +79,25 @@ If progress has changed, update `/Users/vahid/code/CoS/goals.yaml` with new prog
 
 ### Step 6: Sync to Notion
 
-Push the retro summary as a page in Notion (or update an existing retro log).
+Push the retro summary to Notion Tasks DB (`bfaf4e0f-1352-40cb-b39e-e441b75c1d96`) using `mcp__claude_ai_Notion__notion-create-pages`:
+
+1. **Create a retro page** with:
+   - **Name**: `Weekly Retro — [date range]` (or `Monthly Retro — [month]`)
+   - **Client**: fCPO
+   - **Assignee**: `622468d8-a961-4066-b9fe-65c0970a7852` (Vahid)
+   - **Status**: `Done`
+   - **Due date**: retro date
+   - **Priority**: Low (4)
+   - **Body content**: full retro output (scorecard, wins, misses, patterns, recommendations)
+2. **Check for existing retro page** — search Notion for a page with matching title to avoid duplicates. If found, update it using `mcp__claude_ai_Notion__notion-update-page` instead of creating a new one.
+3. **Create tasks from recommendations** — for each actionable recommendation from Step 4, create a task in both YAML and Notion Tasks DB with the same property mapping:
+   - **Client**: fCPO
+   - **Assignee**: `622468d8-a961-4066-b9fe-65c0970a7852` (Vahid)
+   - **Priority**: infer from recommendation urgency
+   - **Due date**: next retro date (7 days) unless more urgent
+   - **Status**: `Not started`
+   - Store `notion_id` in YAML
+4. **Verify** — fetch the created/updated pages back to confirm they were written correctly.
 
 ### Step 7: Queue Review Items
 

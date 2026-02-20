@@ -59,9 +59,16 @@ For each Vahid task:
    - Priority: infer from urgency signals
 2. **Sync to Notion** — create in the appropriate DB:
    - Pipeline/deal tasks → Opportunities DB (`de289591-f32a-483d-a51e-6bc158f4173e`)
-   - General tasks → Tasks DB (`bfaf4e0f-1352-40cb-b39e-e441b75c1d96`), set Client: fCPO, Assignee: Vahid
+   - General tasks → Tasks DB (`bfaf4e0f-1352-40cb-b39e-e441b75c1d96`) using `mcp__claude_ai_Notion__notion-create-pages` with:
+     - **Client**: fCPO
+     - **Assignee**: `622468d8-a961-4066-b9fe-65c0970a7852` (Vahid)
+     - **Priority**: infer from urgency (1=Urgent, 2=High, 3=Medium, 4=Low)
+     - **Due date**: from meeting context or 3 business days default
+     - **Status**: `Not started` for new tasks, `WIP` if already in progress
+     - **Description/body**: include meeting context and goal alignment
+     - Store returned `notion_id` in the YAML task entry
    - Contact/company notes → Companies DB (`5fee82ee-a0e1-41f5-aaca-308e03580182`) or People DB (`11d6ce8b-a1af-455a-b9c5-d50d1aec5796`)
-   - Follow up with verification after Notion write
+   - **Verify** every Notion write — fetch the page back to confirm it was created correctly
 
 For tasks assigned to others:
 - Note them in the meeting contact file (if exists in `contacts/`)

@@ -18,7 +18,9 @@ Location: `/Users/vahid/code/CoS/my-tasks.yaml`
 
 ### /my-tasks list
 
-Read `/Users/vahid/code/CoS/my-tasks.yaml` and present tasks grouped by urgency:
+Read `/Users/vahid/code/CoS/my-tasks.yaml` AND pull from Notion Tasks DB (`bfaf4e0f-1352-40cb-b39e-e441b75c1d96`) using `mcp__claude_ai_Notion__notion-fetch` to catch tasks created elsewhere. Merge by `notion_id` or title match — Notion is the system of record, YAML is backup. If a task exists in Notion but not YAML, add it to YAML. If status differs, Notion wins.
+
+Present tasks grouped by urgency:
 
 ```
 TASKS
@@ -53,7 +55,17 @@ When adding a task:
    - Priority (default: 3/normal)
    - Description (optional — helpful for complex tasks)
 3. Write the task to `/Users/vahid/code/CoS/my-tasks.yaml`
-4. Confirm: "Added: [title] — due [date] — aligned to [goal]"
+4. **Sync to Notion Tasks DB** — create a page in Tasks DB (`bfaf4e0f-1352-40cb-b39e-e441b75c1d96`) using `mcp__claude_ai_Notion__notion-create-pages`:
+   - **Name**: task title
+   - **Client**: fCPO
+   - **Assignee**: `622468d8-a961-4066-b9fe-65c0970a7852` (Vahid)
+   - **Priority**: map from task priority (1=Urgent, 2=High, 3=Medium, 4=Low)
+   - **Due date**: task due date
+   - **Status**: `Not started` (new tasks default to this)
+   - **Description/body**: include goal alignment + any description
+   - Store the returned Notion page ID in the YAML entry as `notion_id` for future updates
+   - **Verify**: fetch the created page back to confirm it was written correctly
+5. Confirm: "Added: [title] — due [date] — aligned to [goal] — synced to Notion"
 
 **Goal alignment validation:**
 Check `/Users/vahid/code/CoS/goals.yaml` for active goals. If the task doesn't align
@@ -65,8 +77,12 @@ Still want to add it?" This isn't a blocker — just a prompt for intentionality
 1. Find the task by ID in `/Users/vahid/code/CoS/my-tasks.yaml`
 2. Update status to "complete"
 3. Add completion date
-4. Confirm: "Completed: [title]"
-5. If completed before due date, celebrate briefly: "Nice — finished 3 days early."
+4. **Sync to Notion** — if the task has a `notion_id`, update the page using `mcp__claude_ai_Notion__notion-update-page`:
+   - Set **Status** to `Done`
+   - If no `notion_id`, search Notion Tasks DB for a matching task by title and update it
+   - **Verify**: fetch the page back to confirm status changed to Done
+5. Confirm: "Completed: [title] — Notion synced"
+6. If completed before due date, celebrate briefly: "Nice — finished 3 days early."
 
 ### /my-tasks execute
 

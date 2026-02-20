@@ -47,10 +47,21 @@ Read `/Users/vahid/code/CoS/my-tasks.yaml`. Before presenting tasks, **verify ea
 
 ### Step 3: Goals Check
 
-Read `/Users/vahid/code/CoS/goals.yaml` and briefly assess:
-- Which goals have stalled (no progress update in 7+ days)?
-- Does today's calendar align with the highest-priority goals?
-- Any goal-aligned work that should be scheduled today?
+Read `/Users/vahid/code/CoS/goals.yaml` and perform a structured assessment:
+
+1. **Stall Detection:** For each goal, check the `last_updated` or `last_progress` field. If 7+ days have passed with no progress update, flag it as STALLED. If 14+ days, flag as CRITICAL STALL.
+
+2. **Calendar-Goal Alignment:** Map today's calendar events against the top-priority goals:
+   - Tag each meeting as goal-aligned, supportive, or unrelated
+   - Calculate rough % of today's scheduled time that's goal-aligned
+   - If less than 30% of meetings align with top goals, flag explicitly: "Today's calendar is misaligned with your priorities"
+
+3. **Goal-Aligned Scheduling:** Identify work blocks that SHOULD happen today:
+   - For any stalled goal, suggest a specific 30-60 min action that would unblock it
+   - Check for open calendar slots where this work could fit (prefer afternoon — mornings are deep work)
+   - If a goal is critical and today has no aligned activity, recommend adding a focus block
+
+4. **Goal Momentum:** Note which goals have had recent progress (last 3 days) — momentum matters, keep it going.
 
 ### Step 4: Inbox Quick Scan (if email MCP is connected)
 
@@ -78,16 +89,20 @@ TASKS
 - APPROACHING: [list of next 3 days]
 
 GOALS
-- [Brief status on top 1-2 goals, especially if stalled]
+- [Goal 1]: [status] [progress %] [STALLED if 7+ days, CRITICAL if 14+]
+- [Goal 2]: [status] [progress %]
+- Calendar alignment: [X]% of today's meetings are goal-aligned
+- [If stalled goals exist: "Stalled: [goal] — suggested unblock: [specific action, 30-60 min]"]
 
 URGENT
 - [Any Tier 1 items from inbox, or "No urgent items"]
 
 FOCUS RECOMMENDATION
-Based on your calendar and priorities, here's what I'd focus on today:
-1. [Top priority]
+Based on your calendar, goals, and stall risk:
+1. [Top priority — tied to highest-priority or most-stalled goal]
 2. [Second priority]
 3. [Third priority, if time allows]
+[If calendar is misaligned: "Heads up: today's schedule doesn't move your top goals. Consider [specific adjustment]."]
 ```
 
 ### Guidelines
@@ -95,8 +110,9 @@ Based on your calendar and priorities, here's what I'd focus on today:
 - Be concise. The whole briefing should fit on one screen.
 - Lead with the most important information.
 - If there are no urgent items, say so — that's good news.
-- The focus recommendation should reflect goal alignment.
-- If today's calendar is misaligned with goals, say so explicitly.
+- The focus recommendation should reflect goal alignment — always tie recommendations to specific goals.
+- If today's calendar is misaligned with goals, say so explicitly and suggest a concrete adjustment.
+- Stalled goals should always surface in the briefing — they're invisible risks.
 - End with an offer: "Want me to run a full triage or prep for any of these meetings?"
 
 ### Step 6: Meeting Prep (Auto)
