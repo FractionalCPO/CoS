@@ -9,7 +9,10 @@ update interaction history, and surface relationships that need attention.
 - `stale` — Show contacts that haven't been engaged recently (based on tier cadence)
 - `<contact-name>` — Enrich a specific contact's file with latest information
 
-## Contact Files
+## Source of Record
+**Clay.earth** is the SOR for contact data (`mcp__claude_ai_Clay_earth__*`). Always read from and write to Clay first. Local contact files in `/Users/vahid/code/CoS/contacts/` are caches for interaction history and talking points only.
+
+## Contact Files (local cache)
 Location: `/Users/vahid/code/CoS/contacts/`
 Index: `/Users/vahid/code/CoS/contact-index.yaml` (optional, for quick lookups)
 

@@ -32,7 +32,7 @@ schedules:
     skill: "/triage"
     cron: "0 12 * * 1-5"
     delivery: "telegram (only if urgent)"
-    notes: "Scans email + Slack. Only alerts if something needs attention."
+    notes: "Scans work email (fcpo account). Only Tier 1 items flagged. Skips if nothing urgent."
 
   - name: "Evening Triage"
     skill: "/triage + debrief summary"
@@ -134,7 +134,7 @@ schedules:
     skill: "/enrich stale"
     cron: "0 9 * * 1"
     delivery: "telegram"
-    notes: "Monday 9am. Checks contact tiers: T1=14d, T2=30d, T3=60d."
+    notes: "Monday 9am. Nudges Tier 1 contacts (Elmira, Courtney, Mauricio, Papash) if >14 days. Brief 3-4 lines."
 
   # ===================================================================
   # RESEARCH & PIPELINE

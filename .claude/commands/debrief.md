@@ -86,14 +86,14 @@ For introductions:
 - CC both parties
 - Keep it short — Vahid's intro style is 2-3 sentences max
 
-### Step 6: Update Contact File
+### Step 6: Update Contact Record
 
-If a contact file exists in `/Users/vahid/code/CoS/contacts/`:
+**SOR: Clay.earth** — update the contact in Clay first using `mcp__claude_ai_Clay_earth__updateContact` or `createContact`. Then update the local cache file if one exists in `/Users/vahid/code/CoS/contacts/`:
 - Add interaction to history
 - Update talking points for next meeting
 - Note any personal details mentioned (hobbies, family, travel plans)
 
-If no contact file exists and the person is Tier 1 or Tier 2, create one.
+If no contact exists in Clay and the person is Tier 1 or Tier 2, create one in Clay first, then create a local cache file.
 
 ### Step 7: Sync to Notion
 

@@ -69,11 +69,11 @@ THE MIRROR — [date range]
 [N] meetings reviewed
 
 STRENGTHS (consistently showing up)
-🟢 [Trait]: [Pattern observed across meetings]
+[+] [Trait]: [Pattern observed across meetings]
    Example: "[Specific moment from a specific meeting]"
 
 GROWTH EDGES (recurring opportunities)
-🟡 [Trait]: [Pattern observed]
+[~] [Trait]: [Pattern observed]
    Example: "[Specific moment]"
    Try instead: "[Concrete alternative behavior]"
 
@@ -99,7 +99,7 @@ ONE THING TO FOCUS ON THIS WEEK
 2. Update `growth-traits.yaml` with any new observations or progress notes
 3. Push a brief summary to Telegram:
    ```
-   🪞 The Mirror — [N] calls reviewed
+   [mirror] The Mirror — [N] calls reviewed
    Strengths: [trait], [trait]
    Work on: [trait]
    Focus this week: [one thing]
@@ -113,5 +113,6 @@ ONE THING TO FOCUS ON THIS WEEK
 - **Don't repeat yourself.** If the same edge showed up in the last Mirror, note progress (or lack thereof).
 - **Connect to stakes.** "This matters because [specific business impact]."
 - **Never share this externally.** This is private self-development data.
+- **Never send Telegram messages without explicit approval** — show the summary draft first.
 - **Frequency:** Weekly by default (Friday, after retro). Can be triggered per-meeting for immediate feedback.
 - **ADHD/OCD context:** Frame growth edges as systems to build, not willpower to exert. "Add a 10-second pause before responding" > "Be more patient."

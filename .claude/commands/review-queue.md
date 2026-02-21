@@ -15,7 +15,7 @@ Run `date '+%A %Y-%m-%d %H:%M %Z'` to get the current day, date, and timezone.
 
 ### Step 1: Scan Notion Tasks DB
 
-Query the Notion Tasks DB (`bfaf4e0f`) using `mcp__claude_ai_Notion__notion-search` for:
+Query the Notion Tasks DB (`bfaf4e0f-1352-40cb-b39e-e441b75c1d96`) using `mcp__claude_ai_Notion__notion-search` for:
 - Items with status "Needs Review" or "Blocked" or "Waiting on Vahid"
 - Items assigned to Vahid that are overdue
 - Items updated in the last 24 hours that may need a decision
@@ -36,7 +36,7 @@ If Gmail MCP is connected, check both accounts for draft emails:
 
 Query Notion for pipeline items needing decisions:
 - **Prospecting DB** — leads in "Ready" or "Outreach" status needing next action
-- **Opportunities DB** (`de289591`) — deals needing follow-up, proposals to send, negotiations stalled
+- **Opportunities DB** (`de289591-f32a-483d-a51e-6bc158f4173e`) — deals needing follow-up, proposals to send, negotiations stalled
 - Flag anything that's been in the same status for 5+ days
 
 ### Step 5: Prioritize and Batch
@@ -82,7 +82,7 @@ Top: [highest priority item in 1 line]
 Full report saved — run /review-queue for details
 ```
 
-Use Telegram Bot API: POST to `https://api.telegram.org/bot{token}/sendMessage` with chat_id `112718186`.
+Use Telegram Bot API with the bot token from CLAUDE.md config and chat_id `112718186`. **Wait for Vahid's approval before sending** — show the summary draft first.
 
 ### Guidelines
 

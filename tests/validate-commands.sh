@@ -191,6 +191,101 @@ for f in "$CMD_DIR"/*.md; do
 done
 
 echo ""
+echo "=== Notion DB ID Completeness ==="
+# Check that all DB ID references use full UUIDs, not truncated
+for f in "$CMD_DIR"/*.md; do
+  fname=$(basename "$f")
+  # Find truncated IDs (8 hex chars in backticks not followed by a dash)
+  if grep -oP '`[0-9a-f]{8}`' "$f" > /dev/null 2>&1; then
+    fail "$fname has truncated Notion DB IDs (use full UUID)"
+  else
+    pass "$fname uses full Notion DB IDs"
+  fi
+done
+
+echo ""
+echo "=== Notion DB ID Correctness ==="
+# Verify all full UUIDs in commands match canonical IDs
+CANONICAL_IDS="$COMPANIES_ID $PEOPLE_ID $PE_FIRMS_ID $OPPORTUNITIES_ID $TASKS_ID 622468d8-a961-4066-b9fe-65c0970a7852"
+for f in "$CMD_DIR"/*.md; do
+  fname=$(basename "$f")
+  for found_id in $(grep -oP '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}' "$f" 2>/dev/null | sort -u); do
+    matched=false
+    for canon in $CANONICAL_IDS; do
+      if [ "$found_id" = "$canon" ]; then matched=true; break; fi
+    done
+    if $matched; then
+      pass "$fname ID $found_id matches canonical"
+    else
+      fail "$fname has UNKNOWN Notion ID: $found_id"
+    fi
+  done
+done
+
+echo ""
+echo "=== SOR Compliance ==="
+# enrich.md should reference Clay as SOR
+if grep -qi 'clay.*SOR\|SOR.*clay\|source of record.*clay\|clay.*source of record' "$CMD_DIR/enrich.md"; then
+  pass "enrich.md references Clay as SOR"
+else
+  fail "enrich.md does not reference Clay as SOR for contacts"
+fi
+# debrief.md should reference Clay for contact updates
+if grep -qi 'clay' "$CMD_DIR/debrief.md"; then
+  pass "debrief.md references Clay for contact updates"
+else
+  fail "debrief.md does not reference Clay for contact updates"
+fi
+# retro.md should specify local save path
+if grep -q 'assets/retros/' "$CMD_DIR/retro.md"; then
+  pass "retro.md specifies local save path (assets/retros/)"
+else
+  fail "retro.md does not specify local save path per SOR"
+fi
+
+echo ""
+echo "=== No Emojis ==="
+for f in "$CMD_DIR"/*.md; do
+  fname=$(basename "$f")
+  # Check for common emoji unicode ranges
+  if grep -P '[\x{1F300}-\x{1F9FF}]|[\x{2600}-\x{26FF}]|[\x{2700}-\x{27BF}]' "$f" > /dev/null 2>&1; then
+    fail "$fname contains emoji characters (violates style rules)"
+  else
+    pass "$fname has no emojis"
+  fi
+done
+
+echo ""
+echo "=== Telegram Guardrails ==="
+# Commands that send Telegram should have approval guards
+for cmd in retro the-mirror review-queue; do
+  f="$CMD_DIR/$cmd.md"
+  [ -f "$f" ] || continue
+  if grep -qi 'telegram' "$f"; then
+    if grep -qi 'approval\|never send.*without\|show.*draft.*first' "$f"; then
+      pass "$cmd.md has Telegram send guardrail"
+    else
+      fail "$cmd.md sends Telegram without approval guardrail"
+    fi
+  fi
+done
+
+echo ""
+echo "=== Old Commands Staleness ==="
+OLD_CMD_DIR="$COS_DIR/commands"
+if [ -d "$OLD_CMD_DIR" ]; then
+  for f in "$OLD_CMD_DIR"/*.md; do
+    fname=$(basename "$f")
+    if grep -q '{{' "$f"; then
+      warn "OLD $fname still has {{placeholders}} — stale/unmigrated"
+    fi
+    if grep -q '~/.claude/my-tasks\|~/.claude/goals\|~/.claude/contacts/' "$f"; then
+      warn "OLD $fname uses ~/.claude/ paths — stale/unmigrated"
+    fi
+  done
+fi
+
+echo ""
 echo "=== Schedule-Cron Alignment ==="
 # Check that each schedule entry has a corresponding cron script
 schedules_file="$COS_DIR/schedules.yaml"
