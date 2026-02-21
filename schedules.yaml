@@ -40,11 +40,17 @@ schedules:
     delivery: "telegram (only if overdue)"
     notes: "Every 2 hours. Only alerts on overdue or due-today."
 
-  - name: "Autonomous Task Execution"
-    skill: "/my-tasks execute"
+  - name: "Autonomous Grunt Work"
+    skill: null
     cron: "30 9 * * 1-5"
     delivery: "telegram"
-    notes: "9:30am. Donna picks up tasks she can do without Vahid: draft emails, research, CRM updates, enrichment, document prep. Reports what she completed + what still needs him."
+    notes: "9:30am. NARROW scope only — enrichment, CRM data cleanup, research refresh, Notion sync repair. Never drafts content, never marks tasks complete, never makes judgment calls."
+
+  - name: "Task Surfacing"
+    skill: "/my-tasks overdue + calendar check"
+    cron: "0 10 * * 1-5"
+    delivery: "telegram"
+    notes: "10am. Surfaces overdue + due-today tasks. Checks calendar gaps and suggests which task to work on collaboratively. 'Say go and I'll start.' Vahid stays in the loop."
 
   - name: "Review Queue"
     skill: "/review-queue"
@@ -132,9 +138,9 @@ schedules:
 
   - name: "Pipeline Trigger Scan"
     skill: "/research:trigger-scan"
-    cron: "0 10 * * 1"
+    cron: "30 10 * * 1"
     delivery: "telegram (only if triggers found)"
-    notes: "Monday 10am. Scans all tracked companies for outreach trigger signals."
+    notes: "Monday 10:30am. Scans all tracked companies for outreach trigger signals."
 
   # ===================================================================
   # SYSTEM HEALTH
@@ -162,7 +168,8 @@ schedules:
 #   8:15 AM  Meeting Prep (weekly Mon / daily Tue-Fri)
 #   every 5m Pre-Meeting Refresh (8am-7pm, only if meeting in 15 min)
 #   every 5m Post-Meeting Debrief (8am-7pm, silent)
-#   9:30 AM  Autonomous Task Execution (Donna does what she can)
+#   9:30 AM  Autonomous Grunt Work (enrichment, CRM, sync — safe only)
+#   10:00 AM Task Surfacing (what's ready + collaborative plan)
 #   every 2h Task Check (8am-8pm)
 #   11:30 AM Review Queue
 #   12:00 PM Midday Triage
