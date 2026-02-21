@@ -9,6 +9,16 @@
 schedules:
 
   # ===================================================================
+  # INBOX PRE-PROCESS
+  # ===================================================================
+
+  - name: "Inbox Pre-Process"
+    skill: null
+    cron: "0,30 8-21 * * 1-5"
+    delivery: "telegram (only if drafts created)"
+    notes: "Every 30 min, 8am-9pm Mon-Fri. Checks both Gmail accounts for unread. Drafts responses in Gmail (SOR). Never sends. Tier 1+2 only."
+
+  # ===================================================================
   # DAILY OPS
   # ===================================================================
 
@@ -112,9 +122,9 @@ schedules:
 
   - name: "System Self-Improvement (Donna)"
     skill: null
-    cron: "0 14 * * 0"
+    cron: "0 21 * * 1-5"
     delivery: "telegram (only if improvements made)"
-    notes: "Sunday 2pm. Donna audits herself: failed jobs, unused commands, coverage gaps, prompt quality, test health. Fixes issues directly, proposes new skills."
+    notes: "Daily 9pm Mon-Fri. Donna audits herself: failed jobs, prompts, commands, test health, SOR compliance. Fixes ALL issues directly. Proposes changes that might have negative impact."
 
   # ===================================================================
   # RELATIONSHIPS
@@ -164,6 +174,7 @@ schedules:
 # ===================================================================
 #
 # Daily (Mon-Fri):
+#   every 30m Inbox Pre-Process (8am-9pm, drafts in Gmail)
 #   8:00 AM  Morning Briefing
 #   8:15 AM  Meeting Prep (weekly Mon / daily Tue-Fri)
 #   every 5m Pre-Meeting Refresh (8am-7pm, only if meeting in 15 min)
@@ -174,13 +185,13 @@ schedules:
 #   11:30 AM Review Queue
 #   12:00 PM Midday Triage
 #   5:00 PM  Evening Triage (includes debrief summary)
+#   9:00 PM  System Self-Improvement (Donna audits + fixes herself)
 #   10:00 PM Daily QA + Notion Health
 #
 # Weekly:
 #   Mon 9:00 AM  Relationship Check
-#   Mon 10:00 AM Pipeline Trigger Scan
+#   Mon 10:30 AM Pipeline Trigger Scan
 #   Fri 4:00 PM  Weekly Retro
 #   Sun 12:00 PM The Mirror (Vahid personal growth)
-#   Sun 2:00 PM  System Self-Improvement (Donna improves herself)
 #   Sun 8:00 PM  Research Freshness
 #   Sun midnight  Session Cleanup (local only)

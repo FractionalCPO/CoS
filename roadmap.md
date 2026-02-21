@@ -307,6 +307,120 @@ Twitter API v2 provides DM endpoints, but has limitations:
 
 ---
 
+## Phase 10: Metrics & Tracking (HIGH PRIORITY — needs KPI planning)
+
+**Goal:** Continuous KPI tracking with drift alerts and scorecards. Mike runs this 2-4hrs/day producing "drift alerts & scorecards."
+
+**Status:** Blocked — Vahid hasn't defined KPIs yet. Plan below needs review.
+
+**Reminder:** Review this plan during next weekly retro (Friday 4pm). Donna will surface it.
+
+### Proposed KPI Framework
+
+**Pipeline Metrics (from Notion Opportunities DB):**
+- Pipeline velocity: avg days per stage, deals advancing/stalling
+- Conversion rate: lead → discovery → proposal → won
+- Pipeline coverage: total pipeline value vs revenue target ($4M)
+- Deal age: flag deals >30 days in same stage
+
+**Activity Metrics (from Calendar + Gmail + Slack):**
+- Discovery calls per week (target: TBD)
+- Outreach volume: emails sent, LinkedIn touches, intros made
+- Response rate on outreach
+- % calendar time on revenue-generating activities vs admin
+
+**Goal Metrics (from goals.yaml):**
+- Progress vs pace for each Q1 objective
+- Days to deadline vs % complete (ahead/behind curve)
+- Goal drift: 7-day rolling trend
+
+**Relationship Metrics (from Clay + contacts/):**
+- Contact cadence compliance by tier
+- New contacts added per week
+- Relationship depth score (interactions, channels, recency)
+
+**System Metrics (from Railway logs + scheduler):**
+- Job success rate (% of scheduled jobs that didn't fail)
+- Average response time
+- Draft acceptance rate (how often Vahid sends Donna's drafts vs rewrites)
+
+### Implementation Plan (once KPIs approved)
+1. Create `CoS/kpis.yaml` with targets and thresholds
+2. Build `/metrics` command that pulls from all sources and scores
+3. Add 2x daily scorecard job (9am snapshot + 3pm drift check)
+4. Weekly: compile into dashboard saved to `CoS/assets/metrics/scorecard-{date}.md`
+5. Drift alerts: when any KPI deviates >15% from target, Telegram alert
+
+### Questions for Vahid
+- What's your target for discovery calls per week?
+- What pipeline coverage ratio do you want (e.g., 3x target)?
+- Are there specific activity metrics you track today that should be included?
+- Do you want a daily scorecard Telegram, or only drift alerts?
+
+---
+
+## Phase 11: News Aggregation (needs planning)
+
+**Goal:** 4x daily curated industry briefings, strictly relevant to ICP and active leads.
+
+**Status:** Needs planning — Vahid wants news limited to ICP/leads, not general product leadership.
+
+### Design Questions
+- **Sources:** Firecrawl (competitor sites), web search (industry news), DataForSEO (market signals)
+- **Focus areas to define:**
+  - PE-backed SaaS acquisitions and leadership changes
+  - Companies in the pipeline (active leads/prospects)
+  - CTCT competitors (ActiveCampaign, Mailchimp, HubSpot, Brevo)
+  - Product leadership hiring signals (companies looking for CPO/VP Product)
+- **Filter:** ONLY news that's actionable for outreach, meeting prep, or pipeline movement. No general industry commentary.
+- **Output:** 3-5 bullet briefing → Telegram. Full digest saved locally.
+- **Feed into:** Morning briefing + meeting prep context
+
+### Questions for Vahid
+- Which companies should be in the always-watch list beyond pipeline?
+- Do you want PE firm portfolio monitoring (e.g., track all Vista Equity portfolio)?
+- Any specific news sources you trust / distrust?
+- How do you want to consume this — separate Telegram messages or folded into morning briefing?
+
+---
+
+## Phase 12: Learn from Edits (Feedback Loop)
+
+**Goal:** Donna observes when Vahid edits her output and learns patterns over time.
+
+**Status:** Design phase. Two viable detection mechanisms identified.
+
+### Detection Mechanisms
+
+**(a) Gmail draft comparison:**
+- Donna creates a draft in Gmail
+- When Vahid sends the email (modified or not), compare sent version vs draft
+- Extract diff: what was added, removed, rephrased
+- Write pattern to `memory/writing-calibration.md`
+- **Requirement from Vahid:** Nothing — this can be automated via Gmail MCP (read sent folder, match to drafts)
+
+**(c) Meeting prep comparison:**
+- Donna pushes talking points to Fellow
+- After the meeting, check Granola/Fellow transcript for what Vahid actually said
+- Compare prep vs reality: which points were used, which were skipped, what did he say differently
+- Write patterns to `memory/meeting-prep-calibration.md`
+- **Requirement from Vahid:** Nothing — this can be automated via Granola + Fellow MCP
+
+### What Donna learns
+- Writing style adjustments ("Vahid always shortens my opening line")
+- Tone calibration ("Vahid makes discovery emails softer than I draft them")
+- Content preferences ("Vahid always adds specific numbers")
+- Meeting prep patterns ("Vahid never uses the 4th talking point, keep to 3")
+- Decision patterns ("Vahid reprioritizes X over Y consistently")
+
+### Implementation Plan
+1. Add a daily job (part of self-improvement) that compares sent emails vs drafts
+2. Add a post-meeting job that compares prep vs transcript
+3. Write learnings to memory files with date stamps
+4. Future drafts/preps reference these calibration files
+
+---
+
 ## Deferred Skills (from /extract-skills sessions)
 
 ### `/research/icp-whitespace` — ICP & Market White Space Analyzer
