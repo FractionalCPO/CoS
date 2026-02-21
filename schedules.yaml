@@ -40,6 +40,12 @@ schedules:
     delivery: "telegram (only if overdue)"
     notes: "Every 2 hours. Only alerts on overdue or due-today."
 
+  - name: "Autonomous Task Execution"
+    skill: "/my-tasks execute"
+    cron: "30 9 * * 1-5"
+    delivery: "telegram"
+    notes: "9:30am. Donna picks up tasks she can do without Vahid: draft emails, research, CRM updates, enrichment, document prep. Reports what she completed + what still needs him."
+
   - name: "Review Queue"
     skill: "/review-queue"
     cron: "30 11 * * 1-5"
@@ -92,11 +98,17 @@ schedules:
   # SELF-IMPROVEMENT
   # ===================================================================
 
-  - name: "The Mirror"
+  - name: "The Mirror (Vahid)"
     skill: "/the-mirror"
     cron: "0 12 * * 0"
     delivery: "telegram"
-    notes: "Sunday noon. Growth feedback from meeting transcripts. One thing to focus on this week."
+    notes: "Sunday noon. Personal growth feedback from meeting transcripts. One thing to focus on this week."
+
+  - name: "System Self-Improvement (Donna)"
+    skill: null
+    cron: "0 14 * * 0"
+    delivery: "telegram (only if improvements made)"
+    notes: "Sunday 2pm. Donna audits herself: failed jobs, unused commands, coverage gaps, prompt quality, test health. Fixes issues directly, proposes new skills."
 
   # ===================================================================
   # RELATIONSHIPS
@@ -150,6 +162,7 @@ schedules:
 #   8:15 AM  Meeting Prep (weekly Mon / daily Tue-Fri)
 #   every 5m Pre-Meeting Refresh (8am-7pm, only if meeting in 15 min)
 #   every 5m Post-Meeting Debrief (8am-7pm, silent)
+#   9:30 AM  Autonomous Task Execution (Donna does what she can)
 #   every 2h Task Check (8am-8pm)
 #   11:30 AM Review Queue
 #   12:00 PM Midday Triage
@@ -160,6 +173,7 @@ schedules:
 #   Mon 9:00 AM  Relationship Check
 #   Mon 10:00 AM Pipeline Trigger Scan
 #   Fri 4:00 PM  Weekly Retro
-#   Sun 12:00 PM The Mirror
+#   Sun 12:00 PM The Mirror (Vahid personal growth)
+#   Sun 2:00 PM  System Self-Improvement (Donna improves herself)
 #   Sun 8:00 PM  Research Freshness
 #   Sun midnight  Session Cleanup (local only)
