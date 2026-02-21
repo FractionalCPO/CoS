@@ -31,6 +31,20 @@ Unstructured items from Vahid, captured 2026-02-20. Work through one by one.
 
 ## Queued (do next)
 
+### E0. Learn from Edits (Feedback Loop)
+- [ ] When Vahid edits a draft/output, Donna diffs before/after
+- [ ] Extracts pattern ("shortened this", "removed formal sign-off", "added numbers")
+- [ ] Writes learning to memory files (writing-calibration.md, preferences-learned.md)
+- [ ] Future outputs incorporate the learning
+- [ ] Mike has this — we don't. Critical for system self-improvement.
+
+### E0b. Contact Enrich + Clay.earth as SOR
+- [ ] How does /enrich integrate with Clay.earth? Currently uses local contacts/ files
+- [ ] Vahid's SOR is Clay.earth — need to design: Clay as SOR with local cache, or local SOR with Clay sync?
+- [ ] Clay MCP tools available: searchContacts, getContact, createContact, updateContact, getNotes, createNote, getEvents, getEmails
+- [ ] Decision needed: which direction does data flow? Clay → contacts/ → Notion? Or contacts/ → Clay?
+- [ ] Enrich should pull from Clay first, then fill gaps from Apollo/email/calendar
+
 ### E. Relationship Deepening Agent
 - [ ] Design and build (Vahid wants to spend time on this after current batch)
 - [ ] CoS-scoped agent in `CoS/.claude/agents/`
