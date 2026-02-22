@@ -12,6 +12,7 @@
       "args": [],
       "env": {
         "FIRECRAWL_API_KEY": "${FIRECRAWL_API_KEY}"
+<<<<<<< Updated upstream
       }
     },
     "apollo": {
@@ -50,6 +51,34 @@
       }
     },
     "calendar-fcpo": {
+      "command": "mcp-google-calendar",
+      "args": [],
+      "env": {
+        "GOOGLE_CLIENT_ID": "${GOOGLE_CLIENT_ID}",
+        "GOOGLE_CLIENT_SECRET": "${GOOGLE_CLIENT_SECRET}",
+        "GOOGLE_REFRESH_TOKEN": "${GOOGLE_REFRESH_TOKEN_FCPO}",
+        "DEFAULT_TIMEZONE": "America/Toronto"
+=======
+>>>>>>> Stashed changes
+      }
+    },
+    "apollo": {
+      "command": "apollo-io-mcp",
+      "args": [],
+      "env": {
+        "APOLLO_API_KEY": "${APOLLO_API_KEY}"
+      }
+    },
+    "gmail": {
+      "command": "gmail-mcp",
+      "args": [],
+      "env": {
+        "GOOGLE_CLIENT_ID": "${GOOGLE_CLIENT_ID}",
+        "GOOGLE_CLIENT_SECRET": "${GOOGLE_CLIENT_SECRET}",
+        "GOOGLE_REFRESH_TOKEN": "${GOOGLE_REFRESH_TOKEN_FCPO}"
+      }
+    },
+    "calendar": {
       "command": "mcp-google-calendar",
       "args": [],
       "env": {
