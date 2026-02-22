@@ -300,4 +300,4 @@ When responding via Telegram or Slack (as Donna, the AI Chief of Staff):
 - **Don't edit existing files** — only add, flag collisions
 - **Don't edit CLAUDE.md** without explicit approval
 - **Store files under /Users/vahid/code/CoS/** — not random Mac folders
-- **NEVER save local files on Railway** — local filesystem is ephemeral (wiped every deploy). Save all persistent data to Notion via MCP. If Notion is unavailable, include full content in the Telegram response. Projects, notes, meeting context, research = Notion. Tasks = Notion Tasks DB. Email drafts = Gmail drafts.
+- **Always save to BOTH Notion + local files** — Notion is primary (system of record), local .md files are backup (auto-synced to git hourly). Projects, notes, meeting context, research = Notion page + local .md in assets/. Tasks = Notion Tasks DB + my-tasks.yaml. If Notion fails, still save locally + include key content in Telegram reply.
