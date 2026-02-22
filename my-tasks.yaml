@@ -99,6 +99,16 @@ tasks:
     notes: "From Telegram. Vahid asked Donna how she'd help organize WhatsApp."
 
   - id: "task-010"
+    title: "Rebuild lost project notes from Telegram"
+    description: "Pull messages from Telegram chat with Donna for: (1) MohammadAli Canadian student visa project, (2) CTM WhatsApp bot project. Plus any other projects/context Donna saved locally that was lost. Scroll Telegram history, copy relevant messages, re-save to Notion + local .md."
+    status: "pending"
+    priority: 2
+    due_date: ""
+    goal_alignment: "personal"
+    created: "2026-02-22"
+    notes: "Donna saved these as local .md files on Railway which were wiped on redeploy. Only source is Telegram chat history. Vahid needs to pull the msgs."
+
+  - id: "task-010"
     title: "Create passion project (radial?)"
     description: "Vahid wants to create a passion project involving 'rad...' — possibly radial design, radical something. Full message truncated in logs."
     status: "pending"
