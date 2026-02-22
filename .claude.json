@@ -12,7 +12,6 @@
       "args": [],
       "env": {
         "FIRECRAWL_API_KEY": "${FIRECRAWL_API_KEY}"
-<<<<<<< Updated upstream
       }
     },
     "apollo": {
@@ -20,6 +19,15 @@
       "args": [],
       "env": {
         "APOLLO_API_KEY": "${APOLLO_API_KEY}"
+      }
+    },
+    "gmail-fcpo": {
+      "command": "gmail-mcp",
+      "args": [],
+      "env": {
+        "GOOGLE_CLIENT_ID": "${GOOGLE_CLIENT_ID}",
+        "GOOGLE_CLIENT_SECRET": "${GOOGLE_CLIENT_SECRET}",
+        "GOOGLE_REFRESH_TOKEN": "${GOOGLE_REFRESH_TOKEN_FCPO}"
       }
     },
     "gmail-hi": {
@@ -31,13 +39,14 @@
         "GOOGLE_REFRESH_TOKEN": "${GOOGLE_REFRESH_TOKEN_HI}"
       }
     },
-    "gmail-fcpo": {
-      "command": "gmail-mcp",
+    "calendar-fcpo": {
+      "command": "mcp-google-calendar",
       "args": [],
       "env": {
         "GOOGLE_CLIENT_ID": "${GOOGLE_CLIENT_ID}",
         "GOOGLE_CLIENT_SECRET": "${GOOGLE_CLIENT_SECRET}",
-        "GOOGLE_REFRESH_TOKEN": "${GOOGLE_REFRESH_TOKEN_FCPO}"
+        "GOOGLE_REFRESH_TOKEN": "${GOOGLE_REFRESH_TOKEN_FCPO}",
+        "DEFAULT_TIMEZONE": "America/Toronto"
       }
     },
     "calendar-hi": {
@@ -50,42 +59,19 @@
         "DEFAULT_TIMEZONE": "America/Toronto"
       }
     },
-    "calendar-fcpo": {
-      "command": "mcp-google-calendar",
+    "fellow": {
+      "command": "fellow-mcp",
       "args": [],
       "env": {
-        "GOOGLE_CLIENT_ID": "${GOOGLE_CLIENT_ID}",
-        "GOOGLE_CLIENT_SECRET": "${GOOGLE_CLIENT_SECRET}",
-        "GOOGLE_REFRESH_TOKEN": "${GOOGLE_REFRESH_TOKEN_FCPO}",
-        "DEFAULT_TIMEZONE": "America/Toronto"
-=======
->>>>>>> Stashed changes
+        "FELLOW_API_KEY": "${FELLOW_API_KEY}",
+        "FELLOW_SUBDOMAIN": "${FELLOW_SUBDOMAIN}"
       }
     },
-    "apollo": {
-      "command": "apollo-io-mcp",
+    "clay": {
+      "command": "clay-mcp",
       "args": [],
       "env": {
-        "APOLLO_API_KEY": "${APOLLO_API_KEY}"
-      }
-    },
-    "gmail": {
-      "command": "gmail-mcp",
-      "args": [],
-      "env": {
-        "GOOGLE_CLIENT_ID": "${GOOGLE_CLIENT_ID}",
-        "GOOGLE_CLIENT_SECRET": "${GOOGLE_CLIENT_SECRET}",
-        "GOOGLE_REFRESH_TOKEN": "${GOOGLE_REFRESH_TOKEN_FCPO}"
-      }
-    },
-    "calendar": {
-      "command": "mcp-google-calendar",
-      "args": [],
-      "env": {
-        "GOOGLE_CLIENT_ID": "${GOOGLE_CLIENT_ID}",
-        "GOOGLE_CLIENT_SECRET": "${GOOGLE_CLIENT_SECRET}",
-        "GOOGLE_REFRESH_TOKEN": "${GOOGLE_REFRESH_TOKEN_FCPO}",
-        "DEFAULT_TIMEZONE": "America/Toronto"
+        "CLAY_API_KEY": "${CLAY_API_KEY}"
       }
     }
   }
