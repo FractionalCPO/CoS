@@ -1,0 +1,26 @@
+import express from "express";
+import { config } from "./config.js";
+import { authMiddleware } from "./auth.js";
+import healthRouter from "./routes/health.js";
+import dataforseoRouter from "./routes/dataforseo.js";
+import whatsappRouter from "./routes/whatsapp.js";
+import execRouter from "./routes/exec.js";
+
+const app = express();
+
+app.use(express.json({ limit: "5mb" }));
+
+// Health check is public (for monitoring)
+app.use(healthRouter);
+
+// All other routes require auth
+app.use(authMiddleware);
+app.use(dataforseoRouter);
+app.use(whatsappRouter);
+app.use(execRouter);
+
+app.listen(config.port, () => {
+  console.log(`[relay] Donna relay server running on port ${config.port}`);
+  console.log(`[relay] Services: DataForSEO, WhatsApp, exec`);
+  console.log(`[relay] Auth: shared secret (${config.secret === "donna-relay-dev" ? "DEFAULT — set RELAY_SECRET in prod" : "configured"})`);
+});
