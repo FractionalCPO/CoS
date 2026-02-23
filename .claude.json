@@ -73,15 +73,6 @@
       "env": {
         "CLAY_API_KEY": "${CLAY_API_KEY}"
       }
-    },
-    "whatsapp": {
-      "command": "/opt/homebrew/bin/uv",
-      "args": [
-        "--directory",
-        "/Users/vahid/code/CoS/whatsapp-mcp/whatsapp-mcp-server",
-        "run",
-        "main.py"
-      ]
     }
   }
 }
