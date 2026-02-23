@@ -90,3 +90,4 @@ Writing style, operating patterns, and personal context are in global CLAUDE.md 
 - **Store files under /Users/vahid/code/CoS/** — not random Mac folders
 - **Always save local .md FIRST, then Notion** — Local files are auto-synced to git hourly, guaranteeing nothing is lost. After local save, save to Notion (system of record). If Notion fails, the local file + git sync still preserves everything. Projects/notes/research = local .md in assets/ THEN Notion page. Tasks = my-tasks.yaml THEN Notion Tasks DB.
 - **Always keep file/folder structure clean**
+- **Slack messages**: Always read `/Users/vahid/.claude/projects/-Users-vahid-code/memory/slack-writing-style.md` before drafting any Slack message. Follow it exactly — formatting, tone, density, link style, action item routing.

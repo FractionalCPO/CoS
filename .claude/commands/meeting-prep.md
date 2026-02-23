@@ -20,6 +20,26 @@ Identify meetings that need prep:
 - **Prep**: external calls, 1:1s with non-team, sales/discovery, partner meetings, board calls
 - **Skip**: standups, daily check-ins, lunch blocks, inbox zero, deep work blocks
 
+### Step 0b: Detect Deal Context
+
+Before researching participants, check if this meeting is tied to an active deal:
+
+1. Extract the company name from the meeting title or attendee domains
+2. Search Notion Opportunities DB (`de289591-f32a-483d-a51e-6bc158f4173e`) for a matching active opportunity
+3. If an active opportunity exists:
+   - Pull opportunity details (stage, notes, linked people, next action date)
+   - Search Fellow AND Granola for ALL meetings mentioning this company (not just per-person — get the full deal history)
+   - Search Slack for threads about this deal (company name, key people's names)
+   - Check if a proposal draft or prep doc exists as a child page of the opportunity
+   - Include a **Deal Status** section in the private notes brief (Step 4):
+     ```
+     Deal: [Company] — Stage: [stage]
+     Pricing: [if discussed] | Timeline: [if known]
+     Open items: [from opportunity notes]
+     Last activity: [date + what happened]
+     ```
+   - Talking points should reference deal-specific threads, not just generic relationship topics
+
 ### Step 1: Read the Fellow Note First
 
 For each meeting, use the fellow-write utility to read the existing structure:
