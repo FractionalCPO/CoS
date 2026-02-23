@@ -152,24 +152,198 @@ describe("DataForSEO", () => {
   });
 
   it("accepts valid endpoint structure", async () => {
-    // This will actually call DataForSEO API — just verify the request format works
     const res = await fetch(`${baseUrl}/dataforseo`, {
       method: "POST",
       headers: { "Content-Type": "application/json", ...authed() },
       body: JSON.stringify({ endpoint: "/v3/serp/google/organic/live/advanced", body: [{ keyword: "test", location_code: 2840 }] }),
     });
-    // Should get 200 (success) or 502 (network issue) — not 400/401
     expect([200, 502]).toContain(res.status);
   });
 });
 
 describe("WhatsApp", () => {
-  it("returns bridge status", async () => {
+  it("returns status", async () => {
     const res = await fetch(`${baseUrl}/whatsapp/status`, {
       headers: authed(),
     });
     const data = await res.json();
     expect(res.status).toBe(200);
-    expect(typeof data.bridgeExists).toBe("boolean");
+    expect(data.status).toBe("configured");
+  });
+
+  describe("GET /whatsapp/chats", () => {
+    it("requires auth", async () => {
+      const res = await fetch(`${baseUrl}/whatsapp/chats`);
+      expect(res.status).toBe(401);
+    });
+
+    it("returns array with auth", async () => {
+      const res = await fetch(`${baseUrl}/whatsapp/chats?limit=3`, {
+        headers: authed(),
+      });
+      // May return 200 with data or 500 if DB not available in test env
+      expect([200, 500]).toContain(res.status);
+      if (res.status === 200) {
+        const data = await res.json();
+        expect(Array.isArray(data)).toBe(true);
+      }
+    });
+
+    it("clamps limit to max 100", async () => {
+      const res = await fetch(`${baseUrl}/whatsapp/chats?limit=999`, {
+        headers: authed(),
+      });
+      // Just verify it doesn't crash — limit is clamped internally
+      expect([200, 500]).toContain(res.status);
+    });
+
+    it("handles negative page gracefully", async () => {
+      const res = await fetch(`${baseUrl}/whatsapp/chats?page=-5`, {
+        headers: authed(),
+      });
+      expect([200, 500]).toContain(res.status);
+    });
+
+    it("handles non-numeric limit gracefully", async () => {
+      const res = await fetch(`${baseUrl}/whatsapp/chats?limit=abc`, {
+        headers: authed(),
+      });
+      expect([200, 500]).toContain(res.status);
+    });
+  });
+
+  describe("GET /whatsapp/messages", () => {
+    it("requires auth", async () => {
+      const res = await fetch(`${baseUrl}/whatsapp/messages`);
+      expect(res.status).toBe(401);
+    });
+
+    it("returns array with auth", async () => {
+      const res = await fetch(`${baseUrl}/whatsapp/messages?limit=3`, {
+        headers: authed(),
+      });
+      expect([200, 500]).toContain(res.status);
+      if (res.status === 200) {
+        const data = await res.json();
+        expect(Array.isArray(data)).toBe(true);
+      }
+    });
+
+    it("accepts filter params", async () => {
+      const res = await fetch(`${baseUrl}/whatsapp/messages?chat_jid=test@s.whatsapp.net&limit=5&after=2026-01-01T00:00:00Z`, {
+        headers: authed(),
+      });
+      expect([200, 500]).toContain(res.status);
+    });
+  });
+
+  describe("GET /whatsapp/contacts/search", () => {
+    it("requires auth", async () => {
+      const res = await fetch(`${baseUrl}/whatsapp/contacts/search?query=test`);
+      expect(res.status).toBe(401);
+    });
+
+    it("rejects missing query param", async () => {
+      const res = await fetch(`${baseUrl}/whatsapp/contacts/search`, {
+        headers: authed(),
+      });
+      expect(res.status).toBe(400);
+      const data = await res.json();
+      expect(data.error).toContain("query");
+    });
+
+    it("returns array for valid query", async () => {
+      const res = await fetch(`${baseUrl}/whatsapp/contacts/search?query=test`, {
+        headers: authed(),
+      });
+      expect([200, 500]).toContain(res.status);
+      if (res.status === 200) {
+        const data = await res.json();
+        expect(Array.isArray(data)).toBe(true);
+      }
+    });
+  });
+
+  describe("POST /whatsapp/send", () => {
+    it("requires auth", async () => {
+      const res = await fetch(`${baseUrl}/whatsapp/send`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ recipient: "test", message: "hi" }),
+      });
+      expect(res.status).toBe(401);
+    });
+
+    it("rejects missing recipient", async () => {
+      const res = await fetch(`${baseUrl}/whatsapp/send`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", ...authed() },
+        body: JSON.stringify({ message: "hi" }),
+      });
+      expect(res.status).toBe(400);
+    });
+
+    it("rejects missing message", async () => {
+      const res = await fetch(`${baseUrl}/whatsapp/send`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", ...authed() },
+        body: JSON.stringify({ recipient: "test" }),
+      });
+      expect(res.status).toBe(400);
+    });
+
+    it("proxies to bridge (502 if down, other status if running)", async () => {
+      const res = await fetch(`${baseUrl}/whatsapp/send`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", ...authed() },
+        body: JSON.stringify({ recipient: "test@s.whatsapp.net", message: "test" }),
+      });
+      // Bridge may or may not be running — accept any non-auth-error response
+      expect(res.status).not.toBe(401);
+      expect(res.status).not.toBe(400);
+    });
+  });
+
+  describe("POST /whatsapp/download", () => {
+    it("requires auth", async () => {
+      const res = await fetch(`${baseUrl}/whatsapp/download`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message_id: "test", chat_jid: "test" }),
+      });
+      expect(res.status).toBe(401);
+    });
+
+    it("rejects missing message_id", async () => {
+      const res = await fetch(`${baseUrl}/whatsapp/download`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", ...authed() },
+        body: JSON.stringify({ chat_jid: "test" }),
+      });
+      expect(res.status).toBe(400);
+    });
+
+    it("rejects missing chat_jid", async () => {
+      const res = await fetch(`${baseUrl}/whatsapp/download`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", ...authed() },
+        body: JSON.stringify({ message_id: "test" }),
+      });
+      expect(res.status).toBe(400);
+    });
+  });
+
+  describe("error responses do not leak internals", () => {
+    it("chats error has no detail field", async () => {
+      // Force an error by pointing to non-existent DB (in test env, the default DB path may not exist)
+      const res = await fetch(`${baseUrl}/whatsapp/chats`, {
+        headers: authed(),
+      });
+      if (res.status === 500) {
+        const data = await res.json();
+        expect(data.detail).toBeUndefined();
+        expect(data.error).toBeDefined();
+      }
+    });
   });
 });

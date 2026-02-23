@@ -8,13 +8,13 @@ const router = Router();
 
 function checkWhatsAppBridge(): {
   status: "ok" | "down";
-  bridgeExists: boolean;
+  dbExists: boolean;
   bridgeRunning: boolean;
   reason?: string;
 } {
-  const bridgeExists = existsSync(config.whatsappBridgePath);
-  if (!bridgeExists) {
-    return { status: "down", bridgeExists: false, bridgeRunning: false, reason: "Bridge binary not found" };
+  const dbExists = existsSync(config.whatsappMessagesDbPath);
+  if (!dbExists) {
+    return { status: "down", dbExists: false, bridgeRunning: false, reason: "Messages DB not found" };
   }
 
   // Check if bridge process is running
@@ -23,21 +23,14 @@ function checkWhatsAppBridge(): {
     const result = execSync("pgrep -f whatsapp-bridge", { encoding: "utf-8", timeout: 3000 }).trim();
     bridgeRunning = result.length > 0;
   } catch {
-    // pgrep returns exit code 1 when no process found
     bridgeRunning = false;
   }
 
   if (!bridgeRunning) {
-    return { status: "down", bridgeExists: true, bridgeRunning: false, reason: "Bridge process not running" };
+    return { status: "down", dbExists: true, bridgeRunning: false, reason: "Bridge process not running" };
   }
 
-  // Check if store DB exists (indicates an active/past session)
-  const storeExists = existsSync(config.whatsappStorePath);
-  if (!storeExists) {
-    return { status: "down", bridgeExists: true, bridgeRunning: true, reason: "QR code not scanned (no store)" };
-  }
-
-  return { status: "ok", bridgeExists: true, bridgeRunning: true };
+  return { status: "ok", dbExists: true, bridgeRunning: true };
 }
 
 router.get("/health", (_req, res) => {
@@ -45,12 +38,11 @@ router.get("/health", (_req, res) => {
 
   res.json({
     status: "ok",
-    uptime: Math.round(process.uptime()),
+    uptime: process.uptime(),
     services: {
-      whatsapp,
-      dataforseo: {
-        status: config.dataforseoAuth ? "ok" : "down",
-      },
+      whatsapp: whatsapp.status === "ok" ? "available" : `down: ${whatsapp.reason}`,
+      dataforseo: config.dataforseoAuth ? "available" : "not configured",
+      playwright: "available",
     },
     system: {
       platform: process.platform,

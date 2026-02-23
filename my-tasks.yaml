@@ -108,7 +108,7 @@ tasks:
     created: "2026-02-22"
     notes: "Donna saved these as local .md files on Railway which were wiped on redeploy. Only source is Telegram chat history. Vahid needs to pull the msgs."
 
-  - id: "task-010"
+  - id: "task-012"
     title: "Create passion project (radial?)"
     description: "Vahid wants to create a passion project involving 'rad...' — possibly radial design, radical something. Full message truncated in logs."
     status: "pending"
