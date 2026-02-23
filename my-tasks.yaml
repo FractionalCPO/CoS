@@ -127,3 +127,30 @@ tasks:
     goal_alignment: "revenue"
     created: "2026-02-19"
     notes: "Project folder: /Users/vahid/code/micro-saas-factory/. Playbook: high-volume keyword → available domain → micro-SaaS MVP → low price → volume play. Markets mapped from Vahid's experience across 3 tiers."
+
+  - id: "task-013"
+    title: "VeraData proposal review — prep for Tuesday meeting"
+    description: "Prepare for VeraData proposal review meeting (targeting Tue Feb 25). Attendees: Vahid, Courtney, Dave Hinton (Beringer OP), Matt Kaiser (CSO), Mike Kulpinski (COO). Deliver: proposal doc with assessment scope, pricing, timeline, team, references. Link to Notion opportunity."
+    status: "in_progress"
+    priority: 1
+    due_date: "2026-02-24"
+    goal_alignment: "revenue"
+    created: "2026-02-22"
+    subtasks:
+      - "Confirm meeting is booked (check with Ryan)"
+      - "Lock assessment pricing with Courtney ($25K vs $50K)"
+      - "Build proposal doc (scope, pricing, timeline, team, references)"
+      - "Prep candidate profile(s) to present (need exec-level GPL)"
+      - "Draft sample agreement"
+      - "Push talking points into Fellow"
+    notes: "Courtney analysis: product strategy is core issue, not growth. Thinking bottleneck, not execution. Shane ruled out — need real exec with org sensitivity. Eastern European candidate surfaced. Assessment sets precedent for entire Beringer portfolio. NDA signed 2/19. Discovery call went strong. Mike wants $3M/FTE, multibillion valuation, 18-month transformation window."
+
+  - id: "task-014"
+    title: "Set up Google Slides deck template with Claude"
+    description: "Design fCPO slide template (brand colors, fonts, layouts) in Google Slides. Then wire up the slide generator script so Claude can create decks programmatically. Slides API already authorized for both accounts."
+    status: "pending"
+    priority: 3
+    due_date: ""
+    goal_alignment: "sales-infra"
+    created: "2026-02-22"
+    notes: "googleapis npm package. Template pattern: design master in Slides UI, script copies + injects content. Reusable for all future proposals."
