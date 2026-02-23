@@ -1,197 +1,113 @@
 # Schedules — Automation Configuration
 #
 # All jobs run on Railway (donna-server scheduler.ts) — always on.
-# Local crontab is backup only (requires laptop awake).
-# Source of truth: this file + donna-server/src/scheduler.ts
+# Source of truth: donna-server/src/scheduler.ts
 #
 # Timezone: America/Toronto (ET)
+# Total: 8 jobs, ~12 oneShot() calls/day
+# Last updated: 2026-02-23
 
 schedules:
+
+  # ===================================================================
+  # MORNING BRIEFING
+  # ===================================================================
+
+  - name: "Morning Briefing"
+    cron: "0 8 * * 1-5"
+    delivery: "telegram"
+    calls: 1
+    notes: "Full briefing: calendar, tasks, goals, urgent inbox."
 
   # ===================================================================
   # INBOX PRE-PROCESS
   # ===================================================================
 
   - name: "Inbox Pre-Process"
-    skill: null
-    cron: "0,30 8-21 * * 1-5"
+    cron: "0 9,13,17 * * 1-5"
     delivery: "telegram (only if drafts created)"
-    notes: "Every 30 min, 8am-9pm Mon-Fri. Checks both Gmail accounts for unread. Drafts responses in Gmail (SOR). Never sends. Tier 1+2 only."
-
-  # ===================================================================
-  # DAILY OPS
-  # ===================================================================
-
-  - name: "Morning Briefing"
-    skill: "/gm"
-    cron: "0 8 * * 1-5"
-    delivery: "telegram"
-    notes: "Full briefing: calendar, tasks, goals, urgent inbox. Auto-preps meetings."
-
-  - name: "Midday Triage"
-    skill: "/triage"
-    cron: "0 12 * * 1-5"
-    delivery: "telegram (only if urgent)"
-    notes: "Scans work email (fcpo account). Only Tier 1 items flagged. Skips if nothing urgent."
-
-  - name: "Evening Triage"
-    skill: "/triage + debrief summary"
-    cron: "0 17 * * 1-5"
-    delivery: "telegram"
-    notes: "End-of-day wrap-up. Includes: urgent emails, tasks completed today, debrief summaries from all meetings, tasks due tomorrow."
-
-  # ===================================================================
-  # TASK EXECUTION
-  # ===================================================================
-
-  - name: "Task Check"
-    skill: "/my-tasks overdue"
-    cron: "0 8,10,14,16,18,20 * * 1-5"
-    delivery: "telegram (only if overdue)"
-    notes: "Every 2 hours. Only alerts on overdue or due-today."
-
-  - name: "Autonomous Grunt Work"
-    skill: null
-    cron: "30 9 * * 1-5"
-    delivery: "telegram"
-    notes: "9:30am. NARROW scope only — enrichment, CRM data cleanup, research refresh, Notion sync repair. Never drafts content, never marks tasks complete, never makes judgment calls."
-
-  - name: "Task Surfacing"
-    skill: "/my-tasks overdue + calendar check"
-    cron: "0 10 * * 1-5"
-    delivery: "telegram"
-    notes: "10am. Surfaces overdue + due-today tasks. Checks calendar gaps and suggests which task to work on collaboratively. 'Say go and I'll start.' Vahid stays in the loop."
-
-  - name: "Review Queue"
-    skill: "/review-queue"
-    cron: "30 11 * * 1-5"
-    delivery: "telegram (only if items pending)"
-    notes: "Items needing Vahid's review: drafts, pipeline decisions, approvals."
+    calls: 3
+    notes: "3x daily. Checks both Gmail accounts for unread. Drafts responses in Gmail. Never sends. Tier 1+2 only. Reports SKIP if no new emails."
 
   # ===================================================================
   # MEETING PREP
   # ===================================================================
 
-  - name: "Weekly Meeting Prep"
-    skill: "/meeting-prep (full week)"
-    cron: "15 8 * * 1"
+  - name: "Meeting Prep"
+    cron: "15 8 * * 1-5"
     delivery: "telegram summary"
-    notes: "Monday 8:15am. Deep research for all meetings Mon-Fri. Research participants, write strategic briefs, push talking points to Fellow."
-
-  - name: "Daily Meeting Prep"
-    skill: "/meeting-prep (today refresh)"
-    cron: "15 8 * * 2-5"
-    delivery: "telegram summary"
-    notes: "Tue-Fri 8:15am. Refresh today's meetings with new context since Monday prep."
-
-  - name: "Pre-Meeting Refresh"
-    trigger: "calendar-aware (every 5 min poll)"
-    cron: null
-    delivery: "telegram (only if new context)"
-    notes: "15 min before each meeting. Checks for new emails/messages since morning prep. Only pings if there's something new to know."
+    calls: 1
+    notes: "8:15 AM. Research participants, write context brief, push talking points to Fellow."
 
   # ===================================================================
-  # MEETING TASKS (DEBRIEF)
+  # MEETING CHECK (pre-meeting context + post-meeting debrief)
   # ===================================================================
 
-  - name: "Post-Meeting Debrief"
-    trigger: "calendar-aware (every 5 min poll)"
-    cron: null
-    delivery: "silent — batched into evening triage"
-    notes: "15 min after each meeting ends. Extracts action items, creates Notion tasks, drafts follow-ups. Does NOT message Telegram — results surface in evening triage at 5pm."
-
-  # ===================================================================
-  # PERFORMANCE REVIEW
-  # ===================================================================
-
-  - name: "Weekly Retro"
-    skill: "/retro"
-    cron: "0 16 * * 5"
+  - name: "Meeting Check"
+    cron: "0 11,15 * * 1-5"
     delivery: "telegram"
-    notes: "Friday 4pm. Scores goals, tasks, pipeline, relationships. Saves full report locally."
+    calls: 2
+    notes: "2x daily. Pre-meeting: surface new context for meetings in next 2h. Post-meeting: find transcript, extract action items, create Notion tasks, draft follow-up emails."
 
   # ===================================================================
-  # SELF-IMPROVEMENT
+  # DAILY WORK (execute Donna-assigned tasks)
   # ===================================================================
 
-  - name: "The Mirror (Vahid)"
-    skill: "/the-mirror"
-    cron: "0 12 * * 0"
+  - name: "Daily Work"
+    cron: "0 10,14 * * 1-5"
     delivery: "telegram"
-    notes: "Sunday noon. Personal growth feedback from meeting transcripts. One thing to focus on this week."
-
-  - name: "System Self-Improvement (Donna)"
-    skill: null
-    cron: "0 21 * * 1-5"
-    delivery: "telegram (only if improvements made)"
-    notes: "Daily 9pm Mon-Fri. Donna audits herself: failed jobs, prompts, commands, test health, SOR compliance. Fixes ALL issues directly. Proposes changes that might have negative impact."
+    calls: 2
+    notes: "2x daily. Pull pending tasks from Notion assigned to Donna. Execute safe ones (research, enrichment, CRM, drafting). Mark needs_review for anything requiring Vahid."
 
   # ===================================================================
-  # RELATIONSHIPS
+  # EVENING TRIAGE
   # ===================================================================
 
-  - name: "Relationship Check"
-    skill: "/enrich stale"
-    cron: "0 9 * * 1"
+  - name: "Evening Triage"
+    cron: "30 17 * * 1-5"
     delivery: "telegram"
-    notes: "Monday 9am. Nudges Tier 1 contacts (Elmira, Courtney, Mauricio, Papash) if >14 days. Brief 3-4 lines."
+    calls: 1
+    notes: "End-of-day wrap: urgent emails, tasks completed today, tomorrow's prep."
 
   # ===================================================================
-  # RESEARCH & PIPELINE
+  # SYSTEM HEALTH CHECK
   # ===================================================================
 
-  - name: "Research Freshness"
-    skill: "/research:freshness-report"
-    cron: "0 20 * * 0"
-    delivery: "telegram (only if stale)"
-    notes: "Sunday 8pm. Flags stale company research (>30 days)."
-
-  - name: "Pipeline Trigger Scan"
-    skill: "/research:trigger-scan"
-    cron: "30 10 * * 1"
-    delivery: "telegram (only if triggers found)"
-    notes: "Monday 10:30am. Scans all tracked companies for outreach trigger signals."
+  - name: "System Health Check"
+    cron: "0 6,18 * * *"
+    delivery: "telegram (only if failures)"
+    calls: 2
+    notes: "2x daily (incl weekends). Tests all MCP servers with real queries. Reports failures only."
 
   # ===================================================================
-  # SYSTEM HEALTH
+  # GIT AUTO-SYNC (no oneShot — execSync only)
   # ===================================================================
 
-  - name: "Daily QA"
-    skill: null
-    cron: "0 22 * * 1-5"
-    delivery: "telegram (only if issues)"
-    notes: "10pm weekdays. Checks: Notion sync health (YAML<>Notion drift, fix inline), stale Fellow items, unsent drafts, MCP server status."
-
-  - name: "Session Cleanup"
-    skill: null
-    cron: "0 0 * * 0"
-    delivery: null
-    location: "local only (crontab)"
-    notes: "Sunday midnight. Deletes local .jsonl files >7 days. No Railway equivalent needed."
+  - name: "Git Auto-Sync"
+    cron: "0 * * * *"
+    delivery: "silent"
+    calls: 0
+    notes: "Hourly. Commits + pushes any files Donna created/modified. No Claude process — pure git commands."
 
 # ===================================================================
 # Summary
 # ===================================================================
 #
 # Daily (Mon-Fri):
-#   every 30m Inbox Pre-Process (8am-9pm, drafts in Gmail)
 #   8:00 AM  Morning Briefing
-#   8:15 AM  Meeting Prep (weekly Mon / daily Tue-Fri)
-#   every 5m Pre-Meeting Refresh (8am-7pm, only if meeting in 15 min)
-#   every 5m Post-Meeting Debrief (8am-7pm, silent)
-#   9:30 AM  Autonomous Grunt Work (enrichment, CRM, sync — safe only)
-#   10:00 AM Task Surfacing (what's ready + collaborative plan)
-#   every 2h Task Check (8am-8pm)
-#   11:30 AM Review Queue
-#   12:00 PM Midday Triage
-#   5:00 PM  Evening Triage (includes debrief summary)
-#   9:00 PM  System Self-Improvement (Donna audits + fixes herself)
-#   10:00 PM Daily QA + Notion Health
+#   8:15 AM  Meeting Prep
+#   9:00 AM  Inbox Pre-Process
+#   10:00 AM Daily Work
+#   11:00 AM Meeting Check
+#   1:00 PM  Inbox Pre-Process
+#   2:00 PM  Daily Work
+#   3:00 PM  Meeting Check
+#   5:00 PM  Inbox Pre-Process
+#   5:30 PM  Evening Triage
 #
-# Weekly:
-#   Mon 9:00 AM  Relationship Check
-#   Mon 10:30 AM Pipeline Trigger Scan
-#   Fri 4:00 PM  Weekly Retro
-#   Sun 12:00 PM The Mirror (Vahid personal growth)
-#   Sun 8:00 PM  Research Freshness
-#   Sun midnight  Session Cleanup (local only)
+# Daily (all days):
+#   6:00 AM  System Health Check
+#   6:00 PM  System Health Check
+#   every hour  Git Auto-Sync (no Claude process)
+#
+# Total oneShot() calls/day: ~12 (down from 55)

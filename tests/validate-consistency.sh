@@ -70,15 +70,18 @@ for cron in ts_cron_set:
         f(f"Cron '{cron}' in scheduler.ts but not in schedules.yaml")
 print()
 
-# --- 3. Calendar-poll entries ---
-print("[3] Calendar-Aware Entries")
-has_interval = "setInterval" in ts_text
-yaml_has_premeet = any(e.get("name") == "Pre-Meeting Refresh" for e in yaml_data.get("schedules", []))
-yaml_has_debrief = any(e.get("name") == "Post-Meeting Debrief" for e in yaml_data.get("schedules", []))
-if has_interval and yaml_has_premeet and yaml_has_debrief:
-    p("Pre-Meeting Refresh + Post-Meeting Debrief: setInterval in TS, trigger entries in YAML")
+# --- 3. Meeting check entries ---
+print("[3] Meeting Check")
+yaml_has_meetcheck = any(e.get("name") == "Meeting Check" for e in yaml_data.get("schedules", []))
+ts_has_meetcheck = "meetingCheck" in ts_text
+if yaml_has_meetcheck and ts_has_meetcheck:
+    p("Meeting Check: present in both schedules.yaml and scheduler.ts")
+elif yaml_has_meetcheck:
+    f("Meeting Check in YAML but not in scheduler.ts")
+elif ts_has_meetcheck:
+    f("meetingCheck in scheduler.ts but not in schedules.yaml")
 else:
-    f("Calendar-poll mismatch")
+    f("Meeting Check missing from both")
 print()
 
 # --- 4. Session Cleanup (YAML-only) ---
@@ -110,15 +113,16 @@ else:
 print()
 
 # --- 6. Overdue tasks ---
-print("[6] Overdue Tasks (due < 2026-02-20)")
-TODAY = "2026-02-20"
+from datetime import date
+TODAY = str(date.today())
+print(f"[6] Overdue Tasks (due < {TODAY})")
 tasks_data = yaml.safe_load(TASKS.read_text())
 overdue_count = 0
 for t in tasks_data.get("tasks", []):
     d = t.get("due_date", "")
     s = t.get("status", "")
     if d and str(d) < TODAY and s not in ("complete",):
-        f(f"{t['id']}: '{t['title']}' due {d}, status={s}")
+        w(f"{t['id']}: '{t['title']}' due {d}, status={s}")
         overdue_count += 1
 if overdue_count == 0:
     p("No overdue tasks")

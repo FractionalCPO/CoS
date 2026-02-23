@@ -70,7 +70,7 @@ Before drafting any response, verify the user hasn't already replied:
 ### Step 4: Draft Responses
 
 For each actionable item (Tier 1 and Tier 2), draft a response that:
-- Matches the user's writing style (reference CLAUDE.md Part 4)
+- Matches the user's writing style (reference the Writing Style section in global CLAUDE.md)
 - Is send-ready (not a starting point for editing)
 - Is appropriately concise for the context
 - Includes specific scheduling proposals if timing is involved (verify calendar first)

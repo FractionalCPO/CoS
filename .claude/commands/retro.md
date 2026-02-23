@@ -108,5 +108,5 @@ If there are items Vahid needs to personally review (drafts, strategy decisions,
 - Don't pad scores. A 2/5 is fine — it's a signal, not a judgment.
 - Recommendations should be specific and actionable, not generic.
 - Monthly retros should include trend lines (are scores improving over time?).
-- This runs as a cron job on Fridays at 4pm → pushed to Telegram as a summary (with approval) with full report saved to `/Users/vahid/code/CoS/assets/retros/retro-YYYY-MM-DD.md`.
+- Run on Fridays (manually or via local cron). Full report saved to `/Users/vahid/code/CoS/assets/retros/retro-YYYY-MM-DD.md`.
 - **Never send Telegram messages without explicit approval** — show the summary draft first.

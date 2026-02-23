@@ -17,7 +17,14 @@ logs/
 cache/
 .cache/
 
-# Local overrides (for users who want to keep personal changes untracked)
+# Dependencies
+node_modules/
+
+# Databases
+store/
+*.db
+
+# Local overrides
 local/
 *.local.md
 *.local.yaml

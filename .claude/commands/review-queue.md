@@ -1,7 +1,7 @@
 # /review-queue — Daily Review Queue
 
 ## Description
-Batch all items needing Vahid's review into a single prioritized list. Runs daily ~11:30am ET (mornings are deep work — don't interrupt). High-priority items can surface in AM if there's a pileup.
+Batch all items needing Vahid's review into a single prioritized list. Run on-demand or as part of daily workflow (mornings are deep work — don't interrupt). High-priority items can surface in AM if there's a pileup.
 
 ## Usage
 - `/review-queue` — run the daily review queue
