@@ -1,6 +1,5 @@
 import { Router } from "express";
 import { existsSync } from "node:fs";
-import os from "node:os";
 import { execSync } from "node:child_process";
 import { config } from "../config.js";
 
@@ -38,17 +37,11 @@ router.get("/health", (_req, res) => {
 
   res.json({
     status: "ok",
-    uptime: process.uptime(),
+    uptime: Math.round(process.uptime()),
     services: {
-      whatsapp: whatsapp.status === "ok" ? "available" : `down: ${whatsapp.reason}`,
+      whatsapp: whatsapp.status === "ok" ? "available" : "down",
       dataforseo: config.dataforseoAuth ? "available" : "not configured",
-      playwright: "available",
-    },
-    system: {
-      platform: process.platform,
-      nodeVersion: process.version,
-      memoryMB: Math.round(process.memoryUsage().rss / 1024 / 1024),
-      loadAvg: os.loadavg().map((v) => Math.round(v * 100) / 100),
+      exec: "available",
     },
   });
 });

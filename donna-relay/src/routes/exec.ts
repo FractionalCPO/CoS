@@ -17,14 +17,35 @@ const router = Router();
 const MAX_TIMEOUT = 60_000; // 60 seconds max
 const DEFAULT_TIMEOUT = 30_000;
 
-// Blocked patterns — prevent destructive operations
+// Blocked patterns — prevent destructive and escalation operations
 const BLOCKED_PATTERNS = [
-  /\brm\s+-rf\s+[\/~]/i,
+  /\brm\s+-[a-z]*r[a-z]*f\b/i,    // rm -rf, rm -Rf, rm -fR, etc.
+  /\brm\s+-[a-z]*f[a-z]*r\b/i,    // rm -fr
+  /\brm\s+.*[\/~]/i,               // rm targeting paths
   /\bsudo\b/i,
+  /\bsu\s+-?\s*\w/i,               // su - root, su user
   /\bshutdown\b/i,
   /\breboot\b/i,
   /\bmkfs\b/i,
   /\bdd\s+if=/i,
+  /\bchmod\s+[0-7]*7[0-7]{2}\b/,  // chmod with world-writable
+  /\bchown\b/i,
+  /\beval\b/,                       // eval injection
+  /\bsource\b.*<\(/,               // process substitution
+  /\bcurl\b.*\|\s*(ba)?sh\b/i,     // curl | sh
+  /\bwget\b.*\|\s*(ba)?sh\b/i,     // wget | sh
+  />\s*\/etc\//,                    // redirect to /etc
+  />\s*\/usr\//,                    // redirect to /usr
+  /\blaunchctl\s+(unload|remove)\b/i,  // unload launchd services
+  /\bkillall\b/i,
+  /\bpkill\b/i,
+];
+
+// Block cwd traversal outside safe directories
+const ALLOWED_CWD_PREFIXES = [
+  "/Users/vahid/",
+  "/tmp/",
+  "/var/folders/",
 ];
 
 router.post("/exec", (req: Request, res: Response) => {
@@ -37,7 +58,17 @@ router.post("/exec", (req: Request, res: Response) => {
   // Safety check
   for (const pattern of BLOCKED_PATTERNS) {
     if (pattern.test(command)) {
-      res.status(403).json({ error: "Command blocked by safety filter", pattern: pattern.source });
+      res.status(403).json({ error: "Command blocked by safety filter" });
+      return;
+    }
+  }
+
+  // Validate cwd if provided
+  if (cwd && typeof cwd === "string") {
+    const normalized = cwd.endsWith("/") ? cwd : cwd + "/";
+    const allowed = ALLOWED_CWD_PREFIXES.some((prefix) => normalized.startsWith(prefix));
+    if (!allowed) {
+      res.status(403).json({ error: "Working directory outside allowed paths" });
       return;
     }
   }
@@ -58,7 +89,6 @@ router.post("/exec", (req: Request, res: Response) => {
       stdout: err.stdout?.trim() || "",
       stderr: err.stderr?.trim() || "",
       exitCode: err.status ?? 1,
-      error: err.message,
     });
   }
 });

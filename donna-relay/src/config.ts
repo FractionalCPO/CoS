@@ -10,8 +10,8 @@ export const config = {
   whatsappBridgeUrl: process.env.WHATSAPP_BRIDGE_URL || "http://localhost:8080",
   /** WhatsApp messages SQLite DB path */
   whatsappMessagesDbPath: process.env.WHATSAPP_MESSAGES_DB || "/Users/vahid/code/CoS/whatsapp-mcp/whatsapp-bridge/store/messages.db",
-  /** DataForSEO credentials */
-  dataforseoAuth: process.env.DATAFORSEO_AUTH || "dmFoaWRAZnJhY3Rpb25hbGNwby5jb206NGJhYzI2ZGY1NjJlOWUxNA==",
+  /** DataForSEO credentials — must be set via env var, no default */
+  dataforseoAuth: process.env.DATAFORSEO_AUTH || "",
   /** Donna Railway URL (for callbacks) */
   donnaUrl: process.env.DONNA_URL || "https://donna-production-74a3.up.railway.app",
 } as const;

@@ -19,8 +19,12 @@ app.use(dataforseoRouter);
 app.use(whatsappRouter);
 app.use(execRouter);
 
+if (config.secret === "donna-relay-dev") {
+  console.warn("[relay] ⚠ WARNING: Using default secret. Set RELAY_SECRET env var for production.");
+}
+
 app.listen(config.port, () => {
   console.log(`[relay] Donna relay server running on port ${config.port}`);
-  console.log(`[relay] Services: DataForSEO, WhatsApp, exec`);
-  console.log(`[relay] Auth: shared secret (${config.secret === "donna-relay-dev" ? "DEFAULT — set RELAY_SECRET in prod" : "configured"})`);
+  console.log(`[relay] Services: WhatsApp, DataForSEO${config.dataforseoAuth ? "" : " (not configured)"}, exec`);
+  console.log(`[relay] Auth: ${config.secret === "donna-relay-dev" ? "DEFAULT (insecure)" : "configured"}`);
 });

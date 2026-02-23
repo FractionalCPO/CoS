@@ -15,6 +15,17 @@ router.post("/dataforseo", async (req: Request, res: Response) => {
     return;
   }
 
+  // Validate endpoint starts with /v3/ to prevent SSRF
+  if (!endpoint.startsWith("/v3/")) {
+    res.status(400).json({ error: "Invalid endpoint — must start with /v3/" });
+    return;
+  }
+
+  if (!config.dataforseoAuth) {
+    res.status(503).json({ error: "DataForSEO not configured" });
+    return;
+  }
+
   try {
     const response = await fetch(`https://api.dataforseo.com${endpoint}`, {
       method: "POST",
@@ -27,8 +38,8 @@ router.post("/dataforseo", async (req: Request, res: Response) => {
 
     const data = await response.json();
     res.json(data);
-  } catch (err) {
-    res.status(502).json({ error: "DataForSEO request failed", detail: (err as Error).message });
+  } catch {
+    res.status(502).json({ error: "DataForSEO request failed" });
   }
 });
 

