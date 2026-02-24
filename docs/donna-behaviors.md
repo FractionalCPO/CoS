@@ -1,7 +1,7 @@
 # Donna — Configured Behaviors
 
 Last compiled: 2026-02-22
-Sources: CLAUDE.md, telegram.ts, slack.ts, agent.ts, scheduler.ts, config.ts, railway-claude.json, donna-personality.md
+Sources: CLAUDE.md, telegram.ts, slack.ts, agent.ts, cron.ts, config.ts, railway-claude.json, donna-personality.md
 
 ---
 

@@ -18,7 +18,7 @@ CoS/
 ├── assets/                # Context files, meeting preps, research
 ├── contacts/              # Relationship profiles (Tier 1-3)
 ├── docs/                  # System docs and reference
-├── donna-server/          # Runtime server (Railway) — Telegram bot + scheduler
+├── donna-server/          # Runtime server (Railway) — Telegram bot + Railway cron
 ├── scripts/               # Utility scripts (Fellow integration)
 ├── tests/                 # Command validation tests
 └── whatsapp-mcp/          # WhatsApp bridge (Go, separate repo)

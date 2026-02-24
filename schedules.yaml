@@ -1,7 +1,7 @@
 # Schedules — Automation Configuration
 #
-# All jobs run on Railway (donna-server scheduler.ts) — always on.
-# Source of truth: donna-server/src/scheduler.ts
+# All jobs run on Railway (donna-server cron.ts) — always on.
+# Source of truth: donna-server/src/cron.ts (Railway cron every 15 min)
 #
 # Timezone: America/Toronto (ET)
 # Total: 8 jobs, ~12 oneShot() calls/day

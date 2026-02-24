@@ -8,16 +8,16 @@ Unstructured items from Vahid, captured 2026-02-20. Work through one by one.
 - [x] Move ALL CoS commands from `~/.claude/commands/cos/` → `CoS/.claude/commands/` (symlinked back for global access)
 - [x] Notion Tasks DB discovered — `bfaf4e0f-1352-40cb-b39e-e441b75c1d96` in FractionalCPO workspace. Documented in notion-crm-architecture.md.
 - [x] Mike's "learning goal" feature researched — it's goals.yaml as a constant filter, not a standalone feature. Already partially covered by our goals.yaml.
-- [x] Build `/review-queue` — daily items for Vahid to review, before lunch ~11:30am, batched *(implemented in scheduler.ts as reviewQueue, cron 30 11 * * 1-5)*
+- [x] Build `/review-queue` — daily items for Vahid to review, before lunch ~11:30am, batched *(implemented in cron.ts as reviewQueue, cron 30 11 * * 1-5)*
 - [ ] Create `growth-traits.yaml` — principles/traits for The Mirror (extract from Granola therapy sessions)
 - [ ] Enhance `/my-tasks execute` — auto-sync completed tasks to Notion Tasks DB, draft-not-send for messages
 - [ ] Enhance `/gm` with goals check (Step 3: stalled goals, calendar/goal alignment, goal-aligned work for today)
 
 ### B. Cron Automation
-- [x] `/retro` cron — Friday 4pm → Telegram summary + link to saved report *(implemented in scheduler.ts as weeklyRetro, cron 0 16 * * 5)*
-- [x] `/the-mirror` cron — Sunday noon → Telegram summary + link to saved report *(implemented in scheduler.ts as theMirror, cron 0 12 * * 0)*
-- [x] `/review-queue` cron — daily ~11:30am (NOT mornings — deep work time) *(implemented in scheduler.ts as reviewQueue, cron 30 11 * * 1-5)*
-- [x] `/debrief` cron — 15 min after each meeting (needs calendar-aware trigger) *(implemented in scheduler.ts as postMeetingDebrief, 5-min calendar poll)*
+- [x] `/retro` cron — Friday 4pm → Telegram summary + link to saved report *(implemented in cron.ts as weeklyRetro, cron 0 16 * * 5)*
+- [x] `/the-mirror` cron — Sunday noon → Telegram summary + link to saved report *(implemented in cron.ts as theMirror, cron 0 12 * * 0)*
+- [x] `/review-queue` cron — daily ~11:30am (NOT mornings — deep work time) *(implemented in cron.ts as reviewQueue, cron 30 11 * * 1-5)*
+- [x] `/debrief` cron — 15 min after each meeting (needs calendar-aware trigger) *(implemented in cron.ts as postMeetingDebrief, 5-min calendar poll)*
 
 ### C. Notion Sync
 - [x] Tasks DB identified: `bfaf4e0f-1352-40cb-b39e-e441b75c1d96`, Client field = fCPO, Assignee = Vahid
