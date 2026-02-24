@@ -1,6 +1,6 @@
 # Donna Scheduled Tasks — Full Reference
 
-**Source:** `donna-server/src/scheduler.ts`
+**Source:** `donna-server/src/cron.ts`
 **Timezone:** All schedules run in `America/Toronto` (ET)
 **Last updated:** 2026-02-23 (v3.0 — Minimal Stable CoS)
 

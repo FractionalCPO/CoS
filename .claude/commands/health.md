@@ -1,6 +1,14 @@
-Run a full system health check and report results.
+# /health — System Health Check
 
-## Steps
+## Description
+
+Run a full system health check by testing each MCP server with a real query and reporting results.
+
+## Usage
+
+No arguments.
+
+## Instructions
 
 1. **Test each MCP server** with a minimal real query (not config checks — actually use each tool):
    - **Notion**: Search for "test" in the workspace

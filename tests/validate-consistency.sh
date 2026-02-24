@@ -7,11 +7,12 @@ set -euo pipefail
 exec python3 << 'PYEOF'
 import yaml
 import re
+import json
 import sys
 from pathlib import Path
 
 COS = Path("/Users/vahid/code/CoS")
-SCHEDULER = COS / "donna-server/src/scheduler.ts"
+CRON = COS / "donna-server/src/cron.ts"
 SCHEDULES = COS / "schedules.yaml"
 SOR = COS / "assets/source-of-record.md"
 TASKS = COS / "my-tasks.yaml"
@@ -38,84 +39,73 @@ for fpath in [SCHEDULES, TASKS, GOALS]:
         f(f"{fpath.name} — invalid YAML: {e}")
 print()
 
-# --- 2. Cron expressions cross-check ---
-print("[2] Cron Expression Cross-Check")
+# --- 2. Schedule cross-check (schedules.yaml vs cron.ts SCHEDULE array) ---
+print("[2] Schedule Cross-Check")
 sched_text = SCHEDULES.read_text()
-ts_text = SCHEDULER.read_text()
+cron_text = CRON.read_text()
 
-# Extract full cron expressions from schedules.yaml
-yaml_crons = {}
 yaml_data = yaml.safe_load(sched_text)
-for entry in yaml_data.get("schedules", []):
-    cron = entry.get("cron")
-    if cron:
-        yaml_crons[entry["name"]] = cron
 
-# Extract full cron expressions from scheduler.ts
-ts_crons = re.findall(r'cron\.schedule\("([^"]+)"', ts_text)
-ts_cron_set = set(ts_crons)
+# Normalize: "Morning Briefing" -> "morningbriefing", "morningBriefing" -> "morningbriefing"
+def normalize(name):
+    return re.sub(r'[\s_-]+', '', name).lower()
 
-# Identify local-only entries
-local_only_names = {e["name"] for e in yaml_data.get("schedules", []) if e.get("location") == "local only (crontab)"}
-for name, cron in yaml_crons.items():
-    if cron in ts_cron_set:
-        p(f"{name}: '{cron}' matches")
-    elif name in local_only_names:
-        p(f"{name}: '{cron}' local-only (not expected in scheduler.ts)")
+yaml_jobs = {normalize(e["name"]): e["name"] for e in yaml_data.get("schedules", [])}
+
+# Extract job names from cron.ts SCHEDULE array
+cron_raw = re.findall(r'name:\s*"([^"]+)"', cron_text)
+cron_jobs = {normalize(n): n for n in cron_raw}
+
+# Git Auto-Sync is handled by git-sync.ts, not in SCHEDULE array
+yaml_jobs.pop(normalize("Git Auto-Sync"), None)
+
+matched = set()
+for norm, display in sorted(yaml_jobs.items()):
+    if norm in cron_jobs:
+        p(f"{display}: present in both (cron.ts: {cron_jobs[norm]})")
+        matched.add(norm)
     else:
-        f(f"{name}: '{cron}' in YAML but not in scheduler.ts")
+        w(f"{display}: in schedules.yaml but not in cron.ts SCHEDULE")
 
-for cron in ts_cron_set:
-    if cron not in yaml_crons.values():
-        f(f"Cron '{cron}' in scheduler.ts but not in schedules.yaml")
+for norm, name in sorted(cron_jobs.items()):
+    if norm not in matched:
+        f(f"{name}: in cron.ts but not in schedules.yaml")
 print()
 
-# --- 3. Meeting check entries ---
-print("[3] Meeting Check")
-yaml_has_meetcheck = any(e.get("name") == "Meeting Check" for e in yaml_data.get("schedules", []))
-ts_has_meetcheck = "meetingCheck" in ts_text
-if yaml_has_meetcheck and ts_has_meetcheck:
-    p("Meeting Check: present in both schedules.yaml and scheduler.ts")
-elif yaml_has_meetcheck:
-    f("Meeting Check in YAML but not in scheduler.ts")
-elif ts_has_meetcheck:
-    f("meetingCheck in scheduler.ts but not in schedules.yaml")
-else:
-    f("Meeting Check missing from both")
-print()
-
-# --- 4. Session Cleanup (YAML-only) ---
-print("[4] YAML-Only Entries")
-yaml_only = [e for e in yaml_data.get("schedules", []) if e.get("location") == "local only (crontab)"]
-for e in yaml_only:
-    if e["name"] not in ts_text:
-        p(f"'{e['name']}' correctly local-only (not in scheduler.ts)")
-    else:
-        f(f"'{e['name']}' marked local-only but found in scheduler.ts")
-print()
-
-# --- 5. SOR compliance ---
-print("[5] SOR Compliance")
-# Check for prompts that tell the agent to look for email drafts in local files (SOR violation)
-# Exclude the self-improvement prompt which references source-of-record.md itself
-sor_violations = [line for i, line in enumerate(ts_text.splitlines())
+# --- 3. SOR compliance ---
+print("[3] SOR Compliance")
+sor_violations = [line for line in cron_text.splitlines()
                   if "CoS/assets/" in line and "draft" in line.lower()
                   and "source-of-record" not in line and "SOR compliance" not in line]
 if sor_violations:
-    f("scheduler.ts references local drafts in CoS/assets/ — SOR for email drafts is Gmail")
+    f("cron.ts references local drafts in CoS/assets/ — SOR for email drafts is Gmail")
 else:
     p("No SOR violation for email drafts (should be Gmail)")
-
-if "bfaf4e0f" in ts_text:
-    p("Notion Tasks DB ID (bfaf4e0f) referenced in scheduler.ts")
-else:
-    w("Notion Tasks DB ID not found in scheduler.ts prompts")
 print()
 
-# --- 6. Overdue tasks ---
+# --- 4. Stale references ---
+print("[4] Stale Reference Check")
+stale_files = ["scheduler.ts", "donna-relay", "self-improvement"]
+# Files allowed to reference stale names (historical context)
+HISTORY_FILES = {"ARCHITECTURE-HISTORY.md", "setup-backlog.md"}
+all_docs = list((COS / "docs").glob("*.md")) + list((COS / "assets").glob("*.md"))
+found_stale = False
+for doc in all_docs:
+    if doc.name in HISTORY_FILES:
+        continue
+    text = doc.read_text()
+    for stale in stale_files:
+        if stale in text:
+            f(f"{doc.name} references '{stale}' (deleted)")
+            found_stale = True
+if not found_stale:
+    p("No stale references to deleted files")
+print()
+
+# --- 5. Overdue tasks ---
 from datetime import date
 TODAY = str(date.today())
-print(f"[6] Overdue Tasks (due < {TODAY})")
+print(f"[5] Overdue Tasks (due < {TODAY})")
 tasks_data = yaml.safe_load(TASKS.read_text())
 overdue_count = 0
 for t in tasks_data.get("tasks", []):
@@ -128,8 +118,8 @@ if overdue_count == 0:
     p("No overdue tasks")
 print()
 
-# --- 7. Goals progress ---
-print("[7] Goals Progress Validation")
+# --- 6. Goals progress ---
+print("[6] Goals Progress Validation")
 goals_data = yaml.safe_load(GOALS.read_text())
 all_ok = True
 for obj in goals_data.get("objectives", []) + goals_data.get("personal", []):
@@ -141,8 +131,8 @@ if all_ok:
     p("All progress values in range [0, 1]")
 print()
 
-# --- 8. Goals required fields ---
-print("[8] Goals Required Fields")
+# --- 7. Goals required fields ---
+print("[7] Goals Required Fields")
 for obj in goals_data.get("objectives", []):
     missing = [k for k in ("name", "target", "priority", "progress") if k not in obj]
     if missing:

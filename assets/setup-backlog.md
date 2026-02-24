@@ -14,10 +14,10 @@ Unstructured items from Vahid, captured 2026-02-20. Work through one by one.
 - [ ] Enhance `/gm` with goals check (Step 3: stalled goals, calendar/goal alignment, goal-aligned work for today)
 
 ### B. Cron Automation
-- [x] `/retro` cron — Friday 4pm → Telegram summary + link to saved report *(implemented in cron.ts as weeklyRetro, cron 0 16 * * 5)*
-- [x] `/the-mirror` cron — Sunday noon → Telegram summary + link to saved report *(implemented in cron.ts as theMirror, cron 0 12 * * 0)*
-- [x] `/review-queue` cron — daily ~11:30am (NOT mornings — deep work time) *(implemented in cron.ts as reviewQueue, cron 30 11 * * 1-5)*
-- [x] `/debrief` cron — 15 min after each meeting (needs calendar-aware trigger) *(implemented in cron.ts as postMeetingDebrief, 5-min calendar poll)*
+- [ ] `/retro` cron — Friday 4pm → Telegram summary + link to saved report *(was in scheduler.ts, not yet ported to cron.ts)*
+- [ ] `/the-mirror` cron — Sunday noon → Telegram summary + link to saved report *(was in scheduler.ts, not yet ported to cron.ts)*
+- [ ] `/review-queue` cron — daily ~11:30am (NOT mornings — deep work time) *(was in scheduler.ts, not yet ported to cron.ts)*
+- [ ] `/debrief` cron — 15 min after each meeting (needs calendar-aware trigger) *(was in scheduler.ts, not yet ported to cron.ts)*
 
 ### C. Notion Sync
 - [x] Tasks DB identified: `bfaf4e0f-1352-40cb-b39e-e441b75c1d96`, Client field = fCPO, Assignee = Vahid
