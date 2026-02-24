@@ -25,7 +25,7 @@ Scan connected channels for recent interactions and update contact files.
 1. **Scan channels** for the last 24 hours (or since last enrichment):
    - Email: Recent sent/received with known contacts
    - Slack: DMs and mentions involving known contacts
-   - WhatsApp/iMessage: Recent messages with known contacts
+   - WhatsApp/iMessage: Recent messages with known contacts (if connected — both currently paused)
    - Calendar: Meetings that occurred with known contacts
 
 2. **For each interaction found:**

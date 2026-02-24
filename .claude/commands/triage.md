@@ -37,10 +37,10 @@ Report progress as you go.
    - Query: Recent DMs and @mentions
    - Skip: Channel chatter unless directly relevant
 
-4. **WhatsApp** — If connected, check recent messages
+4. **WhatsApp** — If connected (currently paused — needs bridge process), check recent messages
    - Focus on: Direct messages requiring response
 
-5. **iMessage** — If connected (macOS only)
+5. **iMessage** — If connected (no MCP currently available — skip unless added)
    - Focus on: Unreplied messages from contacts
 
 ### Step 2: Classify Each Item

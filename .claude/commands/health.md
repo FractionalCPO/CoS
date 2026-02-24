@@ -21,12 +21,12 @@ No arguments.
    - **Firecrawl**: Confirm tool loads (list tools or scrape a test URL)
    - **Apollo**: Confirm tool loads (list tools or search a test query)
    - **Slack**: Read 1 recent message from any active channel
-   - **DataForSEO**: Confirm tool loads (list tools or run a test query)
    - **Granola**: List 1 recent meeting
+   - *(DataForSEO: direct API only, not an MCP server — skip)*
 
-2. **Check Railway internals** (if running on Railway):
-   - Session file accessible and valid
-   - Git repo (CoS) is clean and up to date
+2. **Check local system health**:
+   - CoS repo is clean (`git status`)
+   - Key files accessible (CLAUDE.md, my-tasks.yaml, goals.yaml)
    - Disk space available
 
 3. **Report in table format**:
@@ -40,8 +40,8 @@ No arguments.
    ✓ Firecrawl — ok
    ✓ Apollo — ok
    ✓ Slack — ok
-   ✓ DataForSEO — ok
    ✓ Granola — ok
+   - DataForSEO — skipped (direct API, not MCP)
    ```
 
 4. If any service is down, include a brief note on what might be wrong and suggested fix.

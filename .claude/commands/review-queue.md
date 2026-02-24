@@ -73,16 +73,16 @@ SUMMARY: [X] items need review. [Y] are urgent. Estimated time: [Z] min.
 
 Save the full report to `/Users/vahid/code/CoS/assets/review-queue/review-queue-YYYY-MM-DD.md`.
 
-### Step 8: Send Telegram Summary
+### Step 8: Present Summary
 
-Send a 2-3 line summary via Telegram:
+Show a 2-3 line summary:
 ```
 [count] items need your review. [urgent count] urgent.
 Top: [highest priority item in 1 line]
 Full report saved — run /review-queue for details
 ```
 
-Use Telegram Bot API with the bot token from CLAUDE.md config and chat_id `112718186`. **Wait for Vahid's approval before sending** — show the summary draft first.
+(Note: Telegram delivery is paused. Present in terminal. **Never send messages on any channel without explicit approval.**)
 
 ### Guidelines
 

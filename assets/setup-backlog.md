@@ -9,9 +9,9 @@ Unstructured items from Vahid, captured 2026-02-20. Work through one by one.
 - [x] Notion Tasks DB discovered — `bfaf4e0f-1352-40cb-b39e-e441b75c1d96` in FractionalCPO workspace. Documented in notion-crm-architecture.md.
 - [x] Mike's "learning goal" feature researched — it's goals.yaml as a constant filter, not a standalone feature. Already partially covered by our goals.yaml.
 - [x] Build `/review-queue` — daily items for Vahid to review, before lunch ~11:30am, batched *(implemented in cron.ts as reviewQueue, cron 30 11 * * 1-5)*
-- [ ] Create `growth-traits.yaml` — principles/traits for The Mirror (extract from Granola therapy sessions)
-- [ ] Enhance `/my-tasks execute` — auto-sync completed tasks to Notion Tasks DB, draft-not-send for messages
-- [ ] Enhance `/gm` with goals check (Step 3: stalled goals, calendar/goal alignment, goal-aligned work for today)
+- [x] Create `growth-traits.yaml` — principles/traits for The Mirror (extract from Granola therapy sessions) *(done — 8 traits defined in growth-traits.yaml)*
+- [x] Enhance `/my-tasks execute` — auto-sync completed tasks to Notion Tasks DB, draft-not-send for messages *(done — my-tasks.md documents full Notion sync for add/complete/execute)*
+- [x] Enhance `/gm` with goals check (Step 3: stalled goals, calendar/goal alignment, goal-aligned work for today) *(done — gm.md Step 3 has full stall detection, calendar-goal alignment, goal-aligned scheduling)*
 
 ### B. Cron Automation
 - [ ] `/retro` cron — Friday 4pm → Telegram summary + link to saved report *(was in scheduler.ts, not yet ported to cron.ts)*

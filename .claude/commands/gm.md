@@ -38,7 +38,7 @@ Read `/Users/vahid/code/CoS/my-tasks.yaml`. Before presenting tasks, **verify ea
    - CoS CLAUDE.md MCP table — integration tasks may already be done
    - Recent git logs across `/Users/vahid/code/` projects — shipped work
    - File existence checks — if the deliverable exists, the task is done
-2. **Auto-fix stale tasks**: If a task is marked pending but evidence shows it's done, update `my-tasks.yaml` immediately. Don't present stale data.
+2. **Auto-fix stale tasks**: If a task is marked pending but clear evidence shows it's done (deliverable exists, session state confirms completion), update `my-tasks.yaml` status to reflect reality. Note: this is for display accuracy only — final "complete" status requires Vahid's confirmation. Don't present stale data.
 3. Then identify:
    - Tasks due TODAY (urgent)
    - Tasks OVERDUE (critical — should have been done)

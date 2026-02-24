@@ -27,6 +27,9 @@ store/
 # Secrets
 .env
 
+# Paused projects — don't QA, lint, or modify
+donna-server/
+
 # Local overrides
 local/
 *.local.md

@@ -11,22 +11,22 @@ tasks:
   - id: "task-001"
     title: "Tampa Bay Times follow-up"
     description: "Follow up with Nikhil at Tampa Bay Times ($45-50M news org). They need product leadership. High priority prospect."
-    status: "pending"
+    status: "overdue"
     priority: 1
     due_date: "2026-02-18"
     goal_alignment: "build-pipeline"
     created: "2026-02-15"
-    notes: ""
+    notes: "OVERDUE since 2026-02-18. Needs Vahid to decide: follow up, reschedule, or deprioritize."
 
   - id: "task-002"
     title: "Mori partnership agreement finalization"
     description: "Finalize partnership agreement with Mori. Legal/commercial terms need closure."
-    status: "in_progress"
+    status: "overdue"
     priority: 2
     due_date: "2026-02-21"
     goal_alignment: "build-pipeline"
     created: "2026-02-15"
-    notes: ""
+    notes: "OVERDUE since 2026-02-21. Needs Vahid to update status or reschedule."
 
   - id: "task-003"
     title: "CTCT competitor outreach strategy"
@@ -71,12 +71,12 @@ tasks:
   - id: "task-007"
     title: "CTCT payment resolution"
     description: "Resolve outstanding payment from Constant Contact engagement."
-    status: "pending"
+    status: "complete"
     priority: 3
     due_date: "2026-02-28"
     goal_alignment: "revenue"
     created: "2026-02-15"
-    notes: "Engagement ended Jan 2026. Payment still pending."
+    notes: "Resolved 2026-02-24."
 
   - id: "task-008"
     title: "Create family passion project folder"
@@ -96,7 +96,7 @@ tasks:
     due_date: ""
     goal_alignment: "personal"
     created: "2026-02-16"
-    notes: "From Telegram. Vahid asked Donna how she'd help organize WhatsApp."
+    notes: "From Telegram. Vahid asked Donna how she'd help organize WhatsApp. Note: WhatsApp bridge is currently paused — needs bridge process running before this can be executed."
 
   - id: "task-010"
     title: "Rebuild lost project notes from Telegram"
@@ -130,20 +130,32 @@ tasks:
 
   - id: "task-013"
     title: "VeraData proposal review — prep for Tuesday meeting"
-    description: "Prepare for VeraData proposal review meeting (targeting Tue Feb 25). Attendees: Vahid, Courtney, Dave Hinton (Beringer OP), Matt Kaiser (CSO), Mike Kulpinski (COO). Deliver: proposal doc with assessment scope, pricing, timeline, team, references. Link to Notion opportunity."
+    description: "Prepare for VeraData proposal review meeting Tue Feb 24 3:30PM ET. Attendees: Vahid, Courtney, Dave Hinton (Beringer OP), Matt Kaiser (CSO), Mike Kulpinski (COO). Deliver: Notion memo proposal with assessment scope, pricing, timeline, team."
     status: "in_progress"
     priority: 1
     due_date: "2026-02-24"
     goal_alignment: "revenue"
     created: "2026-02-22"
     subtasks:
-      - "Confirm meeting is booked (check with Ryan)"
-      - "Lock assessment pricing with Courtney ($25K vs $50K)"
-      - "Build proposal doc (scope, pricing, timeline, team, references)"
-      - "Prep candidate profile(s) to present (need exec-level GPL)"
-      - "Draft sample agreement"
-      - "Push talking points into Fellow"
-    notes: "Courtney analysis: product strategy is core issue, not growth. Thinking bottleneck, not execution. Shane ruled out — need real exec with org sensitivity. Eastern European candidate surfaced. Assessment sets precedent for entire Beringer portfolio. NDA signed 2/19. Discovery call went strong. Mike wants $3M/FTE, multibillion valuation, 18-month transformation window."
+      - "DONE — Meeting confirmed for Tue Feb 24 3:30PM ET"
+      - "DONE — Pricing locked with Courtney: $54K assessment (anchor, negotiate to $50K)"
+      - "DONE — Engagement rate: $350/hr ($2,450/day), 46% below CTCT"
+      - "DONE — Candidate selected: Thais (ex-Google, VP Product YellowBird, Shape Up)"
+      - "IN PROGRESS — Courtney finalizing MSA template (simplified from CTCT version)"
+      - "TODO — Finalize proposal doc: strip internal notes, add Thais profile, lock pricing section"
+      - "TODO — Push talking points into Fellow for 3:30 call"
+      - "TODO — Insurance quote (Courtney's 10am call today)"
+    notes: |
+      FROM COURTNEY 1:1 (Feb 23):
+      PRICING: $54K assessment (6wk: 4 core + 2 buffer). Anchor at $54K, let them win at $50K. $2,450/day engagement rate. Volume discounts: 5% Q2, 10% Q3, 15% Q4, 20% max. Need MSA termination protection for volume discounts.
+      CANDIDATE: Thais is primary. Ex-Google, VP Product at YellowBird. Shape Up practitioner. Available NOW but won't be in 6 months (flight risk). $200/hr contractor rate. Shane as secondary builder role post-assessment. Mirage deprioritized (trust issues). Ryan too expensive ($800K+ range).
+      ASSESSMENT STRUCTURE: Wk 1-2 discovery/audit/data + ~20 stakeholder interviews. Wk 3 synthesis + insight verification. Wk 4 deliver findings + execution planning + fCPO recruiting. Wk 5-6 buffer + match operator. Three pillars: Product Strategy, GTM Strategy, Execution/Ops.
+      PROPOSAL FORMAT: Notion memo (NOT a deck). "We're not consultants. We do work." Walk them through on call. Ends with pricing.
+      STRATEGIC PLAY: VeraData is the entry to Beringer portfolio (4-5 companies). Accept thin margins. "Be the fractional on record for Beringer." Clear Lake Capital also being pursued separately.
+      CLIENT NEEDS: Project sponsor (CEO/ELT), designated ELT contact (prefer Matt), formal team intros, data system access, customer call recordings, Beringer investment memo.
+      URGENCY LEVERS: "We have someone for this. If this goes beyond 10 days we might not have them." Don't reveal Thais is locked — frame as needing to line it up.
+      MSA: Courtney simplifying. W-8 needed (Canadian corp → US client). Insurance quote today. Target: MSA+SOW out same day if call goes well.
+      POST-MEETING (2026-02-24): Update this task based on call outcome — advance to complete if proposal delivered, or update subtasks with next steps.
 
   - id: "task-014"
     title: "Set up Google Slides deck template with Claude"

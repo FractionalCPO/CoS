@@ -1,8 +1,12 @@
 # Donna Scheduled Tasks — Full Reference
 
+> **STATUS: donna-server on Railway is currently STOPPED.**
+> This document describes the cron.ts implementation for reference and future reactivation.
+> Current operation is via local Claude Code with manual command invocation.
+
 **Source:** `donna-server/src/cron.ts`
 **Timezone:** All schedules run in `America/Toronto` (ET)
-**Last updated:** 2026-02-23 (v3.0 — Minimal Stable CoS)
+**Last updated:** 2026-02-24 (v3.0 — Minimal Stable CoS)
 
 ---
 

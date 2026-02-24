@@ -133,4 +133,4 @@ NOTION: Synced ✓
 - For tasks that are "send message to X", create the task AND draft the message. Don't send.
 - Always check if the meeting is part of a recurring series — prior action items may carry over.
 - If the transcript mentions a deadline, use it. If not, default to 3 business days.
-- Keep Telegram notifications minimal: just "[meeting name] debriefed — [N] tasks, [N] follow-ups"
+- Keep output concise: just "[meeting name] debriefed — [N] tasks, [N] follow-ups". (Telegram delivery is paused — present in terminal.)

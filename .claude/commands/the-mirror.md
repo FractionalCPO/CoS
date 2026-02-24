@@ -97,7 +97,7 @@ ONE THING TO FOCUS ON THIS WEEK
 
 1. Save the full Mirror report to `/Users/vahid/code/CoS/assets/mirror/mirror-YYYY-MM-DD.md`
 2. Update `growth-traits.yaml` with any new observations or progress notes
-3. Push a brief summary to Telegram:
+3. Present a brief summary to Vahid:
    ```
    [mirror] The Mirror — [N] calls reviewed
    Strengths: [trait], [trait]
@@ -105,6 +105,7 @@ ONE THING TO FOCUS ON THIS WEEK
    Focus this week: [one thing]
    Full report: saved locally
    ```
+   (Note: Telegram delivery is paused. Present in terminal.)
 
 ### Guidelines
 - **Honest but constructive.** This isn't therapy — it's coaching. Be direct.
@@ -113,6 +114,6 @@ ONE THING TO FOCUS ON THIS WEEK
 - **Don't repeat yourself.** If the same edge showed up in the last Mirror, note progress (or lack thereof).
 - **Connect to stakes.** "This matters because [specific business impact]."
 - **Never share this externally.** This is private self-development data.
-- **Never send Telegram messages without explicit approval** — show the summary draft first.
+- **Never send messages on any channel without explicit approval** — show the summary draft first. (Telegram delivery is paused.)
 - **Frequency:** Weekly by default (Friday, after retro). Can be triggered per-meeting for immediate feedback.
 - **ADHD/OCD context:** Frame growth edges as systems to build, not willpower to exert. "Add a 10-second pause before responding" > "Be more patient."

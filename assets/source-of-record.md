@@ -20,7 +20,7 @@ Local files are caches/backups only — never the primary.
 | **CRM — Opportunities** | Notion Opportunities DB (`de289591`) | Notion MCP | None |
 | **Goals** | `CoS/goals.yaml` | File read | — (is the SOR) |
 | **Growth traits** | `CoS/growth-traits.yaml` | File read | — (is the SOR) |
-| **Schedules** | `CoS/schedules.yaml` + `donna-server/src/cron.ts` | File read / Railway | — |
+| **Schedules** | `CoS/schedules.yaml` (design reference) + `donna-server/src/cron.ts` (implementation, paused) | File read | — |
 | **System config** | `CoS/CLAUDE.md` | File read | — |
 | **Slack messages** | Slack | Slack MCP (`mcp__claude_ai_Slack__*`) | None |
 | **Research data** | `fcpo-research/data/` | File read | — (is the SOR, syncs to Notion) |

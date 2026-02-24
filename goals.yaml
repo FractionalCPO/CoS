@@ -7,7 +7,7 @@
 # Update quarterly. Review weekly.
 
 quarter: "Q1 2026"
-last_updated: "2026-02-15"
+last_updated: "2026-02-24"
 
 objectives:
   - name: "Build verified pipeline"
@@ -19,9 +19,9 @@ objectives:
       - "3 additional qualified leads from outbound motion"
       - "Trader engagement scoped and proposal sent"
       - "Lightspeed moved to active conversation"
-    progress: 0.2
+    progress: 0.35
     status: "at_risk"
-    notes: "2 weeks to deadline. Tampa Bay and Trader warm. CTCT competitor outreach not yet launched."
+    notes: "5 days to March 1 deadline (as of 2026-02-24). VeraData at proposal stage — proposal presented 2/24. Tampa Bay Times overdue for follow-up. CTCT competitor outreach not yet launched."
 
   - name: "Close first deal"
     target: "1 deal in negotiation by April 1"
@@ -30,16 +30,16 @@ objectives:
       - "At least 1 SOW drafted and sent"
       - "Pricing and scope agreed with prospect"
       - "MSA template finalized"
-    progress: 0.0
-    status: "on_track"
-    notes: "Depends on pipeline build. Tampa Bay Times most likely first close."
+    progress: 0.6
+    status: "in_progress"
+    notes: "VeraData is the frontrunner. $54K assessment priced, MSA under review, proposal presented 2/24. SOW ready to send if call went well. Beringer PE portfolio upside."
 
   - name: "Sales infrastructure online"
     target: "Full outbound stack operational by end of March"
     priority: 3
     key_results:
       - "HeyReach LinkedIn automation configured and running"
-      - "Instant.ly email sequences live"
+      - "Instantly email sequences live"
       - "Apollo enrichment pipeline connected"
       - "Vector lead list (~60 leads) loaded and sequenced"
     progress: 0.3
@@ -52,7 +52,7 @@ objectives:
     key_results:
       - "Target list built (ActiveCampaign, Mailchimp, etc.)"
       - "Case study from CTCT engagement packaged"
-      - "Outreach sequences launched via HeyReach + Instant.ly"
+      - "Outreach sequences launched via HeyReach + Instantly"
     progress: 0.1
     status: "on_track"
     notes: "MSA is non-exclusive. Case study is fresh — leverage while relevant."

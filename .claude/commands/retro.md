@@ -109,4 +109,4 @@ If there are items Vahid needs to personally review (drafts, strategy decisions,
 - Recommendations should be specific and actionable, not generic.
 - Monthly retros should include trend lines (are scores improving over time?).
 - Run on Fridays (manually or via local cron). Full report saved to `/Users/vahid/code/CoS/assets/retros/retro-YYYY-MM-DD.md`.
-- **Never send Telegram messages without explicit approval** — show the summary draft first.
+- **Never send messages on any channel without explicit approval** — show the summary draft first. (Telegram delivery is paused — present in terminal.)

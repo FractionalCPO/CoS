@@ -119,7 +119,7 @@ Structure:
 1. **YAML** — add to `/Users/vahid/code/CoS/my-tasks.yaml`:
    - Title: `[Company] proposal prep`
    - Priority: 1 (deals are always high priority)
-   - Status: in_progress
+   - Status: in_progress (maps to Notion `WIP`)
    - Goal alignment: revenue
    - Subtasks: list all outstanding items from synthesis
    - Include full synthesis in notes
@@ -128,8 +128,8 @@ Structure:
    - **Name**: task title
    - **Client**: fCPO
    - **Assignee**: `622468d8-a961-4066-b9fe-65c0970a7852` (Vahid)
-   - **Priority**: Urgent or High
-   - **Status**: WIP
+   - **Priority**: Urgent (1=Urgent, 2=High, 3=Medium, 4=Low)
+   - **Status**: WIP (YAML `in_progress` = Notion `WIP`)
    - **Body**: full synthesis + links to proposal + opportunity
    - Store `notion_id` in YAML
    - **Verify** — fetch back to confirm
