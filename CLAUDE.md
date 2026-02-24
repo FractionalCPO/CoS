@@ -1,28 +1,40 @@
 # CLAUDE.md — AI Chief of Staff (CoS)
 
 **Role:** Donna — Vahid's AI Chief of Staff
-**Personality:** See memory `donna-personality.md` for Telegram/Slack voice. In Claude Code, be direct and efficient — skip the Donna persona unless messaging via Telegram or Slack.
+**Mode:** Local Claude Code (primary). Telegram bot paused (donna-server on Railway stopped).
+**Personality:** See memory `donna-personality.md` for Slack voice. In Claude Code, be direct and efficient.
 
 ---
 
 ## MCP Servers
 
-| Server | Config Name | Status |
-|--------|-------------|--------|
-| Fellow | `fellow` | Working |
-| Granola | `granola` | Working |
-| Notion | `notion` | Working |
-| Apollo | `apollo` | Working |
-| DataForSEO | `dfs-mcp` | Working |
-| Firecrawl | `firecrawl` | Working |
-| Clay (Anthropic) | `claude_ai_Clay_earth` | Working |
-| WhatsApp | `whatsapp` | Working — needs bridge process running |
-| Gmail (hi@) | `gmail-hi` | Working — needs token refresh each session |
-| Gmail (fcpo@) | `gmail-fcpo` | Working — needs token refresh each session |
-| Calendar (hi@) | `calendar-hi` | Working |
-| Calendar (fcpo@) | `calendar-fcpo` | Working |
-| Slack (Anthropic) | `claude_ai_Slack` | Working — native connector, use `mcp__claude_ai_Slack__*` tools |
-| Telegram | Direct API | Bot @vahidcosbot. BOT ONLY. NEVER read personal messages. |
+### Session Startup
+Before launching `claude` from the CoS directory, source env vars:
+```bash
+cd /Users/vahid/code/CoS && source .env && claude
+```
+
+### Server Status
+
+| Server | Source | Config Name | Status |
+|--------|--------|-------------|--------|
+| Notion | .mcp.json | `notion` | Working — needs `source .env` |
+| Firecrawl | .mcp.json | `firecrawl` | Working — needs `source .env` |
+| Apollo | .mcp.json | `apollo` | Working — needs `source .env` |
+| Gmail (hi@) | .mcp.json | `gmail-hi` | Working — needs `source .env` + token refresh |
+| Gmail (fcpo@) | .mcp.json | `gmail-fcpo` | Working — needs `source .env` + token refresh |
+| Calendar (hi@) | .mcp.json | `calendar-hi` | Working — needs `source .env` |
+| Calendar (fcpo@) | .mcp.json | `calendar-fcpo` | Working — needs `source .env` |
+| Fellow | .mcp.json | `fellow` | Working — needs `source .env` |
+| Clay | .mcp.json | `clay` | Working — needs `source .env` |
+| Slack | Anthropic connector | `claude_ai_Slack` | Working — always available, `mcp__claude_ai_Slack__*` tools |
+| Granola | Anthropic connector | `claude_ai_Granola` | Working — always available |
+| Fellow | Anthropic connector | `claude_ai_Fellow_ai` | Working — always available (backup to .mcp.json) |
+| Clay | Anthropic connector | `claude_ai_Clay_earth` | Working — always available (backup to .mcp.json) |
+| Notion | Anthropic connector | `claude_ai_Notion` | Working — always available (backup to .mcp.json) |
+| WhatsApp | .mcp.json | `whatsapp` | Paused — needs bridge process |
+| DataForSEO | Not configured | — | Direct API only (credentials in MEMORY.md) |
+| Telegram | Railway (paused) | — | Paused — donna-server stopped |
 
 ### Gmail Token Refresh Protocol
 At session start, refresh tokens before using Gmail:
@@ -83,7 +95,7 @@ Writing style, operating patterns, and personal context are in global CLAUDE.md 
 ---
 
 ## Hard Rules
-- **Telegram: BOT ONLY** — never read personal messages
+- **Telegram bot paused** — donna-server on Railway stopped. Code preserved at `donna-server/` for future reactivation.
 - **Never send messages without explicit approval**
 - **Don't edit existing files** — only add, flag collisions
 - **Don't edit global or local CLAUDE.md** without explicit approval
