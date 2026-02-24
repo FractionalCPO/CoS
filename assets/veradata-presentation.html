@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VeraData — Product Assessment Proposal</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fafaf8;
+    --ink: #1a1a1a;
+    --ink-mid: #464644;
+    --ink-light: #717170;
+    --cobalt: #002178;
+    --cobalt-mid: #1a3580;
+    --cobalt-light: #3c5598;
+    --white: #ffffff;
+    --rule: #e0e0dc;
+    --rule-light: #ebebea;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.1rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(250,250,248,0.94);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--rule);
+    transition: background 0.4s, border-color 0.4s;
+  }
+
+  nav.dark {
+    background: rgba(0,33,120,0.97);
+    border-bottom-color: rgba(255,255,255,0.12);
+  }
+
+  .nav-brand {
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--ink);
+    text-decoration: none;
+    transition: color 0.4s;
+  }
+
+  nav.dark .nav-brand { color: var(--white); }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .nav-badge {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--cobalt);
+    border: 1px solid var(--cobalt);
+    padding: 0.3rem 0.75rem;
+    transition: color 0.4s, border-color 0.4s;
+  }
+
+  nav.dark .nav-badge { color: rgba(255,255,255,0.5); border-color: rgba(255,255,255,0.3); }
+
+  .slide-counter {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: var(--ink-light);
+    transition: color 0.4s;
+  }
+
+  nav.dark .slide-counter { color: rgba(255,255,255,0.4); }
+
+  /* SLIDES */
+  .slide {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100vh;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+    overflow-y: auto;
+  }
+
+  .slide.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* HERO */
+  .hero {
+    display: grid;
+    grid-template-rows: 1fr auto;
+    padding-top: 5rem;
+    background: var(--bg);
+  }
+
+  .hero-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5rem 4rem;
+    max-width: 900px;
+  }
+
+  .hero-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 2.5rem;
+    animation: fadeUp 0.5s ease 0.1s both;
+  }
+
+  .hero-eyebrow span {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cobalt);
+  }
+
+  .hero-eyebrow::after {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 1px;
+    background: var(--cobalt);
+  }
+
+  .hero-logos {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+    animation: fadeUp 0.5s ease 0.15s both;
+  }
+
+  .hero-logos img {
+    height: 32px;
+    opacity: 0.85;
+  }
+
+  .hero-logos .logo-divider {
+    width: 1px;
+    height: 24px;
+    background: var(--rule);
+  }
+
+  h1 {
+    font-size: clamp(3.5rem, 8vw, 7.5rem);
+    font-weight: 700;
+    line-height: 0.93;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    margin-bottom: 2rem;
+    animation: fadeUp 0.6s ease 0.2s both;
+  }
+
+  h1 .blue { color: var(--cobalt); }
+
+  .hero-desc {
+    font-size: 1.05rem;
+    color: var(--ink-mid);
+    max-width: 55ch;
+    line-height: 1.75;
+    margin-bottom: 3.5rem;
+    font-weight: 400;
+    animation: fadeUp 0.6s ease 0.35s both;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 0;
+    border-top: 1px solid var(--rule);
+    animation: fadeUp 0.5s ease 0.5s both;
+  }
+
+  .stat {
+    padding: 1.5rem 2.5rem 1.5rem 0;
+    margin-right: 2.5rem;
+    border-right: 1px solid var(--rule);
+  }
+
+  .stat:last-child { border-right: none; }
+
+  .stat-val {
+    font-size: 1.9rem;
+    font-weight: 700;
+    color: var(--cobalt);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .stat-label {
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-top: 0.3rem;
+  }
+
+  .hero-footer-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 4rem;
+    border-top: 1px solid var(--rule);
+    animation: fadeUp 0.5s ease 0.6s both;
+  }
+
+  .hero-footer-bar p {
+    font-size: 0.7rem;
+    color: var(--ink-light);
+    letter-spacing: 0.05em;
+  }
+
+  /* SECTIONS */
+  .sec-slide {
+    background: var(--bg);
+    padding: 6rem 4rem;
+    padding-top: 7rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100vh;
+  }
+
+  .sec-label {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .sec-num {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cobalt);
+    white-space: nowrap;
+  }
+
+  .sec-rule {
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+
+  h2 {
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.05;
+    color: var(--ink);
+    margin-bottom: 1rem;
+  }
+
+  /* EXEC SUMMARY */
+  .exec-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 5rem;
+    margin-top: 3rem;
+  }
+
+  .exec-text p {
+    font-size: 1rem;
+    color: var(--ink-mid);
+    line-height: 1.85;
+    margin-bottom: 1.25rem;
+  }
+
+  .exec-text p strong { color: var(--ink); font-weight: 600; }
+
+  .exec-panel {
+    background: var(--cobalt);
+    color: var(--white);
+    padding: 2.75rem;
+  }
+
+  .panel-title {
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 2rem;
+  }
+
+  .panel-rows { display: flex; flex-direction: column; gap: 1.5rem; }
+
+  .panel-row label {
+    display: block;
+    font-size: 0.6rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 0.2rem;
+  }
+
+  .panel-row span {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--white);
+  }
+
+  /* WHY NOW */
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border: 1px solid var(--rule);
+    margin-top: 3rem;
+  }
+
+  .why-card {
+    padding: 2.5rem;
+    border-right: 1px solid var(--rule);
+  }
+
+  .why-card:last-child { border-right: none; }
+
+  .why-idx {
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    color: var(--cobalt);
+    margin-bottom: 1.25rem;
+    opacity: 0.7;
+  }
+
+  .why-card h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.01em;
+  }
+
+  .why-card p {
+    font-size: 0.95rem;
+    color: var(--ink-light);
+    line-height: 1.7;
+  }
+
+  /* OUTCOMES */
+  .outcomes-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: var(--rule);
+    margin-top: 3rem;
+  }
+
+  .outcome-card {
+    background: var(--bg);
+    padding: 2.75rem;
+  }
+
+  .outcome-bar {
+    width: 28px;
+    height: 2px;
+    background: var(--cobalt);
+    margin-bottom: 1.5rem;
+  }
+
+  .outcome-card h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 0.85rem;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+  }
+
+  .outcome-card p {
+    font-size: 0.95rem;
+    color: var(--ink-light);
+    line-height: 1.75;
+  }
+
+  /* SCOPE / COBALT */
+  .scope-slide {
+    background: var(--cobalt);
+    color: var(--white);
+    padding: 6rem 4rem;
+    padding-top: 7rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100vh;
+  }
+
+  .scope-slide .sec-num { color: rgba(255,255,255,0.5); }
+  .scope-slide .sec-rule { background: rgba(255,255,255,0.12); }
+  .scope-slide h2 { color: var(--white); }
+
+  .scope-intro {
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 3.5rem;
+    max-width: 50ch;
+  }
+
+  .pillars {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border: 1px solid rgba(255,255,255,0.12);
+    margin-bottom: 3.5rem;
+  }
+
+  .pillar {
+    padding: 2.75rem;
+    border-right: 1px solid rgba(255,255,255,0.12);
+  }
+
+  .pillar:last-child { border-right: none; }
+
+  .pillar-num {
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 1.25rem;
+  }
+
+  .pillar h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 0.85rem;
+    letter-spacing: -0.01em;
+  }
+
+  .pillar p {
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.75;
+  }
+
+  .approach-box {
+    border: 1px solid rgba(255,255,255,0.25);
+    padding: 3rem;
+    background: rgba(255,255,255,0.1);
+  }
+
+  .approach-label {
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 1rem;
+  }
+
+  .approach-box p {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.85;
+    max-width: 80ch;
+  }
+
+  /* TIMELINE */
+  .tl-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border: 1px solid var(--rule);
+    margin-top: 3rem;
+  }
+
+  .tl-col {
+    padding: 2.5rem;
+    border-right: 1px solid var(--rule);
+  }
+
+  .tl-col:last-child { border-right: none; }
+
+  .tl-period {
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cobalt);
+    margin-bottom: 0.4rem;
+  }
+
+  .tl-name {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: -0.015em;
+    padding-bottom: 1.25rem;
+    margin-bottom: 1.25rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .tl-items { display: flex; flex-direction: column; gap: 0.65rem; }
+
+  .tl-item {
+    font-size: 0.9rem;
+    color: var(--ink-light);
+    padding-left: 0.85rem;
+    border-left: 2px solid var(--rule-light);
+    line-height: 1.45;
+  }
+
+  /* DELIVERABLES */
+  .del-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .del-card {
+    padding: 2.5rem;
+    border: 1px solid var(--rule);
+  }
+
+  .del-num {
+    font-size: 2.75rem;
+    font-weight: 700;
+    color: var(--rule);
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 1.25rem;
+  }
+
+  .del-card h4 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 0.6rem;
+    letter-spacing: -0.01em;
+  }
+
+  .del-card p {
+    font-size: 0.92rem;
+    color: var(--ink-light);
+    line-height: 1.7;
+  }
+
+  /* INVESTMENT */
+  .invest-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+    margin-top: 3rem;
+    align-items: start;
+  }
+
+  .price-card {
+    background: var(--cobalt);
+    color: var(--white);
+    padding: 3.5rem;
+  }
+
+  .price-label {
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 1rem;
+  }
+
+  .price-amount {
+    font-size: 4.5rem;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    color: var(--white);
+    margin-bottom: 0.4rem;
+  }
+
+  .price-sub {
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 2.5rem;
+  }
+
+  .price-features {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255,255,255,0.12);
+  }
+
+  .price-feat {
+    display: flex;
+    gap: 0.85rem;
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.7);
+    align-items: flex-start;
+  }
+
+  .price-feat::before {
+    content: '\2014';
+    color: rgba(255,255,255,0.3);
+    flex-shrink: 0;
+    font-size: 0.7rem;
+    margin-top: 0.15rem;
+  }
+
+  .next-card {
+    border: 1px solid var(--rule);
+    padding: 3rem;
+    background: var(--white);
+  }
+
+  .next-card h3 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: -0.015em;
+    margin-bottom: 2rem;
+  }
+
+  .steps { display: flex; flex-direction: column; gap: 1.25rem; }
+
+  .step {
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+  }
+
+  .step-n {
+    width: 26px;
+    height: 26px;
+    background: var(--cobalt);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    letter-spacing: 0.05em;
+  }
+
+  .step p {
+    font-size: 0.95rem;
+    color: var(--ink-mid);
+    line-height: 1.6;
+    padding-top: 0.3rem;
+  }
+
+  /* TEAM */
+  .team-intro {
+    font-size: 0.95rem;
+    color: var(--ink-light);
+    max-width: 55ch;
+    margin-bottom: 3rem;
+  }
+
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: var(--rule);
+  }
+
+  .team-card {
+    background: var(--bg);
+  }
+
+  .team-top {
+    padding: 2.5rem 2.5rem 2rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .team-top h3 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+    margin-bottom: 0.2rem;
+  }
+
+  .team-title {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--cobalt);
+  }
+
+  .team-body { padding: 2rem 2.5rem 2.5rem; }
+
+  .team-bio {
+    font-size: 0.95rem;
+    color: var(--ink-light);
+    line-height: 1.75;
+    margin-bottom: 1.5rem;
+  }
+
+  .team-role-block {
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  .team-role-label {
+    font-size: 0.58rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 0.4rem;
+  }
+
+  .team-role-text {
+    font-size: 0.92rem;
+    color: var(--ink-mid);
+    line-height: 1.65;
+  }
+
+  /* FOOTER SLIDE */
+  .footer-slide {
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: 100vh;
+  }
+
+  .footer-slide .footer-content {
+    padding: 2.5rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 2px solid var(--ink);
+  }
+
+  .footer-brand {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: 0.03em;
+    text-decoration: none;
+  }
+
+  .footer-meta {
+    font-size: 0.65rem;
+    color: var(--ink-light);
+    text-align: right;
+    line-height: 1.9;
+  }
+
+  /* HINT */
+  .hint {
+    position: fixed;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    opacity: 0.4;
+    z-index: 100;
+    transition: color 0.4s, opacity 0.4s;
+    pointer-events: none;
+  }
+
+  nav.dark ~ .hint { color: rgba(255,255,255,0.3); }
+
+  /* ANIMATION */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 960px) {
+    nav { padding: 1.1rem 1.5rem; }
+    .hero-body, .sec-slide, .scope-slide { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .hero-footer-bar { padding: 1.25rem 1.5rem; }
+    .exec-grid, .why-grid, .outcomes-grid, .pillars, .tl-grid, .del-grid, .invest-layout, .team-grid {
+      grid-template-columns: 1fr;
+    }
+    .why-card, .pillar { border-right: none; }
+    .tl-col { border-right: none; border-bottom: 1px solid var(--rule); }
+    h1 { font-size: 3rem; }
+    .hero-stats { flex-wrap: wrap; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="#" class="nav-brand">FractionalCPO</a>
+  <div class="nav-right">
+    <span class="slide-counter" id="counter"></span>
+    <div class="nav-badge">Confidential</div>
+  </div>
+</nav>
+
+<div class="hint" id="hint">&#8592; &#8594; to navigate</div>
+
+<!-- 1: HERO -->
+<div class="slide hero active" data-theme="light">
+  <div class="hero-body">
+    <div class="hero-logos">
+      <img src="veradata-logo.svg" alt="VeraData">
+      <div class="logo-divider"></div>
+      <img src="https://fractionalcpo.com/assets/fractional-cpo-logo-BJOTKpa8.png" alt="FractionalCPO" style="height:24px;">
+    </div>
+    <div class="hero-eyebrow"><span>Product Assessment Proposal</span></div>
+    <h1>VeraData<br><span class="blue">Product</span><br>Assessment</h1>
+    <p class="hero-desc">A 4-week embedded assessment to evaluate product maturity, go-to-market strategy, and operational readiness — and deliver a concrete plan to capture the platform opportunity.</p>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-val">4 wks</div>
+        <div class="stat-label">Core Assessment</div>
+      </div>
+      <div class="stat">
+        <div class="stat-val">+2 wks</div>
+        <div class="stat-label">Buffer</div>
+      </div>
+      <div class="stat">
+        <div class="stat-val">3</div>
+        <div class="stat-label">Core Pillars</div>
+      </div>
+      <div class="stat">
+        <div class="stat-val">18 mo</div>
+        <div class="stat-label">Exit Window</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-footer-bar">
+    <p>Prepared for Beringer Capital &amp; VeraData Leadership</p>
+    <p>February 2026 &nbsp;&middot;&nbsp; Confidential — Not for Distribution</p>
+  </div>
+</div>
+
+<!-- 2: EXEC SUMMARY -->
+<div class="slide sec-slide" data-theme="light">
+  <div class="sec-label">
+    <span class="sec-num">01 — Executive Summary</span>
+    <div class="sec-rule"></div>
+  </div>
+  <div class="exec-grid">
+    <div>
+      <h2>The Inflection Point</h2>
+      <div class="exec-text" style="margin-top:2rem;">
+        <p>VeraData is an 18-year-old donor science company with deep domain expertise in the nonprofit space, a growing portfolio (Faircom, New River, Teal Media), and strong unit economics. The company is at an inflection point: light on product and technology leadership at a time when the business needs to shift from analytics services to a prescriptive analytics platform.</p>
+        <p><strong>FractionalCPO</strong> recommends running a 4-week assessment to evaluate the state of VeraData's product org and opportunity. We will embed in your business to evaluate product maturity, go-to-market strategy, and operational readiness. This assessment gives VeraData and Beringer a clear-eyed view of what the market opportunity requires and a concrete plan to capture it.</p>
+      </div>
+    </div>
+    <div class="exec-panel">
+      <div class="panel-title">Engagement Overview</div>
+      <div class="panel-rows">
+        <div class="panel-row"><label>Client</label><span>VeraData</span></div>
+        <div class="panel-row"><label>PE Sponsor</label><span>Beringer Capital</span></div>
+        <div class="panel-row"><label>Domain</label><span>Nonprofit Donor Science</span></div>
+        <div class="panel-row"><label>Transformation</label><span>Analytics Services &rarr; Prescriptive Platform</span></div>
+        <div class="panel-row"><label>Engagement Type</label><span>4-Week Embedded Assessment</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 3: WHY NOW -->
+<div class="slide sec-slide" data-theme="light">
+  <div class="sec-label">
+    <span class="sec-num">02 — Why Now</span>
+    <div class="sec-rule"></div>
+  </div>
+  <h2>Three Forcing Functions</h2>
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="why-idx">01</div>
+      <h3>Execution Risk Exposure</h3>
+      <p>VeraData has already taken the first steps: a product manager is in place, an external development firm is engaged, and the team is building. But without embedded product and technology leadership, there's real execution risk. Leadership wants to de-risk this by building a stronger foundation, accelerating time to value, and setting the stage for a permanent product leader who can hit the ground running.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-idx">02</div>
+      <h3>Disruptive Market Opportunity</h3>
+      <p>AI has changed how products are built, distributed, and monetized. Productized service companies are rising up to claim market share. A mature data company like VeraData needs to seize the opportunity to move from services into scalable product offerings in order to stay competitive.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-idx">03</div>
+      <h3>Maximizing Exit Value</h3>
+      <p>VeraData has the opportunity to create a meaningful exit for Beringer in the next 18 months. Product transformation is the single biggest lever to increase enterprise value, reduce future dilution, and maximize investor returns. Leadership wants clarity on the right bets, the right team structure, and the right sequence to capture that value before the window closes.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 4: OUTCOMES -->
+<div class="slide sec-slide" data-theme="light">
+  <div class="sec-label">
+    <span class="sec-num">03 — Outcomes</span>
+    <div class="sec-rule"></div>
+  </div>
+  <h2>What You Walk Away With</h2>
+  <div class="outcomes-grid">
+    <div class="outcome-card">
+      <div class="outcome-bar"></div>
+      <h3>Clarity on Your Market Opportunity</h3>
+      <p>We identify where you have real advantage, where you have gaps, and where the biggest opportunities lie. We bring a fresh perspective and challenge existing narratives, helping match your expertise in your business and market with our expertise in product leadership.</p>
+    </div>
+    <div class="outcome-card">
+      <div class="outcome-bar"></div>
+      <h3>The Fastest Paths to Win</h3>
+      <p>We help identify the few bets that deliver the highest impact, focusing effort on the highest ROI initiatives and learning through rapid experimentation.</p>
+    </div>
+    <div class="outcome-card">
+      <div class="outcome-bar"></div>
+      <h3>A Solid Foundation for Your Future Product Leader</h3>
+      <p>Companies with a clear product strategy, a defined org structure, and a prioritized roadmap attract world-class talent. Whether that's someone we place or someone you hire, they'll hit the ground running because the strategy work is done.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 5: SCOPE (cobalt) -->
+<div class="slide scope-slide" data-theme="dark">
+  <div class="sec-label">
+    <span class="sec-num">04 — Scope</span>
+    <div class="sec-rule"></div>
+  </div>
+  <h2>Three Core Pillars</h2>
+  <p class="scope-intro">This assessment takes 4 weeks with a 2-week buffer, covering three core pillars.</p>
+  <div class="pillars">
+    <div class="pillar">
+      <div class="pillar-num">01</div>
+      <h3>Product Strategy</h3>
+      <p>We ground the entire engagement in a clear platform vision, rooted in where VeraData's donor science creates defensible advantage and what the prescriptive analytics opportunity actually requires to win. Without this, the roadmap has no foundation and the transformation risk stays high.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-num">02</div>
+      <h3>Execution Process</h3>
+      <p>We pressure-test the organization's readiness to deliver across technology, product leadership, and org structure so the roadmap reflects reality. PE-backed transformations fail most often not from bad strategy but from org and technology gaps that weren't surfaced early enough.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-num">03</div>
+      <h3>Go-to-Market Motion</h3>
+      <p>Distribution is where most platform transformations stall, suffering from execution and organizational alignment problems. We validate the revenue model and customer segments before commitments are made, because the strategy has to be executable or it's just a document on someone's desk.</p>
+    </div>
+  </div>
+  <div class="approach-box">
+    <div class="approach-label">Approach</div>
+    <p>Over four weeks, we conduct structured interviews across the full leadership team and a cross-section of customers, audit the technology and product foundation, and synthesize everything into a prioritized, board-ready roadmap. We move quickly without sacrificing rigor, and we connect every finding directly to a decision on product, technology, hiring, or go-to-market. We build the output to be acted on from day one.</p>
+  </div>
+</div>
+
+<!-- 6: TIMELINE -->
+<div class="slide sec-slide" data-theme="light">
+  <div class="sec-label">
+    <span class="sec-num">05 — Timeline</span>
+    <div class="sec-rule"></div>
+  </div>
+  <h2>Six Weeks, Start to Finish</h2>
+  <div class="tl-grid">
+    <div class="tl-col">
+      <div class="tl-period">Weeks 1-2</div>
+      <div class="tl-name">Discovery</div>
+      <div class="tl-items">
+        <div class="tl-item">Stakeholder interviews</div>
+        <div class="tl-item">Data system access</div>
+        <div class="tl-item">Product and service audit</div>
+        <div class="tl-item">Customer conversations</div>
+        <div class="tl-item">Everything in parallel</div>
+      </div>
+    </div>
+    <div class="tl-col">
+      <div class="tl-period">Week 3</div>
+      <div class="tl-name">Synthesis</div>
+      <div class="tl-items">
+        <div class="tl-item">Insight verification</div>
+        <div class="tl-item">Second-round conversations</div>
+        <div class="tl-item">Forming our opinion</div>
+      </div>
+    </div>
+    <div class="tl-col">
+      <div class="tl-period">Week 4</div>
+      <div class="tl-name">Delivery</div>
+      <div class="tl-items">
+        <div class="tl-item">Review findings with your team</div>
+        <div class="tl-item">Execution planning</div>
+        <div class="tl-item">Team matching</div>
+      </div>
+    </div>
+    <div class="tl-col">
+      <div class="tl-period">Weeks 5-6</div>
+      <div class="tl-name">Buffer</div>
+      <div class="tl-items">
+        <div class="tl-item">Scheduling flexibility</div>
+        <div class="tl-item">Deeper conversations</div>
+        <div class="tl-item">Preparing ongoing engagement</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 7: DELIVERABLES -->
+<div class="slide sec-slide" data-theme="light">
+  <div class="sec-label">
+    <span class="sec-num">06 — Deliverables</span>
+    <div class="sec-rule"></div>
+  </div>
+  <h2>Three Outputs, One Direction</h2>
+  <div class="del-grid">
+    <div class="del-card">
+      <div class="del-num">1</div>
+      <h4>Assessment Insights</h4>
+      <p>Current state across product, technology, org, and market. Gap analysis and our opinion on what to do next.</p>
+    </div>
+    <div class="del-card">
+      <div class="del-num">2</div>
+      <h4>Transformation Plan</h4>
+      <p>Prioritized bets and resource requirements with a clear near and long-term plan for VeraData and concrete next steps.</p>
+    </div>
+    <div class="del-card">
+      <div class="del-num">3</div>
+      <h4>Product Org Blueprint</h4>
+      <p>Recommended structure, roles, and reporting lines so the organization is ready to execute from day one.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 8: INVESTMENT -->
+<div class="slide sec-slide" data-theme="light">
+  <div class="sec-label">
+    <span class="sec-num">07 — Investment</span>
+    <div class="sec-rule"></div>
+  </div>
+  <h2>Engagement &amp; Next Steps</h2>
+  <div class="invest-layout">
+    <div class="price-card">
+      <div class="price-label">Fixed Fee — Assessment</div>
+      <div class="price-amount">$54,000</div>
+      <div class="price-sub">USD &middot; Fixed price, no surprises</div>
+      <div class="price-features">
+        <div class="price-feat">4 weeks core + 2-week buffer</div>
+        <div class="price-feat">Partners embedded, 4 days per week</div>
+        <div class="price-feat">Remote with on-site visit to Fort Myers as needed</div>
+      </div>
+    </div>
+    <div class="next-card">
+      <h3>Next Steps</h3>
+      <div class="steps">
+        <div class="step">
+          <div class="step-n">1</div>
+          <p>MSA and Statement of Work issued for review and signature</p>
+        </div>
+        <div class="step">
+          <div class="step-n">2</div>
+          <p>Assessment kickoff scheduled within two weeks of executed agreement</p>
+        </div>
+        <div class="step">
+          <div class="step-n">3</div>
+          <p>Review assessment results and execution planning</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 9: TEAM -->
+<div class="slide sec-slide" data-theme="light">
+  <div class="sec-label">
+    <span class="sec-num">08 — Our Team</span>
+    <div class="sec-rule"></div>
+  </div>
+  <h2>Partners Do the Work</h2>
+  <p class="team-intro">Every engagement is led by a partner. The most senior people at the firm, doing the work directly.</p>
+  <div class="team-grid">
+    <div class="team-card">
+      <div class="team-top">
+        <h3>Vahid Jozi</h3>
+        <div class="team-title">Partner</div>
+      </div>
+      <div class="team-body">
+        <p class="team-bio">Decades of product leadership across growth-stage and PE-backed SaaS. He's been through several exits, IPOs, and investment rounds as a founder, executive, and fractional CPO.</p>
+        <div class="team-role-block">
+          <div class="team-role-label">Role on this engagement</div>
+          <div class="team-role-text">Sets the strategic direction of the engagement, leads executive stakeholder relationships, and owns the final recommendations to leadership and the board.</div>
+        </div>
+      </div>
+    </div>
+    <div class="team-card">
+      <div class="team-top">
+        <h3>Courtney Cunningham</h3>
+        <div class="team-title">Partner</div>
+      </div>
+      <div class="team-body">
+        <p class="team-bio">Seasoned product leader across engineering, product management, and business operations. He's scaled product teams at numerous organizations including venture-funded scaleups and profitable PE-backed software companies.</p>
+        <div class="team-role-block">
+          <div class="team-role-label">Role on this engagement</div>
+          <div class="team-role-text">Leads product operations, org design, talent allocation, and oversees delivery.</div>
+        </div>
+      </div>
+    </div>
+    <div class="team-card">
+      <div class="team-top">
+        <h3>Mauricio Idarraga</h3>
+        <div class="team-title">Partner</div>
+      </div>
+      <div class="team-body">
+        <p class="team-bio">Product growth and data strategy specialist. He's delivered significant financial impact for companies of different sizes through data-driven product optimization and rapid experimentation.</p>
+        <div class="team-role-block">
+          <div class="team-role-label">Role on this engagement</div>
+          <div class="team-role-text">Leads data-driven customer behavior optimization and product growth experimentation.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const counter = document.getElementById('counter');
+  const nav = document.getElementById('nav');
+  const hint = document.getElementById('hint');
+  let current = 0;
+
+  function show(i) {
+    slides.forEach(s => s.classList.remove('active'));
+    slides[i].classList.add('active');
+    counter.textContent = (i + 1) + ' / ' + slides.length;
+
+    const dark = slides[i].dataset.theme === 'dark';
+    nav.classList.toggle('dark', dark);
+
+    // Hide hint after first navigation
+    if (i > 0) hint.style.opacity = '0';
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowRight' || e.key === ' ') {
+      e.preventDefault();
+      if (current < slides.length - 1) { current++; show(current); }
+    } else if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      if (current > 0) { current--; show(current); }
+    }
+  });
+
+  show(0);
+</script>
+</body>
+</html>
