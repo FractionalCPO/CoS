@@ -131,31 +131,48 @@ tasks:
   - id: "task-013"
     title: "VeraData proposal review — prep for Tuesday meeting"
     description: "Prepare for VeraData proposal review meeting Tue Feb 24 3:30PM ET. Attendees: Vahid, Courtney, Dave Hinton (Beringer OP), Matt Kaiser (CSO), Mike Kulpinski (COO). Deliver: Notion memo proposal with assessment scope, pricing, timeline, team."
-    status: "in_progress"
+    status: "complete"
     priority: 1
     due_date: "2026-02-24"
     goal_alignment: "revenue"
     created: "2026-02-22"
-    subtasks:
-      - "DONE — Meeting confirmed for Tue Feb 24 3:30PM ET"
-      - "DONE — Pricing locked with Courtney: $54K assessment (anchor, negotiate to $50K)"
-      - "DONE — Engagement rate: $350/hr ($2,450/day), 46% below CTCT"
-      - "DONE — Candidate selected: Thais (ex-Google, VP Product YellowBird, Shape Up)"
-      - "IN PROGRESS — Courtney finalizing MSA template (simplified from CTCT version)"
-      - "TODO — Finalize proposal doc: strip internal notes, add Thais profile, lock pricing section"
-      - "TODO — Push talking points into Fellow for 3:30 call"
-      - "TODO — Insurance quote (Courtney's 10am call today)"
     notes: |
-      FROM COURTNEY 1:1 (Feb 23):
-      PRICING: $54K assessment (6wk: 4 core + 2 buffer). Anchor at $54K, let them win at $50K. $2,450/day engagement rate. Volume discounts: 5% Q2, 10% Q3, 15% Q4, 20% max. Need MSA termination protection for volume discounts.
-      CANDIDATE: Thais is primary. Ex-Google, VP Product at YellowBird. Shape Up practitioner. Available NOW but won't be in 6 months (flight risk). $200/hr contractor rate. Shane as secondary builder role post-assessment. Mirage deprioritized (trust issues). Ryan too expensive ($800K+ range).
-      ASSESSMENT STRUCTURE: Wk 1-2 discovery/audit/data + ~20 stakeholder interviews. Wk 3 synthesis + insight verification. Wk 4 deliver findings + execution planning + fCPO recruiting. Wk 5-6 buffer + match operator. Three pillars: Product Strategy, GTM Strategy, Execution/Ops.
-      PROPOSAL FORMAT: Notion memo (NOT a deck). "We're not consultants. We do work." Walk them through on call. Ends with pricing.
-      STRATEGIC PLAY: VeraData is the entry to Beringer portfolio (4-5 companies). Accept thin margins. "Be the fractional on record for Beringer." Clear Lake Capital also being pursued separately.
-      CLIENT NEEDS: Project sponsor (CEO/ELT), designated ELT contact (prefer Matt), formal team intros, data system access, customer call recordings, Beringer investment memo.
-      URGENCY LEVERS: "We have someone for this. If this goes beyond 10 days we might not have them." Don't reveal Thais is locked — frame as needing to line it up.
-      MSA: Courtney simplifying. W-8 needed (Canadian corp → US client). Insurance quote today. Target: MSA+SOW out same day if call goes well.
-      POST-MEETING (2026-02-24): Update this task based on call outcome — advance to complete if proposal delivered, or update subtasks with next steps.
+      COMPLETE 2026-02-24. Meeting happened 4-5PM ET. Proposal presented successfully.
+      ACTUAL PRICING PRESENTED: $150K fixed (4wk assessment + 2wk buffer). Ongoing: $2,500/day (discounted from $4,500), 3mo minimum ($120K).
+      POSITIVE SIGNALS: Price not immediately rejected, Mike engaged with data questions, MSA requested for legal review, hour-long call.
+      CONCERNS (from Courtney debrief 10pm): Not speaking to actual decision-maker, presentation quality below expectations, small co not ideal ICP.
+      NEXT STEPS: Send MSA+SOW+memo (see task-015). Follow up next week. Decision expected end of Feb / early March.
+      STRATEGIC NOTE: Assessment model may need refinement — "discovery" framing more palatable than "assessment." Variable pricing for smaller companies discussed.
+
+  - id: "task-015"
+    title: "Send MSA + SOW + memo to VeraData"
+    description: "Send VeraData the MSA template with SOW for assessment phase + detailed memo version. Dave Hinton, Matt Kaiser, Mike Kulpinski reviewing."
+    status: "pending"
+    priority: 1
+    due_date: "2026-02-26"
+    goal_alignment: "revenue"
+    created: "2026-02-24"
+    notes: "NEEDS VAHID. References ready: Frank Brunetti + Diego. Also created as Notion task."
+
+  - id: "task-016"
+    title: "Send Ryan Eberhard fCPO materials + CTCT case study"
+    description: "Send bench candidate Ryan Eberhard (ex-ZipRecruiter) fCPO overview and CTCT case study. He has Apex PE connection to intro."
+    status: "pending"
+    priority: 2
+    due_date: "2026-02-26"
+    goal_alignment: "build-pipeline"
+    created: "2026-02-24"
+    notes: "NEEDS VAHID. Ryan targets $30K MRR, strengths in funnel/price optimization + growth hacking. Apex PE intro opportunity."
+
+  - id: "task-017"
+    title: "Follow up with VeraData next week"
+    description: "Reconnect with VeraData after they review MSA/SOW/memo. Decision expected end of Feb / early March."
+    status: "pending"
+    priority: 1
+    due_date: "2026-03-03"
+    goal_alignment: "revenue"
+    created: "2026-02-24"
+    notes: "Depends on task-015 (MSA send). They have interviews continuing in parallel."
 
   - id: "task-014"
     title: "Set up Google Slides deck template with Claude"
