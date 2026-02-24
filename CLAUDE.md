@@ -73,7 +73,7 @@ Before saying "I don't know," check where the info would live:
 
 ### Assets (in `/Users/vahid/code/CoS/assets/`)
 - `company-context.md` — Company, team, pipeline, triage tiers (update monthly)
-- `fellow-full-mine.md` — 67 meetings exhaustive
+- `fellow-deep-dive.md` — 67 meetings exhaustive
 - `fellow-recent-context.md` — Jan-Feb 2026 Courtney/Ryan calls
 - `granola-context.md` — 120 meetings, pipeline, financials
 - `slack-context.md` — Workspace map, members, channels
