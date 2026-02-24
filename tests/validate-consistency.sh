@@ -88,10 +88,11 @@ print("[4] Stale Reference Check")
 stale_files = ["scheduler.ts", "donna-relay", "self-improvement"]
 # Files allowed to reference stale names (historical context)
 HISTORY_FILES = {"ARCHITECTURE-HISTORY.md", "setup-backlog.md"}
+REPORT_PREFIXES = ("qa-report",)
 all_docs = list((COS / "docs").glob("*.md")) + list((COS / "assets").glob("*.md"))
 found_stale = False
 for doc in all_docs:
-    if doc.name in HISTORY_FILES:
+    if doc.name in HISTORY_FILES or any(doc.name.startswith(p) for p in REPORT_PREFIXES):
         continue
     text = doc.read_text()
     for stale in stale_files:
