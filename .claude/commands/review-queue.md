@@ -16,7 +16,7 @@ Run `date '+%A %Y-%m-%d %H:%M %Z'` to get the current day, date, and timezone.
 ### Step 1: Scan Notion Tasks DB
 
 Query the Notion Tasks DB (`bfaf4e0f-1352-40cb-b39e-e441b75c1d96`) using `mcp__claude_ai_Notion__notion-search` for:
-- Items with status "Needs Review" or "Blocked" or "Waiting on Vahid"
+- Items with "Needs Attention" set to "Needs Review", "Blocked", or "Waiting on Vahid"
 - Items assigned to Vahid that are overdue
 - Items updated in the last 24 hours that may need a decision
 
