@@ -9,38 +9,50 @@
 ## MCP Servers
 
 ### Session Startup
-Before launching `claude` from the CoS directory, source env vars:
 ```bash
-cd /Users/vahid/code/CoS && source .env && claude
+cd /Users/vahid/code/CoS && claude
 ```
+No `source .env` needed — secrets auto-load from macOS Keychain via `~/.claude/load-secrets.sh` (sourced by `.zshrc`).
 
-### Server Status
+### Architecture (3 tiers)
 
-| Server | Source | Config Name | Status |
-|--------|--------|-------------|--------|
-| Notion | .mcp.json | `notion` | Working — needs `source .env` |
-| Firecrawl | .mcp.json | `firecrawl` | Working — needs `source .env` |
-| Apollo | .mcp.json | `apollo` | Working — needs `source .env` |
-| Gmail (hi@) | .mcp.json | `gmail-hi` | Working — needs `source .env` + token refresh |
-| Gmail (fcpo@) | .mcp.json | `gmail-fcpo` | Working — needs `source .env` + token refresh |
-| Calendar (hi@) | .mcp.json | `calendar-hi` | Working — needs `source .env` |
-| Calendar (fcpo@) | .mcp.json | `calendar-fcpo` | Working — needs `source .env` |
-| Fellow | .mcp.json | `fellow` | Working — needs `source .env` |
-| Clay | .mcp.json | `clay` | Working — needs `source .env` |
-| Slack | Anthropic connector | `claude_ai_Slack` | Working — always available, `mcp__claude_ai_Slack__*` tools |
-| Granola | Anthropic connector | `claude_ai_Granola` | Working — always available |
-| Fellow | Anthropic connector | `claude_ai_Fellow_ai` | Working — always available (backup to .mcp.json) |
-| Clay | Anthropic connector | `claude_ai_Clay_earth` | Working — always available (backup to .mcp.json) |
-| Notion | Anthropic connector | `claude_ai_Notion` | Working — always available (backup to .mcp.json) |
-| WhatsApp | .mcp.json | `whatsapp` | Paused — needs bridge process |
-| DataForSEO | Not configured | — | Direct API only (credentials in MEMORY.md) |
-| Telegram | Railway (deleted) | — | Deleted — Railway project removed Feb 25, 2026 |
+**Global** (`~/.claude.json` mcpServers) — available in all projects:
 
-### Gmail Token Refresh Protocol
-At session start, refresh tokens before using Gmail:
-1. Load tool: `gmail_refresh_token`
-2. Call with client_id, client_secret, refresh_token from env vars
-3. Use returned access_token for subsequent Gmail calls
+| Server | Package | Secrets |
+|--------|---------|---------|
+| Playwright | `@playwright/mcp` | None |
+| Firecrawl | `firecrawl-mcp` | `FIRECRAWL_API_KEY` |
+| Context7 | `@upstash/context7-mcp` | None |
+| DataForSEO | `@skobyn/mcp-dataforseo` | `DATAFORSEO_LOGIN`, `DATAFORSEO_PASSWORD` |
+
+**Personal** (`CoS/.mcp.json`, symlinked to `~/Obsidian/`) — CoS + Obsidian only:
+
+| Server | Package/Wrapper | Secrets |
+|--------|----------------|---------|
+| Notion | `@notionhq/notion-mcp-server` | `NOTION_API_KEY` |
+| Apollo | `@thevgergroup/apollo-io-mcp` | `APOLLO_API_KEY` |
+| Gmail (hi@) | `gmail-mcp.sh` wrapper | `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_REFRESH_TOKEN_HI` |
+| Gmail (fcpo@) | `gmail-mcp.sh` wrapper | Same + `GOOGLE_REFRESH_TOKEN_FCPO` |
+| Calendar (hi@) | `google-calendar-mcp.sh` wrapper | Same as Gmail |
+| Calendar (fcpo@) | `google-calendar-mcp.sh` wrapper | Same as Gmail |
+| Fellow | `fellow-mcp` | `FELLOW_API_KEY`, `FELLOW_SUBDOMAIN` |
+| Clay | `@clayhq/clay-mcp` | `CLAY_API_KEY` |
+
+**Anthropic connectors** (account-level, always available):
+
+| Server | Tools prefix |
+|--------|-------------|
+| Slack | `mcp__claude_ai_Slack__*` |
+| Notion | `mcp__claude_ai_Notion__*` |
+| Fellow | `mcp__claude_ai_Fellow_ai__*` |
+| Clay | `mcp__claude_ai_Clay_earth__*` |
+| Granola | `mcp__claude_ai_Granola__*` |
+
+### Secrets
+All secrets in macOS Keychain under `claude-mcp/*` prefix. Auto-loaded by `~/.claude/load-secrets.sh`.
+- To add: `security add-generic-password -U -s "claude-mcp/KEY" -a "$USER" -w "value"`
+- To read: `security find-generic-password -s "claude-mcp/KEY" -a "$USER" -w`
+- Gmail/Calendar use wrapper scripts (`~/.claude/mcp-wrappers/`) that refresh OAuth access tokens from Keychain-stored refresh tokens on each server start.
 
 ### Source Routing
 Before saying "I don't know," check where the info would live:

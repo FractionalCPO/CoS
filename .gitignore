@@ -26,6 +26,7 @@ store/
 
 # Secrets
 .env
+.env.*
 
 # Paused projects — don't QA, lint, or modify
 donna-server/
