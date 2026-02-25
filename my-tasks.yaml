@@ -147,12 +147,24 @@ tasks:
   - id: "task-015"
     title: "Send MSA + SOW + memo to VeraData"
     description: "Send VeraData the MSA template with SOW for assessment phase + detailed memo version. Dave Hinton, Matt Kaiser, Mike Kulpinski reviewing."
-    status: "pending"
+    status: "in_progress"
     priority: 1
     due_date: "2026-02-26"
     goal_alignment: "revenue"
     created: "2026-02-24"
-    notes: "NEEDS VAHID. References ready: Frank Brunetti + Diego. Also created as Notion task."
+    notes: |
+      NEEDS VAHID. References ready: Frank Brunetti + Diego. Also created as Notion task.
+      UPDATE 2026-02-25 (Partner L10): Delivery pushed to Feb 26. MSA undergoing major rework:
+      - 'Consultant' → 'FractionalCPO' throughout, 'personnel' defined upfront
+      - 3mo minimum term, discount structures for longer commitments
+      - No client veto on personnel (escalation clause instead)
+      - Remote-first policy, client pays travel
+      - 80% base salary liquidated damages for non-solicitation
+      - Two SOW versions needed: fixed fee (assessment) + T&M (ongoing)
+      - Ryan doing MSA cleanup tonight. Courtney generated alt Section 7 for fixed fee.
+      - 10am meeting tomorrow (MSA + SOW sync / finalize) with Ryan + Courtney.
+      - Vahid: review SOW and both Section 7 versions before 10am meeting.
+      - Vahid: email VeraData/Behringer re: one-day delay (may already be done).
 
   - id: "task-016"
     title: "Send Ryan Eberhard fCPO materials + CTCT case study"
@@ -176,13 +188,18 @@ tasks:
 
   - id: "task-021"
     title: "Debug Google MCP connections (Gmail + Calendar)"
-    description: "Gmail and Calendar MCP servers have been unreliable. Gmail tools don't load in session, drafts created via API don't always show in UI. Debug: (1) why gmail-fcpo/gmail-hi servers fail to provide tools, (2) OAuth token/scope issues, (3) test new Keychain-based wrappers next session, (4) confirm drafts sync to Gmail web. Goal: Google MCPs work reliably every session with zero manual intervention."
-    status: "pending"
+    description: "Root cause found and fixed 2026-02-25: grep JSON parsing broke on whitespace. Also fixed DataForSEO env var name. All 10 wrappers pass."
+    status: "complete"
     priority: 2
     due_date: "2026-02-27"
     goal_alignment: "sales-infra"
     created: "2026-02-25"
-    notes: "Known issues: gmail-mcp tools never appeared as deferred tools this session. Draft created via direct API but not visible in Gmail UI. Calendar wrappers untested. New Keychain wrappers deployed today — test next session."
+    notes: |
+      COMPLETE 2026-02-25 EOD sweep. All verifications passed:
+      - Gmail (fcpo@) tools: confirmed working — listed messages, fetched full content, created draft
+      - Gmail (hi@) tools: confirmed working — listed messages, fetched metadata
+      - Calendar tools: confirmed working via Clay events (indirect)
+      - Draft created and verified visible in Gmail UI (Mario Gonzalez reply, draft ID r5244230446419952246)
 
   - id: "task-014"
     title: "Set up Google Slides deck template with Claude"
