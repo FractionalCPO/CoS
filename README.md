@@ -1,10 +1,10 @@
 # CoS — Chief of Staff
 
-Vahid Jozi's AI Chief of Staff system, powered by Claude Code.
+Vahid Jozi's AI Chief of Staff system, powered by Claude Code (local).
 
 ## What It Does
 
-An always-on AI operating system that handles inbox triage, meeting prep, task execution, and relationship management — running 24/7 on Railway via Telegram.
+An AI operating system that handles inbox triage, meeting prep, task execution, and relationship management — running locally via Claude Code with 14 MCP server integrations.
 
 ## Architecture
 
@@ -14,38 +14,29 @@ CoS/
 ├── goals.yaml             # Current priorities and goals
 ├── my-tasks.yaml          # Task tracking (dual-write with Notion)
 ├── growth-traits.yaml     # Personal growth tracking
-├── schedules.yaml         # Automation schedule reference
+├── schedules.yaml         # Automation schedule (design reference)
 ├── assets/                # Context files, meeting preps, research
 ├── contacts/              # Relationship profiles (Tier 1-3)
 ├── docs/                  # System docs and reference
-├── donna-server/          # Runtime server (Railway) — Telegram bot + Railway cron
+├── donna-server/          # Runtime server (paused) — code preserved for reactivation
+├── scheduler/             # Local launchd-based job scheduler
 ├── scripts/               # Utility scripts (Fellow integration)
 ├── tests/                 # Command validation tests
-└── whatsapp-mcp/          # WhatsApp bridge (Go, separate repo)
+└── whatsapp-mcp/          # WhatsApp bridge (Go, separate repo, paused)
 ```
 
-## donna-server (Railway)
+## How It Runs
 
-The runtime server runs 8 scheduled jobs (~12 oneShot() calls/day):
+```bash
+cd /Users/vahid/code/CoS && source .env && claude
+```
 
-| Job | Schedule | What it does |
-|-----|----------|-------------|
-| morningBriefing | 8:00 AM Mon-Fri | Calendar, tasks, goals, urgent inbox |
-| inboxPreProcess | 9am, 1pm, 5pm Mon-Fri | Draft email replies in Gmail |
-| meetingPrep | 8:15 AM Mon-Fri | Research participants, push to Fellow |
-| meetingCheck | 11am, 3pm Mon-Fri | Pre-meeting context + post-meeting debrief |
-| dailyWork | 10am, 2pm Mon-Fri | Execute safe tasks from Notion |
-| eveningTriage | 5:30 PM Mon-Fri | End-of-day wrap, tomorrow's prep |
-| systemHealthCheck | 6am, 6pm daily | Test all MCP servers |
-| gitAutoSync | hourly | Commit + push changes to GitHub |
-
-Stack: Claude Agent SDK, grammy (Telegram), node-cron, OpenAI (voice), Railway.
+11 slash commands: `/gm`, `/triage`, `/meeting-prep`, `/my-tasks`, `/retro`, `/review-queue`, `/debrief`, `/enrich`, `/deal-prep`, `/health`, `/the-mirror`
 
 ## MCP Servers
 
-Notion, Gmail (x2), Calendar (x2), Fellow, Granola, Clay, Apollo, Firecrawl, Slack (local only).
+Notion, Gmail (x2), Calendar (x2), Fellow, Granola, Clay, Apollo, Firecrawl, Slack, Playwright.
 
-## Local vs Railway
+## donna-server (paused)
 
-- **Railway (donna-server)**: Scheduled jobs, Telegram bot, always-on
-- **Local (Claude Code)**: WhatsApp, Slack, DataForSEO, hands-on research, complex tasks
+Runtime server was on Railway (deleted Feb 25, 2026). Code preserved at `donna-server/` and GitHub (`FractionalCPO/donna-server.git`). See `donna-server/docs/ARCHITECTURE-HISTORY.md` for full timeline.

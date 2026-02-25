@@ -30,6 +30,12 @@ store/
 # Paused projects — don't QA, lint, or modify
 donna-server/
 
+# Playwright MCP temp files
+.playwright-mcp/
+
+# Root-level screenshots (move to assets/ if needed)
+/*.png
+
 # Local overrides
 local/
 *.local.md

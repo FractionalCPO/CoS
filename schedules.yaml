@@ -18,7 +18,7 @@ schedules:
 
   - name: "Morning Briefing"
     cron: "0 8 * * 1-5"
-    delivery: "telegram"
+    delivery: "terminal"
     calls: 1
     notes: "Full briefing: calendar, tasks, goals, urgent inbox."
 
@@ -28,7 +28,7 @@ schedules:
 
   - name: "Inbox Pre-Process"
     cron: "0 9,13,17 * * 1-5"
-    delivery: "telegram (only if drafts created)"
+    delivery: "terminal (only if drafts created)"
     calls: 3
     notes: "3x daily. Checks both Gmail accounts for unread. Drafts responses in Gmail. Never sends. Tier 1+2 only. Reports SKIP if no new emails."
 
@@ -38,7 +38,7 @@ schedules:
 
   - name: "Meeting Prep"
     cron: "15 8 * * 1-5"
-    delivery: "telegram summary"
+    delivery: "terminal summary"
     calls: 1
     notes: "8:15 AM. Research participants, write context brief, push talking points to Fellow."
 
@@ -48,7 +48,7 @@ schedules:
 
   - name: "Meeting Check"
     cron: "0 11,15 * * 1-5"
-    delivery: "telegram"
+    delivery: "terminal"
     calls: 2
     notes: "2x daily (11am, 3pm). Post-meeting: Fellow first, then Granola for transcripts — extract action items, create Notion tasks, draft follow-ups. Pre-meeting: surface context for meetings in next 2h."
 
@@ -58,7 +58,7 @@ schedules:
 
   - name: "Daily Work"
     cron: "0 10,14 * * 1-5"
-    delivery: "telegram"
+    delivery: "terminal"
     calls: 2
     notes: "2x daily (10am, 2pm). Pull pending tasks from Notion assigned to Donna. Execute safe ones (research, enrichment, CRM, drafting). Mark needs_review for anything requiring Vahid."
 
@@ -68,7 +68,7 @@ schedules:
 
   - name: "Evening Triage"
     cron: "30 17 * * 1-5"
-    delivery: "telegram"
+    delivery: "terminal"
     calls: 1
     notes: "End-of-day wrap: urgent emails, tasks completed today, tomorrow's prep."
 
@@ -78,7 +78,7 @@ schedules:
 
   - name: "System Health Check"
     cron: "0 6,18 * * *"
-    delivery: "telegram (only if failures)"
+    delivery: "terminal (only if failures)"
     calls: 2
     notes: "2x daily (incl weekends). Tests all MCP servers with real queries. Reports failures only."
 

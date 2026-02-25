@@ -81,7 +81,7 @@ Before saying "I don't know," check where the info would live:
 
 ### Memory (in `/Users/vahid/.claude/projects/-Users-vahid-code-CoS/memory/`)
 - `business-context.md` — Pipeline, financials, team dynamics
-- `donna-personality.md` — Telegram bot personality & voice
+- `donna-personality.md` — Donna personality & voice
 - `cos-session-state.md` — Integration status, credentials, pending items
 - `notion-crm-architecture.md` — CRM schema, DB IDs, rules
 - `fractionalcpo-context.md` — Company, services, research vision
@@ -95,7 +95,7 @@ Writing style, operating patterns, and personal context are in global CLAUDE.md 
 ---
 
 ## Hard Rules
-- **Telegram bot paused** — donna-server on Railway stopped. Code preserved at `donna-server/` for future reactivation.
+- **Donna server deleted from Railway** — code preserved at `donna-server/` and GitHub (`FractionalCPO/donna-server.git`) for future reactivation.
 - **Never send messages without explicit approval**
 - **Don't edit existing files** — only add, flag collisions
 - **Don't edit global or local CLAUDE.md** without explicit approval

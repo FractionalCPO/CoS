@@ -1,11 +1,15 @@
 # Donna — Configured Behaviors
 
+> **STATUS: donna-server is STOPPED (Railway project deleted Feb 25, 2026).**
+> This document describes the donna-server implementation for reference/reactivation.
+> Code preserved at `donna-server/` and GitHub (`FractionalCPO/donna-server.git`).
+
 Last compiled: 2026-02-22
 Sources: CLAUDE.md, telegram.ts, slack.ts, agent.ts, cron.ts, config.ts, railway-claude.json, donna-personality.md
 
 ---
 
-## Chat Behavior (Telegram)
+## Chat Behavior (Telegram — paused)
 
 ### Authorization
 - Only one authorized chat ID is allowed: `112718186` (Vahid's personal Telegram, hardcoded in config)
