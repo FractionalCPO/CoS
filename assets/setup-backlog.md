@@ -24,7 +24,7 @@ Unstructured items from Vahid, captured 2026-02-20. Work through one by one.
 - [ ] Wire task sync into `/debrief` and `/my-tasks` (create tasks in Notion Tasks DB)
 - [ ] Wire retro summary sync to Notion
 
-### D. Telegram Optimization
+### D. Telegram Optimization — PAUSED (donna-server stopped, Railway deleted)
 - [ ] All cron messages: summarized + link to full content (Notion URL or local file path)
 - [ ] Only ask questions on Telegram when genuinely needs Vahid's input
 - [ ] Full reports saved locally, Telegram gets 2-3 line summary

@@ -126,6 +126,8 @@ The utility:
 - Writes the brief into Fellow's Private Notes sidebar (only Vahid sees it)
 - Returns existing content for your review
 
+**Error handling:** If fellow-write.js fails, run `node /Users/vahid/code/CoS/scripts/fellow-login.js` and retry once. If still failing, save talking points to the local prep file only (Step 7) and note in the output that Fellow push failed.
+
 ### Step 7: Save Detailed Prep File
 
 Save expanded prep at `/Users/vahid/code/CoS/assets/meeting-prep-<name>-<date>.md` with full research, strategic play, success criteria.

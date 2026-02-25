@@ -31,7 +31,7 @@ Flag:
 
 ### Step 2: Task Review (with freshness check)
 
-Read `/Users/vahid/code/CoS/my-tasks.yaml`. Before presenting tasks, **verify each pending/overdue task is actually still open**:
+Read `/Users/vahid/code/CoS/my-tasks.yaml`. For authoritative task status, cross-reference with Notion Tasks DB (`bfaf4e0f-1352-40cb-b39e-e441b75c1d96`) when connectivity allows. Before presenting tasks, **verify each pending/overdue task is actually still open**:
 
 1. Cross-reference against:
    - `/Users/vahid/.claude/projects/-Users-vahid-code/memory/cos-session-state.md` — work completed in recent sessions

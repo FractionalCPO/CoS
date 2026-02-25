@@ -38,7 +38,7 @@
 
 ## Current State
 
-donna-server is live on Railway, running 8 cron jobs (~14 oneShot calls/day). Claude Code skills handle complex local work. Two channels: Telegram (bot) + Slack (MCP). Memory is file-based + Notion.
+donna-server STOPPED, Railway project deleted Feb 25, 2026. Local Claude Code is the current operating mode. Claude Code skills handle all work. Primary channel: Slack (MCP). Memory is file-based + Notion.
 
 ---
 

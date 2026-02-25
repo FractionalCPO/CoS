@@ -105,7 +105,6 @@ ONE THING TO FOCUS ON THIS WEEK
    Focus this week: [one thing]
    Full report: saved locally
    ```
-   (Note: Telegram delivery is paused. Present in terminal.)
 
 ### Guidelines
 - **Honest but constructive.** This isn't therapy — it's coaching. Be direct.
@@ -114,6 +113,6 @@ ONE THING TO FOCUS ON THIS WEEK
 - **Don't repeat yourself.** If the same edge showed up in the last Mirror, note progress (or lack thereof).
 - **Connect to stakes.** "This matters because [specific business impact]."
 - **Never share this externally.** This is private self-development data.
-- **Never send messages on any channel without explicit approval** — show the summary draft first. (Telegram delivery is paused.)
+- **Never send messages on any channel without explicit approval** — show the summary draft first.
 - **Frequency:** Weekly by default (Friday, after retro). Can be triggered per-meeting for immediate feedback.
 - **ADHD/OCD context:** Frame growth edges as systems to build, not willpower to exert. "Add a 10-second pause before responding" > "Be more patient."

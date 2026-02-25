@@ -1,3 +1,5 @@
+> Note: Pricing in this document was pre-proposal. Actual proposal (Feb 24): $150K assessment, $2,500/day ongoing. See my-tasks.yaml task-013 for current terms.
+
 # 2026-02-19 (or 2026-02-25) | VeraData — Product Assessment Discovery with Matt Kaiser & Michael Kolpinski
 
 ---

@@ -22,7 +22,7 @@ Try sources in order:
 1. **Granola** — `mcp__claude_ai_Granola__get_meeting_transcript` and `mcp__claude_ai_Granola__get_meetings`
 2. **Fellow** — `mcp__claude_ai_Fellow_ai__get_meeting_transcript` and `mcp__claude_ai_Fellow_ai__get_meeting_summary`
 
-If no transcript found, ask Vahid for a quick verbal summary and work from that.
+If no transcript found and running a single debrief, ask Vahid for a quick verbal summary and work from that. If running `/debrief all` and no transcript is available for a meeting, skip it and flag for manual debrief later.
 
 ### Step 3: Extract Action Items
 
@@ -57,16 +57,15 @@ For each Vahid task:
    - Goal alignment: match to `goals.yaml`
    - Description: include meeting context
    - Priority: infer from urgency signals
-2. **Sync to Notion** — create in the appropriate DB:
-   - Pipeline/deal tasks → Opportunities DB (`de289591-f32a-483d-a51e-6bc158f4173e`)
-   - General tasks → Tasks DB (`bfaf4e0f-1352-40cb-b39e-e441b75c1d96`) using `mcp__claude_ai_Notion__notion-create-pages` with:
+2. **Sync to Notion** — create all action items in the Tasks DB (`bfaf4e0f-1352-40cb-b39e-e441b75c1d96`) using `mcp__claude_ai_Notion__notion-create-pages` with:
      - **Client**: fCPO
      - **Assignee**: `622468d8-a961-4066-b9fe-65c0970a7852` (Vahid)
      - **Priority**: infer from urgency (1=Urgent, 2=High, 3=Medium, 4=Low)
      - **Due date**: from meeting context or 3 business days default
      - **Status**: `Not started` for new tasks, `WIP` if already in progress
-     - **Description/body**: include meeting context and goal alignment
+     - **Description/body**: include meeting context and goal alignment. For pipeline/deal tasks, include a link to the relevant Opportunity page in the description.
      - Store returned `notion_id` in the YAML task entry
+   - For pipeline/deal-related updates (stage changes, notes, next-action), update the Opportunity record directly in Opportunities DB (`de289591-f32a-483d-a51e-6bc158f4173e`) — but action items always go to Tasks DB.
    - Contact/company notes → Companies DB (`5fee82ee-a0e1-41f5-aaca-308e03580182`) or People DB (`11d6ce8b-a1af-455a-b9c5-d50d1aec5796`)
    - **Verify** every Notion write — fetch the page back to confirm it was created correctly
 
@@ -133,4 +132,4 @@ NOTION: Synced ✓
 - For tasks that are "send message to X", create the task AND draft the message. Don't send.
 - Always check if the meeting is part of a recurring series — prior action items may carry over.
 - If the transcript mentions a deadline, use it. If not, default to 3 business days.
-- Keep output concise: just "[meeting name] debriefed — [N] tasks, [N] follow-ups". (Telegram delivery is paused — present in terminal.)
+- Keep output concise: just "[meeting name] debriefed — [N] tasks, [N] follow-ups".

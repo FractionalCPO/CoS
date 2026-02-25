@@ -11,7 +11,7 @@ tasks:
   - id: "task-001"
     title: "Tampa Bay Times follow-up"
     description: "Follow up with Nikhil at Tampa Bay Times ($45-50M news org). They need product leadership. High priority prospect."
-    status: "overdue"
+    status: "pending"
     priority: 1
     due_date: "2026-02-18"
     goal_alignment: "build-pipeline"
@@ -21,7 +21,7 @@ tasks:
   - id: "task-002"
     title: "Mori partnership agreement finalization"
     description: "Finalize partnership agreement with Mori. Legal/commercial terms need closure."
-    status: "overdue"
+    status: "pending"
     priority: 2
     due_date: "2026-02-21"
     goal_alignment: "build-pipeline"
@@ -108,16 +108,6 @@ tasks:
     created: "2026-02-22"
     notes: "Donna saved these as local .md files on Railway which were wiped on redeploy. Only source is Telegram chat history. Vahid needs to pull the msgs."
 
-  - id: "task-012"
-    title: "Create passion project (radial?)"
-    description: "Vahid wants to create a passion project involving 'rad...' — possibly radial design, radical something. Full message truncated in logs."
-    status: "pending"
-    priority: 4
-    due_date: ""
-    goal_alignment: "personal"
-    created: "2026-02-16"
-    notes: "From Telegram. Message repeated 6 times (Donna kept crashing before responding). Needs Vahid to resend or clarify."
-
   - id: "task-011"
     title: "Micro-SaaS Factory — scoping session with Vahid"
     description: "Follow up with Vahid to scope the micro-SaaS factory project. 10 open questions in /Users/vahid/code/micro-saas-factory/README.md need answers: budget per idea, tech stack, portfolio size, pricing floor, domain budget, build involvement, revenue target, timeline, narrowing criteria, competitive moat. Once answered, run first batch of keyword research + domain availability checks."
@@ -127,6 +117,16 @@ tasks:
     goal_alignment: "revenue"
     created: "2026-02-19"
     notes: "Project folder: /Users/vahid/code/micro-saas-factory/. Playbook: high-volume keyword → available domain → micro-SaaS MVP → low price → volume play. Markets mapped from Vahid's experience across 3 tiers."
+
+  - id: "task-012"
+    title: "Create passion project (radial?)"
+    description: "Vahid wants to create a passion project involving 'rad...' — possibly radial design, radical something. Full message truncated in logs."
+    status: "pending"
+    priority: 4
+    due_date: ""
+    goal_alignment: "personal"
+    created: "2026-02-16"
+    notes: "From Telegram. Message repeated 6 times (Donna kept crashing before responding). Needs Vahid to resend or clarify."
 
   - id: "task-013"
     title: "VeraData proposal review — prep for Tuesday meeting"

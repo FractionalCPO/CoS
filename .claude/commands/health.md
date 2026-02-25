@@ -50,3 +50,4 @@ No arguments.
 - Test by DOING, not by checking config files
 - Report failures honestly — don't mask errors
 - Keep output concise — table format with status + brief note
+- Severity tiers for failures: **Critical** = Calendar + Notion (blocks /gm, /my-tasks). **Important** = Slack + Gmail (blocks /triage). **Informational** = all others.

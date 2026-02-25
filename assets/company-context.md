@@ -25,6 +25,7 @@
 
 ## Pipeline
 - **Tampa Bay Times** — $45-50M news org, needs product leadership. Contact: Nikhil. High priority.
+- **VeraData** — Nonprofit data analytics co, PE-backed by Beringer Capital. $150K assessment proposed 2/24, MSA under review. Contacts: Dave Hinton (Beringer OP), Matt Kaiser (CSO), Mike Kulpinski (COO).
 - **Trader** — Fintech/automotive, 3mo-2yr potential
 - **ClearLake Capital** — the main PE investor in CtCt, need to get into their portfolio
 - **CTCT competitors** — Targeting ActiveCampaign + other PE-owned email platforms. MSA is non-exclusive. Case study fresh this quarter only.

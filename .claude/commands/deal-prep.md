@@ -64,7 +64,7 @@ OPEN QUESTIONS
 ### Step 3: Update CRM Opportunity
 
 Using `mcp__claude_ai_Notion__notion-update-page`:
-1. Update opportunity stage if it should advance (e.g., Discovery → Proposal)
+1. If the opportunity stage should advance (e.g., Discovery → Proposal), **recommend the change and wait for Vahid's approval before writing to Notion**
 2. Update notes with synthesis highlights
 3. Set next action date
 4. **Verify** — fetch the page back to confirm updates applied
@@ -125,7 +125,7 @@ Structure:
    - Include full synthesis in notes
 
 2. **Notion** — create in Tasks DB (`bfaf4e0f-1352-40cb-b39e-e441b75c1d96`):
-   - **Name**: task title
+   - **Task name**: task title
    - **Client**: fCPO
    - **Assignee**: `622468d8-a961-4066-b9fe-65c0970a7852` (Vahid)
    - **Priority**: Urgent (1=Urgent, 2=High, 3=Medium, 4=Low)
@@ -166,9 +166,9 @@ Show Vahid:
 
 ## Guidelines
 
-- This skill is for deals reaching proposal stage or beyond. For early-stage lead research, use `/research:collect` instead.
+- This skill is for deals reaching proposal stage or beyond. For early-stage lead research, use `/research:collect` instead (in fcpo-research project — switch directory first).
 - Always check if a proposal draft already exists before creating a new one — search Notion first.
 - Pricing: state Vahid's position if known from conversations. If not discussed, mark as TBD and flag it as a blocker.
-- Team assignments: use ownership routing from slack-writing-style.md (pricing→Mauricio, GPL/MSA→Courtney, scheduling→Ryan).
+- Team assignments: use ownership routing from slack-writing-style.md (pricing→Mauricio, GPL/MSA→Courtney, scheduling→Vahid or Courtney).
 - The proposal is a living doc — it will be iterated. Don't aim for perfection on first pass.
 - Save a local copy of the synthesis at `/Users/vahid/code/CoS/assets/deal-prep/[company]-synthesis.md`.

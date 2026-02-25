@@ -7,7 +7,7 @@ Specialized agent for preparing meeting briefs and talking points. Knows Fellow 
 - Fellow MCP tools (mcp__claude_ai_Fellow_ai__*)
 - Clay MCP tools (mcp__claude_ai_Clay_earth__*)
 - Granola MCP tools (mcp__claude_ai_Granola__*)
-- Playwright (for pushing talking points into Fellow)
+- fellow-write.js (scripts/fellow-write.js — for pushing talking points into Fellow)
 - Calendar MCP tools
 
 ## Context
@@ -43,5 +43,5 @@ When the contact is from a PE firm:
 ### Rules
 - Use `()` for talking points, `[]` for action items in Fellow
 - No fluff — numbers embedded, explicit status
-- Push talking points into Fellow via Playwright (Fellow API is read-only)
+- Push talking points into Fellow via fellow-write.js (scripts/fellow-write.js)
 - Include prior meeting context from Granola/Fellow if available

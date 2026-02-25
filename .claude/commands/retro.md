@@ -82,7 +82,7 @@ If progress has changed, update `/Users/vahid/code/CoS/goals.yaml` with new prog
 Push the retro summary to Notion Tasks DB (`bfaf4e0f-1352-40cb-b39e-e441b75c1d96`) using `mcp__claude_ai_Notion__notion-create-pages`:
 
 1. **Create a retro page** with:
-   - **Name**: `Weekly Retro — [date range]` (or `Monthly Retro — [month]`)
+   - **Task name**: `Weekly Retro — [date range]` (or `Monthly Retro — [month]`)
    - **Client**: fCPO
    - **Assignee**: `622468d8-a961-4066-b9fe-65c0970a7852` (Vahid)
    - **Status**: `Done`
@@ -90,7 +90,7 @@ Push the retro summary to Notion Tasks DB (`bfaf4e0f-1352-40cb-b39e-e441b75c1d96
    - **Priority**: Low (4)
    - **Body content**: full retro output (scorecard, wins, misses, patterns, recommendations)
 2. **Check for existing retro page** — search Notion for a page with matching title to avoid duplicates. If found, update it using `mcp__claude_ai_Notion__notion-update-page` instead of creating a new one.
-3. **Create tasks from recommendations** — for each actionable recommendation from Step 4, create a task in both YAML and Notion Tasks DB with the same property mapping:
+3. **Create tasks from recommendations** — for each actionable recommendation from Step 4, first search Notion Tasks DB for similar existing tasks (by title keyword match). Update existing tasks rather than creating duplicates. For genuinely new items, create a task in both YAML and Notion Tasks DB with the same property mapping:
    - **Client**: fCPO
    - **Assignee**: `622468d8-a961-4066-b9fe-65c0970a7852` (Vahid)
    - **Priority**: infer from recommendation urgency
@@ -101,7 +101,7 @@ Push the retro summary to Notion Tasks DB (`bfaf4e0f-1352-40cb-b39e-e441b75c1d96
 
 ### Step 7: Queue Review Items
 
-If there are items Vahid needs to personally review (drafts, strategy decisions, approvals), compile them into a "Review Queue" and present them. Schedule a 30-minute review block on his calendar if one doesn't exist this week.
+If there are items Vahid needs to personally review (drafts, strategy decisions, approvals), compile them into a "Review Queue" and present them. See `/review-queue` for the structured review process. Schedule a 30-minute review block on his calendar if one doesn't exist this week.
 
 ### Guidelines
 - Be honest. If goals are at risk, say so clearly.
@@ -109,4 +109,5 @@ If there are items Vahid needs to personally review (drafts, strategy decisions,
 - Recommendations should be specific and actionable, not generic.
 - Monthly retros should include trend lines (are scores improving over time?).
 - Run on Fridays (manually or via local cron). Full report saved to `/Users/vahid/code/CoS/assets/retros/retro-YYYY-MM-DD.md`.
-- **Never send messages on any channel without explicit approval** — show the summary draft first. (Telegram delivery is paused — present in terminal.)
+- **Never send messages on any channel without explicit approval** — show the summary draft first.
+- After retro, suggest running `/the-mirror` for personal growth review.

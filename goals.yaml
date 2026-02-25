@@ -72,3 +72,4 @@ personal:
   - name: "Dominican Republic trip prep"
     target: "Ready by March 4"
     progress: 0.0
+    status: "pending"

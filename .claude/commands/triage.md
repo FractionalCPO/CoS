@@ -53,6 +53,8 @@ For each item found, assign a triage tier:
 | **Tier 2** | Important but not urgent, requires thoughtful response, due today | Handle today |
 | **Tier 3** | FYI, newsletters, automated notifications, low-stakes | Archive or brief ack |
 
+For specific contact-to-tier mappings, reference `assets/company-context.md`.
+
 **Tier assignment factors:**
 - Who sent it? (Key contacts and leadership = higher tier)
 - Is someone blocked waiting for a response?

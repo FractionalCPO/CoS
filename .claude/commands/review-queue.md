@@ -35,7 +35,7 @@ If Gmail MCP is connected, check both accounts for draft emails:
 ### Step 4: Pipeline Decisions
 
 Query Notion for pipeline items needing decisions:
-- **Prospecting DB** — leads in "Ready" or "Outreach" status needing next action
+- **Prospecting DB** (`30875085-bfd7-8057-862b-e37e0db533e3`, linked view of Companies) — leads in "Ready" or "Outreach" status needing next action
 - **Opportunities DB** (`de289591-f32a-483d-a51e-6bc158f4173e`) — deals needing follow-up, proposals to send, negotiations stalled
 - Flag anything that's been in the same status for 5+ days
 
@@ -82,7 +82,7 @@ Top: [highest priority item in 1 line]
 Full report saved — run /review-queue for details
 ```
 
-(Note: Telegram delivery is paused. Present in terminal. **Never send messages on any channel without explicit approval.**)
+**Never send messages on any channel without explicit approval.**
 
 ### Guidelines
 

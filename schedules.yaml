@@ -1,7 +1,7 @@
 # Schedules — Automation Configuration
 #
 # DESIGN REFERENCE — describes the intended automation schedule.
-# donna-server on Railway is currently STOPPED. These jobs are not running automatically.
+# donna-server Railway project was DELETED Feb 25, 2026. These jobs are not running automatically.
 # Current mode: local Claude Code with manual command invocation (/gm, /triage, etc.)
 # When donna-server is reactivated, cron.ts implements these schedules.
 #

@@ -41,46 +41,53 @@ print()
 
 # --- 2. Schedule cross-check (schedules.yaml vs cron.ts SCHEDULE array) ---
 print("[2] Schedule Cross-Check")
-sched_text = SCHEDULES.read_text()
-cron_text = CRON.read_text()
+if not CRON.exists():
+    w("donna-server/src/cron.ts not found (gitignored or Railway deleted) — skipping schedule cross-check")
+else:
+    sched_text = SCHEDULES.read_text()
+    cron_text = CRON.read_text()
 
-yaml_data = yaml.safe_load(sched_text)
+    yaml_data = yaml.safe_load(sched_text)
 
-# Normalize: "Morning Briefing" -> "morningbriefing", "morningBriefing" -> "morningbriefing"
-def normalize(name):
-    return re.sub(r'[\s_-]+', '', name).lower()
+    # Normalize: "Morning Briefing" -> "morningbriefing", "morningBriefing" -> "morningbriefing"
+    def normalize(name):
+        return re.sub(r'[\s_-]+', '', name).lower()
 
-yaml_jobs = {normalize(e["name"]): e["name"] for e in yaml_data.get("schedules", [])}
+    yaml_jobs = {normalize(e["name"]): e["name"] for e in yaml_data.get("schedules", [])}
 
-# Extract job names from cron.ts SCHEDULE array
-cron_raw = re.findall(r'name:\s*"([^"]+)"', cron_text)
-cron_jobs = {normalize(n): n for n in cron_raw}
+    # Extract job names from cron.ts SCHEDULE array
+    cron_raw = re.findall(r'name:\s*"([^"]+)"', cron_text)
+    cron_jobs = {normalize(n): n for n in cron_raw}
 
-# Git Auto-Sync is handled by git-sync.ts, not in SCHEDULE array
-yaml_jobs.pop(normalize("Git Auto-Sync"), None)
+    # Git Auto-Sync is handled by git-sync.ts, not in SCHEDULE array
+    yaml_jobs.pop(normalize("Git Auto-Sync"), None)
 
-matched = set()
-for norm, display in sorted(yaml_jobs.items()):
-    if norm in cron_jobs:
-        p(f"{display}: present in both (cron.ts: {cron_jobs[norm]})")
-        matched.add(norm)
-    else:
-        w(f"{display}: in schedules.yaml but not in cron.ts SCHEDULE")
+    matched = set()
+    for norm, display in sorted(yaml_jobs.items()):
+        if norm in cron_jobs:
+            p(f"{display}: present in both (cron.ts: {cron_jobs[norm]})")
+            matched.add(norm)
+        else:
+            w(f"{display}: in schedules.yaml but not in cron.ts SCHEDULE")
 
-for norm, name in sorted(cron_jobs.items()):
-    if norm not in matched:
-        f(f"{name}: in cron.ts but not in schedules.yaml")
+    for norm, name in sorted(cron_jobs.items()):
+        if norm not in matched:
+            f(f"{name}: in cron.ts but not in schedules.yaml")
 print()
 
 # --- 3. SOR compliance ---
 print("[3] SOR Compliance")
-sor_violations = [line for line in cron_text.splitlines()
-                  if "CoS/assets/" in line and "draft" in line.lower()
-                  and "source-of-record" not in line and "SOR compliance" not in line]
-if sor_violations:
-    f("cron.ts references local drafts in CoS/assets/ — SOR for email drafts is Gmail")
+if not CRON.exists():
+    w("donna-server/src/cron.ts not found — skipping SOR compliance check")
 else:
-    p("No SOR violation for email drafts (should be Gmail)")
+    cron_text_sor = CRON.read_text()
+    sor_violations = [line for line in cron_text_sor.splitlines()
+                      if "CoS/assets/" in line and "draft" in line.lower()
+                      and "source-of-record" not in line and "SOR compliance" not in line]
+    if sor_violations:
+        f("cron.ts references local drafts in CoS/assets/ — SOR for email drafts is Gmail")
+    else:
+        p("No SOR violation for email drafts (should be Gmail)")
 print()
 
 # --- 4. Stale references ---

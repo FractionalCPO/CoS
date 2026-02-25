@@ -1,3 +1,5 @@
+> Note: Pricing in this document was pre-proposal. Actual proposal (Feb 24): $150K assessment, $2,500/day ongoing. See my-tasks.yaml task-013 for current terms.
+
 # VeraData Rate Card — Internal Reference
 **For:** Vahid's follow-up call with Dave Hinton (Beringer Capital)
 **Context:** Dave said standard fCPO rates ($4,500/day product leader, $3,500/day director IC) are "bigger than they can bite off"

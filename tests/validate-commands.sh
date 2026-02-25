@@ -26,7 +26,7 @@ OPPORTUNITIES_ID="de289591-f32a-483d-a51e-6bc158f4173e"
 TASKS_ID="bfaf4e0f-1352-40cb-b39e-e441b75c1d96"
 
 echo "=== Command File Structure ==="
-for cmd in debrief enrich gm meeting-prep my-tasks retro the-mirror triage; do
+for cmd in debrief enrich gm meeting-prep my-tasks retro the-mirror triage review-queue health deal-prep; do
   f="$CMD_DIR/$cmd.md"
   if [ ! -f "$f" ]; then
     fail "$cmd.md does not exist"
@@ -59,7 +59,7 @@ done
 
 echo ""
 echo "=== Symlinks ==="
-for cmd in debrief enrich gm meeting-prep my-tasks retro the-mirror triage; do
+for cmd in debrief enrich gm meeting-prep my-tasks retro the-mirror triage review-queue health deal-prep; do
   s="$SYMLINK_DIR/$cmd.md"
   if [ -L "$s" ]; then
     target=$(readlink "$s")

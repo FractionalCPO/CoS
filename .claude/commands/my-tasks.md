@@ -11,6 +11,8 @@ Claude doesn't just remind you — it helps get work done.
 - `execute` — Work on the highest-priority pending task
 - `overdue` — Show only overdue and at-risk tasks
 
+Stored statuses: pending | in_progress | blocked | complete. Note: "overdue" is a computed state (pending + past due date), not a stored status.
+
 ## Task File
 Location: `/Users/vahid/code/CoS/my-tasks.yaml`
 
@@ -56,7 +58,7 @@ When adding a task:
    - Description (optional — helpful for complex tasks)
 3. Write the task to `/Users/vahid/code/CoS/my-tasks.yaml`
 4. **Sync to Notion Tasks DB** — create a page in Tasks DB (`bfaf4e0f-1352-40cb-b39e-e441b75c1d96`) using `mcp__claude_ai_Notion__notion-create-pages`:
-   - **Name**: task title
+   - **Task name**: task title
    - **Client**: fCPO
    - **Assignee**: `622468d8-a961-4066-b9fe-65c0970a7852` (Vahid)
    - **Priority**: map from task priority (1=Urgent, 2=High, 3=Medium, 4=Low)

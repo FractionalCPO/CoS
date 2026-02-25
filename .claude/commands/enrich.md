@@ -29,6 +29,7 @@ Scan connected channels for recent interactions and update contact files.
    - Calendar: Meetings that occurred with known contacts
 
 2. **For each interaction found:**
+   - Write to Clay first (SOR) using `mcp__claude_ai_Clay_earth__updateContact`, then update the local contact cache file
    - Look up the contact file in `/Users/vahid/code/CoS/contacts/`
    - If the file exists: Update "Last Interaction" and add to "Interaction History"
    - If no file exists and the person seems important: Suggest creating one
