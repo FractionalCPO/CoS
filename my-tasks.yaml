@@ -183,3 +183,33 @@ tasks:
     goal_alignment: "sales-infra"
     created: "2026-02-22"
     notes: "googleapis npm package. Template pattern: design master in Slides UI, script copies + injects content. Reusable for all future proposals."
+
+  - id: "task-018"
+    title: "Decide on overdue tasks: Tampa Bay Times + Mori"
+    description: "Tampa Bay Times follow-up (7 days overdue) and Mori partnership (4 days overdue) need decision: reschedule, close, or deprioritize."
+    status: "pending"
+    priority: 1
+    due_date: "2026-02-26"
+    goal_alignment: "build-pipeline"
+    created: "2026-02-25"
+    notes: "NEEDS VAHID. Audit flagged these as stale. task-001 and task-002."
+
+  - id: "task-019"
+    title: "Decide on Micro-SaaS Factory scope"
+    description: "task-011 was due Feb 25. Decide whether to scope the micro-SaaS factory now or defer. 10 open questions in README.md."
+    status: "pending"
+    priority: 3
+    due_date: "2026-02-26"
+    goal_alignment: "revenue"
+    created: "2026-02-25"
+    notes: "NEEDS VAHID. Low priority vs pipeline work."
+
+  - id: "task-020"
+    title: "Update goals.yaml — revise March 1 targets"
+    description: "Objective 1 (5 verified opportunities by March 1) at 35% with 3 days left. Update progress to reflect VeraData meeting outcome. Revise target if needed."
+    status: "pending"
+    priority: 2
+    due_date: "2026-02-26"
+    goal_alignment: "build-pipeline"
+    created: "2026-02-25"
+    notes: "NEEDS VAHID. Also review proposed-writing-style-changes.md (7 rules to adopt or discard)."
