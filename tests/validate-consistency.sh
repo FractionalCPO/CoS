@@ -15,8 +15,8 @@ COS = Path("/Users/vahid/code/CoS")
 CRON = COS / "donna-server/src/cron.ts"
 SCHEDULES = COS / "schedules.yaml"
 SOR = COS / "assets/source-of-record.md"
-TASKS = COS / "my-tasks.yaml"
 GOALS = COS / "goals.yaml"
+# Tasks migrated to Obsidian ops/tasks.md (markdown, not YAML)
 
 PASS = FAIL = WARN = 0
 
@@ -31,7 +31,7 @@ print("=== CoS Consistency Validation ===\n")
 
 # --- 1. YAML syntax ---
 print("[1] YAML Syntax")
-for fpath in [SCHEDULES, TASKS, GOALS]:
+for fpath in [SCHEDULES, GOALS]:
     try:
         yaml.safe_load(fpath.read_text())
         p(f"{fpath.name} — valid YAML")
@@ -110,20 +110,15 @@ if not found_stale:
     p("No stale references to deleted files")
 print()
 
-# --- 5. Overdue tasks ---
+# --- 5. Tasks file exists (migrated to Obsidian) ---
 from datetime import date
 TODAY = str(date.today())
-print(f"[5] Overdue Tasks (due < {TODAY})")
-tasks_data = yaml.safe_load(TASKS.read_text())
-overdue_count = 0
-for t in tasks_data.get("tasks", []):
-    d = t.get("due_date", "")
-    s = t.get("status", "")
-    if d and str(d) < TODAY and s not in ("complete",):
-        w(f"{t['id']}: '{t['title']}' due {d}, status={s}")
-        overdue_count += 1
-if overdue_count == 0:
-    p("No overdue tasks")
+print("[5] Tasks File")
+TASKS_MD = Path("/Users/vahid/Obsidian/vivo/ops/tasks.md")
+if TASKS_MD.exists():
+    p(f"Tasks file exists at {TASKS_MD}")
+else:
+    f(f"Tasks file missing at {TASKS_MD}")
 print()
 
 # --- 6. Goals progress ---

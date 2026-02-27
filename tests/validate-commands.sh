@@ -1,22 +1,24 @@
 #!/bin/bash
 # Validation tests for the CoS command system
 # Run: bash /Users/vahid/code/CoS/tests/validate-commands.sh
+#
+# Architecture: Commands live globally at ~/.claude/commands/ (not in CoS).
+# CoS repo contains: agents, scripts, goals, cron, hooks, tests.
 set -uo pipefail
 
 PASS=0
 FAIL=0
 WARN=0
 
-pass() { echo "  PASS: $1"; ((PASS++)); }
-fail() { echo "  FAIL: $1"; ((FAIL++)); }
-warn() { echo "  WARN: $1"; ((WARN++)); }
+pass() { echo "  PASS: $1"; PASS=$((PASS+1)); }
+fail() { echo "  FAIL: $1"; FAIL=$((FAIL+1)); }
+warn() { echo "  WARN: $1"; WARN=$((WARN+1)); }
 
 COS_DIR="/Users/vahid/code/CoS"
-CMD_DIR="$COS_DIR/.claude/commands"
+CMD_DIR="$HOME/.claude/commands"
 AGENT_DIR="$COS_DIR/.claude/agents"
 CRON_DIR="$HOME/.claude/cron"
 HOOK_DIR="$HOME/.claude/hooks"
-SYMLINK_DIR="$HOME/.claude/commands/cos"
 
 # === Canonical DB IDs ===
 COMPANIES_ID="5fee82ee-a0e1-41f5-aaca-308e03580182"
@@ -26,10 +28,10 @@ OPPORTUNITIES_ID="de289591-f32a-483d-a51e-6bc158f4173e"
 TASKS_ID="bfaf4e0f-1352-40cb-b39e-e441b75c1d96"
 
 echo "=== Command File Structure ==="
-for cmd in debrief enrich gm meeting-prep my-tasks retro the-mirror triage review-queue health deal-prep; do
+for cmd in debrief enrich gm meeting-prep my-tasks retro the-mirror triage health deal-prep warmup obsidian-cleanup; do
   f="$CMD_DIR/$cmd.md"
   if [ ! -f "$f" ]; then
-    fail "$cmd.md does not exist"
+    fail "$cmd.md does not exist at $CMD_DIR/"
     continue
   fi
   # Check required sections
@@ -58,21 +60,17 @@ for cmd in debrief enrich gm meeting-prep my-tasks retro the-mirror triage revie
 done
 
 echo ""
-echo "=== Symlinks ==="
-for cmd in debrief enrich gm meeting-prep my-tasks retro the-mirror triage review-queue health deal-prep; do
-  s="$SYMLINK_DIR/$cmd.md"
-  if [ -L "$s" ]; then
-    target=$(readlink "$s")
-    expected="$CMD_DIR/$cmd.md"
-    if [ "$target" = "$expected" ]; then
-      pass "symlink $cmd.md -> correct target"
-    else
-      fail "symlink $cmd.md -> $target (expected $expected)"
-    fi
+echo "=== No Stale CoS Command Copies ==="
+if [ -d "$COS_DIR/.claude/commands" ]; then
+  count=$(ls "$COS_DIR/.claude/commands/"*.md 2>/dev/null | wc -l | tr -d ' ')
+  if [ "$count" -gt 0 ]; then
+    fail "CoS has $count command files in .claude/commands/ — these shadow global commands. Delete them."
   else
-    fail "symlink $cmd.md does not exist"
+    pass "CoS .claude/commands/ is empty"
   fi
-done
+else
+  pass "No stale CoS command copies (directory doesn't exist)"
+fi
 
 echo ""
 echo "=== Agent DB IDs ==="
@@ -93,7 +91,7 @@ fi
 
 echo ""
 echo "=== YAML Validation ==="
-for yf in goals.yaml my-tasks.yaml schedules.yaml; do
+for yf in goals.yaml schedules.yaml; do
   full="$COS_DIR/$yf"
   if [ ! -f "$full" ]; then
     fail "$yf does not exist"
@@ -172,7 +170,7 @@ for f in "$CMD_DIR"/*.md "$AGENT_DIR"/*.md; do
   fi
 done
 # Check known correct tool name patterns appear
-for tool_pattern in "mcp__claude_ai_Granola__" "mcp__claude_ai_Fellow_ai__" "mcp__claude_ai_Notion__" "mcp__claude_ai_Slack__" "mcp__claude_ai_Clay_earth__"; do
+for tool_pattern in "mcp__claude_ai_Granola__" "mcp__claude_ai_Fellow_ai__" "mcp__claude_ai_Notion__" "mcp__claude_ai_Clay_earth__"; do
   count=$(grep -rl "$tool_pattern" "$CMD_DIR"/*.md "$AGENT_DIR"/*.md 2>/dev/null | wc -l | tr -d ' ')
   if [ "$count" -gt 0 ]; then
     pass "MCP pattern $tool_pattern found in $count files"
@@ -181,12 +179,14 @@ done
 
 echo ""
 echo "=== Safety: No Auto-Send ==="
-for f in "$CMD_DIR"/*.md; do
-  fname=$(basename "$f")
+# Only check commands that involve outbound communication
+for cmd in deal-prep debrief enrich retro the-mirror triage; do
+  f="$CMD_DIR/$cmd.md"
+  [ -f "$f" ] || continue
   if grep -qi 'never.*auto.*send\|never send.*without.*approval\|wait for.*approval\|draft.*wait\|NEVER auto-send' "$f"; then
-    pass "$fname has message-sending guardrail"
+    pass "$cmd.md has message-sending guardrail"
   else
-    warn "$fname has no explicit message-sending guardrail (may be OK if no messaging)"
+    fail "$cmd.md MISSING message-sending guardrail"
   fi
 done
 
@@ -195,7 +195,6 @@ echo "=== Notion DB ID Completeness ==="
 # Check that all DB ID references use full UUIDs, not truncated
 for f in "$CMD_DIR"/*.md; do
   fname=$(basename "$f")
-  # Find truncated IDs (8 hex chars in backticks not followed by a dash)
   if grep -oP '`[0-9a-f]{8}`' "$f" > /dev/null 2>&1; then
     fail "$fname has truncated Notion DB IDs (use full UUID)"
   else
@@ -236,9 +235,9 @@ if grep -qi 'clay' "$CMD_DIR/debrief.md"; then
 else
   fail "debrief.md does not reference Clay for contact updates"
 fi
-# retro.md should specify local save path
-if grep -q 'assets/retros/' "$CMD_DIR/retro.md"; then
-  pass "retro.md specifies local save path (assets/retros/)"
+# retro.md should specify local save path in Obsidian
+if grep -q 'ops/retros/' "$CMD_DIR/retro.md"; then
+  pass "retro.md specifies local save path (ops/retros/)"
 else
   fail "retro.md does not specify local save path per SOR"
 fi
@@ -247,7 +246,6 @@ echo ""
 echo "=== No Emojis ==="
 for f in "$CMD_DIR"/*.md; do
   fname=$(basename "$f")
-  # Check for common emoji unicode ranges
   if grep -P '[\x{1F300}-\x{1F9FF}]|[\x{2600}-\x{26FF}]|[\x{2700}-\x{27BF}]' "$f" > /dev/null 2>&1; then
     fail "$fname contains emoji characters (violates style rules)"
   else
@@ -256,38 +254,7 @@ for f in "$CMD_DIR"/*.md; do
 done
 
 echo ""
-echo "=== Telegram Guardrails ==="
-# Commands that send Telegram should have approval guards
-for cmd in retro the-mirror review-queue; do
-  f="$CMD_DIR/$cmd.md"
-  [ -f "$f" ] || continue
-  if grep -qi 'telegram' "$f"; then
-    if grep -qi 'approval\|never send.*without\|show.*draft.*first' "$f"; then
-      pass "$cmd.md has Telegram send guardrail"
-    else
-      fail "$cmd.md sends Telegram without approval guardrail"
-    fi
-  fi
-done
-
-echo ""
-echo "=== Old Commands Staleness ==="
-OLD_CMD_DIR="$COS_DIR/commands"
-if [ -d "$OLD_CMD_DIR" ]; then
-  for f in "$OLD_CMD_DIR"/*.md; do
-    fname=$(basename "$f")
-    if grep -q '{{' "$f"; then
-      warn "OLD $fname still has {{placeholders}} — stale/unmigrated"
-    fi
-    if grep -q '~/.claude/my-tasks\|~/.claude/goals\|~/.claude/contacts/' "$f"; then
-      warn "OLD $fname uses ~/.claude/ paths — stale/unmigrated"
-    fi
-  done
-fi
-
-echo ""
 echo "=== Schedule-Cron Alignment ==="
-# Check that each schedule entry has a corresponding cron script
 schedules_file="$COS_DIR/schedules.yaml"
 if [ -f "$schedules_file" ]; then
   grep 'script:' "$schedules_file" | sed 's/.*script: *//' | tr -d '"' | while read -r script_path; do
