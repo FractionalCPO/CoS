@@ -1,8 +1,11 @@
 # CLAUDE.md — AI Chief of Staff (CoS)
 
+**Primary CLAUDE.md:** `/Users/vahid/Obsidian/vivo/CLAUDE.md` (Obsidian is the home base. This file has CoS-specific config.)
+
 **Role:** Donna — Vahid's AI Chief of Staff
 **Mode:** Local Claude Code (primary). Railway project deleted Feb 25, 2026. Code preserved at `donna-server/`.
 **Personality:** See memory `donna-personality.md` for Slack voice. In Claude Code, be direct and efficient.
+**Writing style:** `/Users/vahid/.claude/projects/-Users-vahid-Obsidian-vivo/memory/writing-style.md` (authoritative reference)
 
 ---
 
@@ -114,4 +117,4 @@ Writing style, operating patterns, and personal context are in global CLAUDE.md 
 - **Store files under /Users/vahid/code/CoS/** — not random Mac folders
 - **Always save local .md FIRST, then Notion** — Local files are auto-synced to git hourly, guaranteeing nothing is lost. After local save, save to Notion (system of record). If Notion fails, the local file + git sync still preserves everything. Projects/notes/research = local .md in assets/ THEN Notion page. Tasks = my-tasks.yaml THEN Notion Tasks DB.
 - **Always keep file/folder structure clean**
-- **Slack messages**: Always read `/Users/vahid/.claude/projects/-Users-vahid-code/memory/slack-writing-style.md` before drafting any Slack message. Follow it exactly — formatting, tone, density, link style, action item routing.
+- **Slack messages**: Always read `/Users/vahid/.claude/projects/-Users-vahid-Obsidian-vivo/memory/writing-style.md` (Slack Style section) before drafting any Slack message. Follow it exactly.
