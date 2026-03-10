@@ -72,8 +72,8 @@ PROMPT_END
 
 echo "$ENTRIES" >> "$TMPFILE"
 
-# Call Claude CLI (Haiku for speed + cost)
-EXTRACTED=$("$CLAUDE" -p --model haiku < "$TMPFILE" 2>/dev/null) || {
+# Call Claude CLI (Opus for quality — this is high-leverage work)
+EXTRACTED=$("$CLAUDE" -p --model opus < "$TMPFILE" 2>/dev/null) || {
   log "ERROR: Claude CLI failed (exit $?)"
   exit 1
 }
