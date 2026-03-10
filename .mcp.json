@@ -6,7 +6,7 @@
     },
     "apollo": {
       "command": "bash",
-      "args": ["/Users/vahid/.claude/mcp-wrappers/kc-launch.sh", "APOLLO_API_KEY", "--", "npx", "-y", "@thevgergroup/apollo-io-mcp"]
+      "args": ["/Users/vahid/.claude/mcp-wrappers/apollo-mcp.sh"]
     },
     "gmail-fcpo": {
       "command": "bash",
