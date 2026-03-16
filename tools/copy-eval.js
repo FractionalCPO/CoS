@@ -200,7 +200,8 @@ const RULES = [
         'haven\'t heard back',
         'no response',
         'i\'ll stop',
-        'not interested',
+        'if you\'re not interested',
+        'let me know if not interested',
         'don\'t want to bother',
       ];
       const lc = body.toLowerCase();
