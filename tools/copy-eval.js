@@ -264,6 +264,30 @@ const RULES = [
   },
 
   {
+    id: 'no-third-person-company',
+    name: 'No third-person framing for recipient\'s company — use "your" not company name/pronoun',
+    touchFilter: null,
+    check(body) {
+      const violations = [];
+      // "product (leadership) at {{company}}" — template form
+      const templatePattern = /product\s+(leadership\s+)?at\s+\{\{company\}\}/gi;
+      for (const m of [...body.matchAll(templatePattern)]) {
+        violations.push(`Third-person company: "${getContext(body, m.index, 50)}" — use "your product" or "your product leadership"`);
+      }
+      // "the company committed to" — specific phrase
+      if (/the company committed to/i.test(body)) {
+        violations.push('"the company committed to" — use "you committed to"');
+      }
+      // "its [product/email/growth/team/platform/business]" — referring to recipient's company
+      const itsPattern = /\bits\s+(product|email|growth|team|platform|business)\b/gi;
+      for (const m of [...body.matchAll(itsPattern)]) {
+        violations.push(`Third-person "its" framing: "${getContext(body, m.index, 40)}" — use "your"`);
+      }
+      return violations;
+    }
+  },
+
+  {
     id: 'booking-link-by-touch',
     name: 'Booking link rule: T1-T3 = no link, T4+ = required',
     touchFilter: null,
@@ -460,6 +484,12 @@ const FIXTURES = [
     body: 'Constant Contact had a record financial year because we fixed the product org. Is this worth 15 minutes?',
     expectViolations: ['no-product-org'],
   },
+  {
+    name: 'third-person company framing',
+    touch: 4,
+    body: 'Hi {{firstName}},\n\nHow is product leadership at {{company}} being set up to close the NRR gap?\n\nConstant Contact just had their best financial year for the current management team. We helped them get there.\n\nIs this worth 15 minutes? [Grab a time here]\n\nVahid Jozi\nPartner, FractionalCPO\nfractionalcpo.com',
+    expectViolations: ['no-third-person-company'],
+  },
   // Should PASS
   {
     name: 'clean T1',
@@ -470,7 +500,7 @@ const FIXTURES = [
   {
     name: 'clean T4 with trigger',
     touch: 4,
-    body: 'Hi {{firstName}},\n\nHow is product leadership at {{company}} being set up to close the NRR gap over the last five quarters?\n\nConstant Contact just had their best financial year for the current management team. We helped them get there in a few months.\n\nIs this worth 15 minutes? [Grab a time here]\n\nVahid Jozi\nPartner, FractionalCPO\nfractionalcpo.com',
+    body: 'Hi {{firstName}},\n\nHow is your product leadership being set up to close the NRR gap over the last five quarters?\n\nConstant Contact just had their best financial year for the current management team. We helped them get there in a few months.\n\nIs this worth 15 minutes? [Grab a time here]\n\nVahid Jozi\nPartner, FractionalCPO\nfractionalcpo.com',
     expectViolations: [],
   },
 ];
