@@ -22,6 +22,13 @@
         "REFRESH_TOKEN_KEY": "GOOGLE_REFRESH_TOKEN_HI"
       }
     },
+    "gmail-donna": {
+      "command": "bash",
+      "args": ["/Users/vahid/.claude/mcp-wrappers/gmail-mcp.sh"],
+      "env": {
+        "REFRESH_TOKEN_KEY": "GOOGLE_REFRESH_TOKEN_DONNA"
+      }
+    },
     "calendar-fcpo": {
       "command": "bash",
       "args": ["/Users/vahid/.claude/mcp-wrappers/google-calendar-mcp.sh"],
