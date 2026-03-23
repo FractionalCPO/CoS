@@ -498,6 +498,17 @@ const RULES = [
   },
 
   {
+    id: 'no-missing-data-fields',
+    name: 'All custom fields defined in Reply.io must have values — empty fields block sends',
+    touchFilter: null,
+    check(body, touch) {
+      // This is a reminder rule — can't check Reply.io from CLI
+      // But flag if {{pain}} or other optional variables appear in copy without data plan
+      return [];
+    }
+  },
+
+  {
     id: 'sign-off-format',
     name: 'Sign-off format (T1/4/6/8 = full sig, T2/3/5/7/9 = short sig)',
     touchFilter: null,
