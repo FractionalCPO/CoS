@@ -145,19 +145,20 @@ const RULES = [
 
   {
     id: 'no-bare-url',
-    name: 'No bare URLs — always hyperlink',
+    name: 'No bare URLs unless plain text booking link in T4+',
     touchFilter: null,
-    check(body) {
-      // Match http/https URLs that are NOT inside square brackets
+    check(body, touch) {
       const violations = [];
-      const urlPattern = /https?:\/\/[^\s\]]+/g;
+      const urlPattern = /https?:\/\/[^\s\])]+/g;
       const matches = [...body.matchAll(urlPattern)];
       for (const m of matches) {
-        // Check if preceded by [ — if so, it's inside a link, might be ok
+        // Allow URLs inside markdown links: [text](url)
         const preceding = body.slice(Math.max(0, m.index - 1), m.index);
-        if (preceding !== '[') {
-          violations.push(`Bare URL found: "${m[0]}" — use hyperlinked text instead`);
-        }
+        if (preceding === '(' || preceding === '[') continue;
+        // Allow booking links as raw URLs in T4+ (plain text mode)
+        const isBookingUrl = /cal\.com|calendly|savvycal|chili\.?piper/i.test(m[0]);
+        if (touch >= 4 && isBookingUrl) continue;
+        violations.push(`Bare URL found: "${m[0]}" — use hyperlinked text or raw booking URL in T4+`);
       }
       return violations;
     }
@@ -366,24 +367,159 @@ const RULES = [
   },
 
   {
+    id: 'no-passive-cta',
+    name: 'No passive CTAs — must be direct yes/no ask',
+    touchFilter: null,
+    check(body) {
+      const passivePatterns = [
+        'happy to share',
+        'happy to walk',
+        'happy to show',
+        'reply and i\'ll send',
+        'would this be useful',
+        'worth a conversation',
+        'worth comparing notes',
+        'let me know if',
+        'feel free to',
+      ];
+      const lc = body.toLowerCase();
+      return passivePatterns
+        .filter(p => lc.includes(p))
+        .map(p => `Passive CTA found: "${p}" — use "Open to..." or "Interested in..." pattern`);
+    }
+  },
+
+  {
+    id: 'no-redundant-sig-url',
+    name: 'Signature must not have separate URL line — use FractionalCPO.com in title',
+    touchFilter: null,
+    check(body) {
+      // Check for standalone fractionalcpo.com on its own line (not part of email or "@ FractionalCPO.com")
+      const lines = body.split('\n').map(l => l.trim());
+      for (const line of lines) {
+        if (/^fractionalcpo\.com$/i.test(line)) {
+          return ['Redundant URL line "fractionalcpo.com" — use "@ FractionalCPO.com" in title line instead'];
+        }
+      }
+      return [];
+    }
+  },
+
+  {
+    id: 'every-touch-ctct',
+    name: 'Every touch must reference Constant Contact',
+    touchFilter: null,
+    check(body, touch) {
+      if (!touch) return [];
+      if (!body.toLowerCase().includes('constant contact')) {
+        return [`T${touch}: No Constant Contact reference — every touch needs CTCT for authority`];
+      }
+      return [];
+    }
+  },
+
+  {
+    id: 'no-double-question',
+    name: 'No two questions back to back before CTA',
+    touchFilter: null,
+    check(body) {
+      const lines = body.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+      const lastFour = lines.slice(-4);
+      const questionLines = lastFour.filter(l => l.endsWith('?'));
+      if (questionLines.length >= 2) {
+        return [`${questionLines.length} questions in last 4 lines — CTA should be the ONLY question at the end`];
+      }
+      return [];
+    }
+  },
+
+  {
+    id: 'no-insider-timeline',
+    name: 'No specific timelines for PE/warm contacts',
+    touchFilter: null,
+    check(body) {
+      const patterns = [
+        /\b(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve)\s+(month|week)s?\b/gi,
+        /\b\d+\s+(month|week)s?\b/gi,
+      ];
+      const violations = [];
+      for (const pattern of patterns) {
+        for (const m of [...body.matchAll(pattern)]) {
+          // Allow "15 minutes" — only flag month/week/quarter timelines
+          violations.push(`Specific timeline "${m[0]}" found — use "months" instead to avoid revealing insider knowledge`);
+        }
+      }
+      return violations;
+    }
+  },
+
+  {
+    id: 'no-ad-hoc-dis',
+    name: 'No implied criticism of their process',
+    touchFilter: null,
+    check(body) {
+      const patterns = ['ad hoc', 'figured out later', 'still happens', 'if at all', 'gets solved company by company'];
+      const lc = body.toLowerCase();
+      return patterns
+        .filter(p => lc.includes(p))
+        .map(p => `Implied process criticism: "${p}" — don't criticize how they do things`);
+    }
+  },
+
+  {
+    id: 'no-throwaway-sentence',
+    name: 'No throwaway/filler sentences',
+    touchFilter: null,
+    check(body) {
+      const patterns = ['worth comparing notes', 'part of the equation', 'compare notes if', 'if this is relevant'];
+      const lc = body.toLowerCase();
+      return patterns
+        .filter(p => lc.includes(p))
+        .map(p => `Throwaway filler: "${p}" — every sentence must earn its place`);
+    }
+  },
+
+  {
+    id: 'no-low-value-cta',
+    name: 'No low-value CTA signals',
+    touchFilter: null,
+    check(body) {
+      const lowValue = [
+        'walk through what we saw',
+        'walk you through',
+        'compare notes',
+        'show you what we',
+      ];
+      const lc = body.toLowerCase();
+      return lowValue
+        .filter(p => lc.includes(p))
+        .map(p => `Low-value CTA signal: "${p}" — use "how we did it" or "what this looked like" instead`);
+    }
+  },
+
+  {
     id: 'sign-off-format',
-    name: 'Sign-off format (T1/4/6/8 = full sig, T2/3/5/7/9 = Vahid only)',
+    name: 'Sign-off format (T1/4/6/8 = full sig, T2/3/5/7/9 = short sig)',
     touchFilter: null,
     check(body, touch) {
       if (!touch) return [];
       const newThreadTouches = [1, 4, 6, 8];
       const replyTouches = [2, 3, 5, 7, 9];
       const hasFullSig = /FractionalCPO|fractionalcpo\.com/i.test(body);
-      const hasVahidOnly = /^Vahid\s*$/m.test(body);
+      // Short sig = "Name" alone, or "Name @ FractionalCPO" / "Name @ FractionalCPO.com" on one line
+      const hasShortSig = /^\w+ @ FractionalCPO(\.com)?\s*$/mi.test(body) || /^(Vahid|Courtney)\s*$/m.test(body);
+      // Full sig = multi-line with name + title line (e.g., "Courtney Cunningham\nPartner @ FractionalCPO.com")
+      const hasMultiLineSig = /^(Vahid Jozi|Courtney Cunningham)\s*\n.*FractionalCPO/mi.test(body);
 
       if (newThreadTouches.includes(touch)) {
         if (!hasFullSig) {
-          return [`T${touch} is a new thread — needs full signature (Vahid Jozi / Partner, FractionalCPO / fractionalcpo.com)`];
+          return [`T${touch} is a new thread — needs full signature (Name / Title @ FractionalCPO.com)`];
         }
       }
       if (replyTouches.includes(touch)) {
-        if (hasFullSig && !hasVahidOnly) {
-          return [`T${touch} is a reply — use just "Vahid" not full signature`];
+        // Reply touches should NOT have multi-line full sig. Short sig or name-only is fine.
+        if (hasMultiLineSig) {
+          return [`T${touch} is a reply — use "[Name]" or "[Name] @ FractionalCPO" not full multi-line signature`];
         }
       }
       return [];
@@ -490,17 +626,77 @@ const FIXTURES = [
     body: 'Hi {{firstName}},\n\nHow is product leadership at {{company}} being set up to close the NRR gap?\n\nConstant Contact just had their best financial year for the current management team. We helped them get there.\n\nIs this worth 15 minutes? [Grab a time here]\n\nVahid Jozi\nPartner, FractionalCPO\nfractionalcpo.com',
     expectViolations: ['no-third-person-company'],
   },
+  {
+    name: 'passive CTA violation',
+    touch: 2,
+    body: '{{firstName}}, Constant Contact had a record financial year. Happy to share what we learned.\n\nCourtney',
+    expectViolations: ['no-passive-cta'],
+  },
+  {
+    name: 'redundant sig URL violation',
+    touch: 1,
+    body: 'Constant Contact had a record financial year. We helped them get there.\n\nIs this worth 15 minutes?\n\nCourtney Cunningham\nPartner @ FractionalCPO\nfractionalcpo.com',
+    expectViolations: ['no-redundant-sig-url'],
+  },
+  {
+    name: 'missing CTCT in reply touch',
+    touch: 2,
+    body: '{{firstName}}, most email platforms hit a ceiling where product stops driving revenue.\n\nOpen to 15 minutes?\n\nCourtney',
+    expectViolations: ['every-touch-ctct'],
+  },
+  {
+    name: 'double question before CTA',
+    touch: 1,
+    body: 'Is product leadership a deliberate lever?\n\nCan we get 15 minutes this week?\n\nCourtney',
+    expectViolations: ['no-double-question'],
+  },
+  {
+    name: 'insider timeline violation',
+    touch: 1,
+    body: 'Constant Contact had a record financial year. Four months. No new product builds.\n\nCourtney',
+    expectViolations: ['no-insider-timeline'],
+  },
+  {
+    name: 'ad hoc criticism violation',
+    touch: 1,
+    body: 'Constant Contact had a record financial year. Product leadership still happens ad hoc per company.\n\nCourtney',
+    expectViolations: ['no-ad-hoc-dis'],
+  },
+  {
+    name: 'throwaway sentence violation',
+    touch: 1,
+    body: 'Constant Contact had a record financial year. Worth comparing notes if product leadership is part of the equation.\n\nCourtney',
+    expectViolations: ['no-throwaway-sentence'],
+  },
+  {
+    name: 'low-value CTA violation',
+    touch: 1,
+    body: 'Constant Contact had a record financial year. Open to 15 minutes to walk you through what we did?\n\nCourtney Cunningham\nPartner @ FractionalCPO.com',
+    expectViolations: ['no-low-value-cta'],
+  },
   // Should PASS
+  {
+    name: 'T4 with raw booking URL (plain text mode)',
+    touch: 4,
+    body: 'Hi {{firstName}},\n\nHow is your product leadership being set up to close the NRR gap?\n\nConstant Contact just had their best financial year for the current management team. We helped them get there.\n\nOpen to 15 minutes on how we did it? https://cal.com/fractionalcpo/15min\n\nCourtney Cunningham\nPartner @ FractionalCPO.com',
+    expectViolations: [],
+  },
+  {
+    name: 'T2 reply with short sig (Name @ FractionalCPO)',
+    touch: 2,
+    body: '{{firstName}}, Constant Contact had a record financial year. Open to hearing how we approached it?\n\nCourtney @ FractionalCPO',
+    expectViolations: [],
+  },
   {
     name: 'clean T1',
     touch: 1,
-    body: 'Constant Contact had a record financial year in 2025. We helped them get there. Best product growth month in 11 years.\n\nIs this worth 15 minutes this week?\n\nVahid Jozi\nPartner, FractionalCPO\nfractionalcpo.com',
+    body: 'Constant Contact had a record financial year in 2025. We helped them get there. Best product growth month in 11 years.\n\nIs this worth 15 minutes this week?\n\nCourtney Cunningham\nPartner @ FractionalCPO.com',
     expectViolations: [],
   },
   {
     name: 'clean T4 with trigger',
     touch: 4,
-    body: 'Hi {{firstName}},\n\nHow is your product leadership being set up to close the NRR gap over the last five quarters?\n\nConstant Contact just had their best financial year for the current management team. We helped them get there in a few months.\n\nIs this worth 15 minutes? [Grab a time here]\n\nVahid Jozi\nPartner, FractionalCPO\nfractionalcpo.com',
+    body: 'Hi {{firstName}},\n\nHow is your product leadership being set up to close the NRR gap over the last five quarters?\n\nConstant Contact just had their best financial year for the current management team. We helped them get there in a few months.\n\nIs this worth 15 minutes? [Grab a time here]\n\nCourtney Cunningham\nPartner @ FractionalCPO.com',
     expectViolations: [],
   },
 ];
