@@ -82,12 +82,12 @@ const RULES = [
 
   {
     id: 'no-yours',
-    name: 'No "yours" — use {{company}} instead',
+    name: 'No "yours" — use {{Company}} instead',
     touchFilter: null,
     check(body) {
       // "yours" as possessive referring to a company
       const matches = [...body.matchAll(/\byours\b/gi)];
-      return matches.map(m => `"yours" found: "${getContext(body, m.index, 30)}" — use {{company}}`);
+      return matches.map(m => `"yours" found: "${getContext(body, m.index, 30)}" — use {{Company}}`);
     }
   },
 
@@ -509,6 +509,19 @@ const RULES = [
   },
 
   {
+    id: 'signature-line-break',
+    name: 'Signature must have line break between name and title',
+    touchFilter: (t) => t === 1 || t === 4 || t === 6 || t === 8,
+    check(body) {
+      const violations = [];
+      if (/Cunningham[^\S\n]+(?:Partner|Operating Partner)/i.test(body)) {
+        violations.push('Signature missing line break between name and title. Use line break between "Courtney Cunningham" and "Partner @ FractionalCPO.com"');
+      }
+      return violations;
+    }
+  },
+
+  {
     id: 'sign-off-format',
     name: 'Sign-off format (T1/4/6/8 = full sig, T2/3/5/7/9 = short sig)',
     touchFilter: null,
@@ -685,6 +698,18 @@ const FIXTURES = [
     body: 'Constant Contact had a record financial year. Open to 15 minutes to walk you through what we did?\n\nCourtney Cunningham\nPartner @ FractionalCPO.com',
     expectViolations: ['no-low-value-cta'],
   },
+  {
+    name: 'signature line break - fail (no break)',
+    touch: 1,
+    body: 'Hi FirstName,\n\nBody text.\n\nCourtney Cunningham Partner @ FractionalCPO.com',
+    expectViolations: ['signature-line-break'],
+  },
+  {
+    name: 'signature line break - pass (short sig on T2)',
+    touch: 2,
+    body: 'FirstName, Constant Contact had a record financial year. Open to hearing how we approached it?\n\nCourtney @ FractionalCPO.com',
+    expectViolations: [],
+  },
   // Should PASS
   {
     name: 'T4 with raw booking URL (plain text mode)',
@@ -755,6 +780,11 @@ function runTests() {
 // ─── MAIN ────────────────────────────────────────────────────────────────────
 
 const opts = parseArgs(args);
+
+if (opts.touch !== undefined && (isNaN(opts.touch) || opts.touch < 1 || opts.touch > 9)) {
+  console.error('Error: --touch must be 1-9');
+  process.exit(2);
+}
 
 if (opts.test) {
   process.exit(runTests());
