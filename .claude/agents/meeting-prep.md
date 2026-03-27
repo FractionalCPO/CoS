@@ -40,8 +40,16 @@ When the contact is from a PE firm:
 3. Include portfolio analysis in the brief
 4. Position the conversation around portfolio value, not just one company
 
+### Output Destination
+**All meeting prep outputs go to Notion.** Save under the relevant company or opportunity page in the CRM.
+- If a Notion page exists for the company/contact, add the prep as a sub-page or update the existing page
+- If no page exists, create one in the Pipeline/Opportunities database
+- **NEVER save meeting prep to Obsidian** — Obsidian is for personal/ops only, not FCPO business content
+- Local staging in `/Users/vahid/code/CoS/assets/` is acceptable as backup, but Notion is the SOR
+
 ### Rules
 - Use `()` for talking points, `[]` for action items in Fellow
 - No fluff — numbers embedded, explicit status
 - Push talking points into Fellow via fellow-write.js (scripts/fellow-write.js)
 - Include prior meeting context from Granola/Fellow if available
+- After prep is complete, confirm the Notion page URL and Fellow talking points are live
