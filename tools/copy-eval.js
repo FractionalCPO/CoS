@@ -580,9 +580,10 @@ const RULES = [
 function evalTouch(touchNum, body, subject) {
   const results = { touch: touchNum, violations: [], passed: [] };
 
-  // Check subject line separately for em dashes and special chars
+  // Check subject line for formatting/safety rules (not body-specific content rules)
   if (subject) {
-    const subjRules = RULES.filter(r => ['no-em-dash'].includes(r.id));
+    const subjectRuleIds = ['no-em-dash', 'no-fractional', 'no-prep-needed', 'no-quick-call', 'no-a-decade', 'no-might-be-framing'];
+    const subjRules = RULES.filter(r => subjectRuleIds.includes(r.id));
     for (const rule of subjRules) {
       const violations = rule.check(subject, touchNum);
       if (violations.length > 0) {
