@@ -4,6 +4,7 @@
  *
  * Usage:
  *   node copy-eval.js --touch 1 --body "email body text here"
+ *   node copy-eval.js --touch 1 --subject "subject line" --body "email body"
  *   node copy-eval.js --touch 4 --body "$(cat email.txt)"
  *   node copy-eval.js --all --input sequence.json
  *
@@ -20,6 +21,7 @@ function parseArgs(argv) {
   for (let i = 0; i < argv.length; i++) {
     if (argv[i] === '--touch') result.touch = parseInt(argv[++i]);
     else if (argv[i] === '--body') result.body = argv[++i];
+    else if (argv[i] === '--subject') result.subject = argv[++i];
     else if (argv[i] === '--all') result.all = true;
     else if (argv[i] === '--input') result.input = argv[++i];
     else if (argv[i] === '--test') result.test = true;
@@ -509,6 +511,28 @@ const RULES = [
   },
 
   {
+    id: 'no-fractional',
+    name: 'No "fractional" in copy (PE audience ban)',
+    touchFilter: null,
+    check(body) {
+      const matches = [...body.matchAll(/\bfractional\b/gi)];
+      return matches.map(m => `"fractional" found: "${getContext(body, m.index, 30)}". Use "product leadership firm" or "product leadership service" instead.`);
+    }
+  },
+
+  {
+    id: 'no-prep-needed',
+    name: 'No "no prep needed" or variants',
+    touchFilter: null,
+    check(body) {
+      const banned = ['no prep needed', 'no preparation needed', 'no prep required', 'no preparation required'];
+      return banned
+        .filter(p => body.toLowerCase().includes(p))
+        .map(p => `Banned phrase found: "${p}"`);
+    }
+  },
+
+  {
     id: 'signature-line-break',
     name: 'Signature must have line break between name and title',
     touchFilter: (t) => t === 1 || t === 4 || t === 6 || t === 8,
@@ -553,8 +577,20 @@ const RULES = [
 
 // ─── EVALUATOR ───────────────────────────────────────────────────────────────
 
-function evalTouch(touchNum, body) {
+function evalTouch(touchNum, body, subject) {
   const results = { touch: touchNum, violations: [], passed: [] };
+
+  // Check subject line separately for em dashes and special chars
+  if (subject) {
+    const subjRules = RULES.filter(r => ['no-em-dash'].includes(r.id));
+    for (const rule of subjRules) {
+      const violations = rule.check(subject, touchNum);
+      if (violations.length > 0) {
+        results.violations.push({ rule: `${rule.id}-subject`, label: `${rule.name} [SUBJECT LINE]`, issues: violations.map(v => `[Subject] ${v}`) });
+      }
+    }
+  }
+
   for (const rule of RULES) {
     if (rule.touchFilter && !rule.touchFilter(touchNum)) {
       results.passed.push(`${rule.id} (skipped — not applicable to T${touchNum})`);
@@ -724,6 +760,32 @@ const FIXTURES = [
     expectViolations: [],
   },
   {
+    name: 'em dash in subject line (should fail)',
+    touch: 1,
+    subject: 'Product leadership at {{Company}} — worth 15 min?',
+    body: 'Constant Contact had a record financial year in 2025. We helped them get there.\n\nIs this worth 15 minutes this week?\n\nCourtney Cunningham\nPartner @ FractionalCPO.com',
+    expectViolations: ['no-em-dash-subject'],
+  },
+  {
+    name: 'clean subject line (should pass)',
+    touch: 1,
+    subject: '{{FirstName}}, product closing the NRR gap?',
+    body: 'Constant Contact had a record financial year in 2025. We helped them get there.\n\nIs this worth 15 minutes this week?\n\nCourtney Cunningham\nPartner @ FractionalCPO.com',
+    expectViolations: [],
+  },
+  {
+    name: '"fractional" in body (should fail)',
+    touch: 1,
+    body: 'We are a fractional product leadership firm. Constant Contact had a record financial year.\n\nIs this worth 15 minutes?\n\nCourtney Cunningham\nPartner @ FractionalCPO.com',
+    expectViolations: ['no-fractional'],
+  },
+  {
+    name: 'no-prep-needed violation',
+    touch: 4,
+    body: 'Hi {{FirstName}},\n\nNo prep needed. Constant Contact had a record year.\n\nIs this worth 15 minutes? [Grab a time here]\n\nCourtney Cunningham\nPartner @ FractionalCPO.com',
+    expectViolations: ['no-prep-needed'],
+  },
+  {
     name: 'clean T1',
     touch: 1,
     body: 'Constant Contact had a record financial year in 2025. We helped them get there. Best product growth month in 11 years.\n\nIs this worth 15 minutes this week?\n\nCourtney Cunningham\nPartner @ FractionalCPO.com',
@@ -743,7 +805,7 @@ function runTests() {
   let failed = 0;
 
   for (const fixture of FIXTURES) {
-    const results = evalTouch(fixture.touch, fixture.body);
+    const results = evalTouch(fixture.touch, fixture.body, fixture.subject);
     const foundViolationIds = results.violations.map(v => v.rule);
 
     const expectedToFail = fixture.expectViolations.length > 0;
@@ -804,7 +866,7 @@ if (opts.all && opts.input) {
 }
 
 if (opts.body !== undefined && opts.touch !== undefined) {
-  const results = evalTouch(opts.touch, opts.body);
+  const results = evalTouch(opts.touch, opts.body, opts.subject);
   const code = printResults(results, true);
   process.exit(code);
 }
@@ -815,12 +877,14 @@ copy-eval.js — FractionalCPO Cold Email Copy Checker
 
 Usage:
   node copy-eval.js --touch N --body "email body text"
+  node copy-eval.js --touch N --subject "subject line" --body "email body text"
   node copy-eval.js --all --input sequence.json
   node copy-eval.js --test
 
 Options:
-  --touch N       Touch number (1-9)
-  --body "..."    Email body text
+  --touch N         Touch number (1-9)
+  --body "..."      Email body text
+  --subject "..."   Subject line (checked for em dashes, encoding issues)
   --all           Check a full sequence from JSON file
   --input file    JSON file: { "touches": [{ "num": 1, "body": "..." }] }
   --test          Run built-in fixture tests
