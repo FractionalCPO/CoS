@@ -47,11 +47,6 @@ Read + write for research repos. 7 repos sync from GitHub on each cron run.
 - `supabase/` — backend functions
 - Note: renamed from `fractionalcpo-website`. May need re-cloning on Mini.
 
-**ux-tear-down** (`/Users/claw/code/ux-tear-down/`) — UX analysis crawler (may be removed):
-- Python/Playwright tool that maps site IA, user journeys, forms, modals
-- `crawl_results_shard*/` — crawled site data
-- `analysis/heuristics/` — analysis rules and patterns
-
 **whatsapp-mcp** (`/Users/claw/code/whatsapp-mcp/`) — WhatsApp MCP bridge:
 - MCP server for WhatsApp integration (separate from wacli history CLI)
 
@@ -154,7 +149,6 @@ SEO data, SERP analysis, keyword research, backlink analysis. Used in research s
 | GTM tools, lead lists, outreach | fcpo-gtm repo → ALO, AEO, lead-list-creator |
 | Client history (CTCT) | fcpo-clients repo → `CtCt/` |
 | Website code, requirements | fcpo-websites repo |
-| UX analysis tooling | ux-tear-down repo |
 | Meeting transcripts, notes | Fellow |
 | Team messages, Slack context | Slack |
 | Client/work emails | Gmail (fcpo account) |
@@ -184,7 +178,7 @@ cat "/Users/claw/.openclaw/workspace/vault/⚙️ ops/✅ tasks.md"
 cat "/Users/claw/.openclaw/workspace/vault/⚙️ ops/🤖 donna/inbox.md"
 
 # Business repos (auto-pulled on morning cron, manual pull if needed)
-for repo in CoS fcpo-research fcpo-gtm fcpo-clients fcpo-websites ux-tear-down whatsapp-mcp; do git -C /Users/claw/code/$repo pull --ff-only 2>/dev/null; done
+for repo in CoS fcpo-research fcpo-gtm fcpo-clients fcpo-websites whatsapp-mcp; do git -C /Users/claw/code/$repo pull --ff-only 2>/dev/null; done
 
 # Key files
 cat /Users/claw/code/CoS/goals.yaml
