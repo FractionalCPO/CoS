@@ -28,6 +28,9 @@ store/
 .env
 .env.*
 
+# Runtime state
+scripts/cal-sync/state/
+
 # Paused projects — don't QA, lint, or modify
 donna-server/
 

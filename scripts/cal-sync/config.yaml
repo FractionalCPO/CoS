@@ -1,0 +1,52 @@
+calendars:
+  primary: vahid@fractionalcpo.com
+  personal: hi@vahidjozi.com
+  sync_direction: bidirectional
+
+habits:
+  morning_walk:
+    name: "🚶 Morning Walk"
+    preferred_time: "07:30"
+    duration_min: 30
+    priority: 1
+    flexible: false
+    daily: true
+  deep_work:
+    name: "🧠 Deep Work"
+    preferred_time: "09:00"
+    duration_min: 180
+    priority: 2
+    min_duration_min: 120
+    color: 9  # blue
+    weekdays_only: true
+  lunch:
+    name: "🌮 Lunch"
+    preferred_time: "12:00"
+    duration_min: 30
+    priority: 3
+    color: 6  # orange
+    weekdays_only: true
+  inbox_zero:
+    name: "📨 Inbox Zero"
+    preferred_time: "12:30"
+    duration_min: 30
+    priority: 4
+    color: 2  # green
+    weekdays_only: true
+
+fitness:
+  targets:
+    resistance: 3  # per week
+    hiit: 1
+    yoga_yin: 2
+    walk: daily
+    shower_max_gap_days: 2
+  options:
+    - name: "One Academy"
+      type: classpass
+      address: "1377 The Queensway, Toronto, ON M8Z 1T1"
+    - name: "Condo Gym"
+      type: home
+      address: "300 Manitoba St, Etobicoke, ON"
+      equipment: [weights, cables, dumbbells, bike]
+      fallback: true
